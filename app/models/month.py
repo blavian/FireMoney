@@ -1,8 +1,7 @@
 from .db import db
-from flask_login import UserMixin
 
 
-class Month(db.Model, UserMixin):
+class Month(db.Model):
     __tablename__ = 'months'
 
     id = db.Column(db.Integer, primary_key=True)
