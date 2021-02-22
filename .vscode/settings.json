@@ -1,5 +1,6 @@
 {
     "python.linting.pylintEnabled": false,
     "python.linting.enabled": true,
-    "python.linting.pycodestyleEnabled": true
+    "python.linting.pycodestyleEnabled": true,
+    "python.pythonPath": "C:\\Users\\AppAcademy\\.virtualenvs\\FireMoney-DLCHsibZ\\Scripts\\python.exe"
 }

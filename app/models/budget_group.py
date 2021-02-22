@@ -8,7 +8,7 @@ class Budget_Group(db.Model):
     title = db.Column(db.String(25), nullable=False)
     month_int = db.Column(db.Integer, nullable=False)
     year_int = db.Column(db.Integer, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     createdAt = db.Column(db.DateTime, server_default=db.func.now())
     updatedAt = db.Column(db.DateTime, server_default=db.func.now())
 
