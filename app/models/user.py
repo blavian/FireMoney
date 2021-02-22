@@ -11,7 +11,8 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
     createdAt = db.Column(db.DateTime, server_default=db.func.now())
     updatedAt = db.Column(db.DateTime, server_default=db.func.now())
-    groups = db.relationship("Budget_Group")
+
+    groups = db.relationship("BudgetGroup", backref="users")
 
 
 @property

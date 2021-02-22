@@ -7,12 +7,10 @@ class Transaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(25), nullable=False)
     amount = db.Column(db.Float(3, 2), nullable=False, default=0)
-    budget_item_id = db.Column(db.Integer, db.ForeignKey(
-        'budget_item.id'), nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey('budget_items.id'), nullable=False)
     date = db.Column(db.Date)
     createdAt = db.Column(db.DateTime, server_default=db.func.now())
     updatedAt = db.Column(db.DateTime, server_default=db.func.now())
-    items = db.relationship("Budget_Items", backref="transactions")
 
     def to_dict(self):
         return {

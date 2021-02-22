@@ -1,7 +1,7 @@
 from .db import db
 
 
-class Budget_Group(db.Model):
+class BudgetGroup(db.Model):
     __tablename__ = 'budget_groups'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -11,6 +11,8 @@ class Budget_Group(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     createdAt = db.Column(db.DateTime, server_default=db.func.now())
     updatedAt = db.Column(db.DateTime, server_default=db.func.now())
+
+    items = db.relationship("BudgetItem", backref="budget_groups")
 
     def to_dict(self):
         return {

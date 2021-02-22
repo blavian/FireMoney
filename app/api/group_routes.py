@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask_login import login_required
-from app.models import db, Budget_Group
+from app.models import db, BudgetGroup
 
 group_routes = Blueprint('budget_groups', __name__)
 
@@ -8,14 +8,14 @@ group_routes = Blueprint('budget_groups', __name__)
 @group_routes.route('/')
 @login_required
 def groups():
-    groups = Budget_Group.query.all()
+    groups = BudgetGroup.query.all()
     return {"groups": [group.to_dict() for group in groups]}
 
 # FIND BUDGET_GROUP BY ID
 @group_routes.route('/<int:id>')
 @login_required
 def group(id):
-    group = Budget_Group.query.get(id)
+    group = BudgetGroup.query.get(id)
     return group.to_dict()
 
 #FIND GROUPS FOR SPECIFIED MONTH AND USER
