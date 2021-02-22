@@ -9,9 +9,9 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(30), nullable=False, unique=True)
     email = db.Column(db.String(256), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
-    createdAt = db.Column(db.DateTime)
-    updatedAt = db.Column(db.DateTime)
-    months = db.relationship("Month", backref='users')
+    createdAt = db.Column(db.DateTime, server_default=db.func.now())
+    updatedAt = db.Column(db.DateTime, server_default=db.func.now())
+    groups = db.relationship("Budget_Group", backref='users')
 
 
 @property
