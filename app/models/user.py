@@ -9,6 +9,7 @@ class User(db.Model, UserMixin):
   username = db.Column(db.String(30), nullable = False, unique = True)
   email = db.Column(db.String(256), nullable = False, unique = True)
   hashed_password = db.Column(db.String(255), nullable = False)
+  months = db.relationship("Month",backref = 'users')
 
 
   @property
