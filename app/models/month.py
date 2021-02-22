@@ -1,25 +1,24 @@
 from .db import db
 
 
-class Month(db.Model):
-    __tablename__ = 'months'
+class Transaction(db.Model):
+    __tablename__ = 'transactions'
 
     id = db.Column(db.Integer, primary_key=True)
-    month_int = db.Column(db.Integer(40), nullable=False)
-    year_int = db.Column(db.Integer(40), nullable=False)
-    total_amount = db.Column(db.Float(3, 2), nullable=False, default=0)
-    total_paid = db.Column(db.Float(3, 2), nullable=False, default=0)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    createdAt = db.Column(db.DateTime)
-    updatedAt = db.Column(db.DateTime)
+    title = db.Column(db.String(25), nullable=False)
+    amount = db.Column(db.Float(3, 2), nullable=False, default=0)
+    budget_item_id = db.Column(db.Integer, db.ForeignKey(
+        'budget_item.id'), nullable=False)
+    date = db.Column(db.Date)
+    createdAt = db.Column(db.DateTime, server_default=db.func.now())
+    updatedAt = db.Column(db.DateTime, server_default=db.func.now())
+    items = db.relationship("Budget_Items", backref="transactions")
 
     def to_dict(self):
         return {
-            "month_int": self.month_int,
-            "year_int": self.year_int,
-            "total_amount": self.total_amount,
-            "total_paid": self.total_paid,
-            "user_id": self.user_id,
-            "createdAt": self.createdAt,
-            "updatedAt": self.updatedAt,
+            "title": self.title,
+            "amount": self.amount,
+            "budget_item_id": self.budget_item_id,
+            "date": self.date,
+            "items": self.items,
         }

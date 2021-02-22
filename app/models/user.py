@@ -35,4 +35,5 @@ def to_dict(self):
         "email": self.email,
         "createdAt": self.createdAt,
         "updatedAt": self.updatedAt,
+        "groups": self.groups,
     }
