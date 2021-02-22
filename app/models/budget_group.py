@@ -6,21 +6,18 @@ class Budget_Group(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(25), nullable=False)
-    description = db.Column(db.String(50))
-    total_amount = db.Column(db.Float(3, 2), nullable=False, default=0)
-    total_paid = db.Column(db.Float(3, 2), nullable=False, default=0)
-    month_id = db.Column(db.Integer, db.ForeignKey('month.id'), nullable=False)
-    createdAt = db.Column(db.DateTime)
-    updatedAt = db.Column(db.DateTime)
-    months = db.relationship("Month", backref='budget_groups')
+    month_int = db.Column(db.Integer, nullable=False)
+    year_int = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    createdAt = db.Column(db.DateTime, server_default=db.func.now())
+    updatedAt = db.Column(db.DateTime, server_default=db.func.now())
 
     def to_dict(self):
         return {
             "title": self.title,
-            "description": self.description,
-            "total_amount": self.total_amount,
-            "total_paid": self.total_paid,
-            "month_id": self.month_id,
+            "month_int": self.month_int,
+            "year_int": self.year_int,
+            "user_id": self.user_id,
             "createdAt": self.createdAt,
             "updatedAt": self.updatedAt,
         }
