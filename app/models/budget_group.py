@@ -2,7 +2,7 @@ from .db import db
 from flask_login import UserMixin
 
 
-class budget_group(db.Model, UserMixin):
+class Budget_Group(db.Model, UserMixin):
     __tablename__ = 'budget_groups'
 
     id = db.Column(db.Integer, primary_key=True)

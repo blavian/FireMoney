@@ -2,25 +2,27 @@ from .db import db
 from flask_login import UserMixin
 
 
-class Month(db.Model, UserMixin):
-    __tablename__ = 'months'
+class Budget_Item(db.Model, UserMixin):
+    __tablename__ = 'budget_items'
 
     id = db.Column(db.Integer, primary_key=True)
-    month_int = db.Column(db.Integer(40), nullable=False)
-    year_int = db.Column(db.Integer(40), nullable=False)
-    total_amount = db.Column(db.Float(3, 2), nullable=False, default=0)
-    total_paid = db.Column(db.Float(3, 2), nullable=False, default=0)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    title = db.Column(db.String(25), nullable=False)
+    description = db.Column(db.String(50))
+    amount = db.Column(db.Float(3, 2), nullable=False)
+    paid = db.Column(db.Float(3, 2), nullable=False, default=0)
+    group_id = db.Column(db.Integer, db.ForeignKey(
+        'budget_group.id'), nullable=False)
     createdAt = db.Column(db.DateTime)
     updatedAt = db.Column(db.DateTime)
+    groups = db.relationship("Budget_Group", backref='budget_items')
 
     def to_dict(self):
         return {
-            "month_int": self.month_int,
-            "year_int": self.year_int,
+            "title": self.title,
+            "description": self.description,
             "total_amount": self.total_amount,
             "total_paid": self.total_paid,
-            "user_id": self.user_id,
+            "month_id": self.month_id,
             "createdAt": self.createdAt,
             "updatedAt": self.updatedAt,
         }
