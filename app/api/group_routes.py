@@ -3,10 +3,9 @@ from flask_login import login_required, current_user
 
 
 from app.models import db, BudgetGroup
-from app.forms.group_form import GroupForm
+from app.forms.group_form import GroupForm,GroupUpdateForm
 
 group_routes = Blueprint('budget_groups', __name__)
-
 
 
 @group_routes.route('/', methods=['POST'])
@@ -41,10 +40,9 @@ def new_group():
     return {"message": "success", "data": group.to_dict_on_create()}, 201
 
 
-
 @group_routes.route('/', methods=['GET'])
 @login_required
-def groups():
+def get_groups():
     user = current_user
     user_groups = BudgetGroup.query.filter(
         BudgetGroup.user_id == user.id
@@ -55,26 +53,28 @@ def groups():
 # http://localhost:5000/api/month?month_int=11&year_int=2021
 # get all groups based on month, year, userId
 # get group based on month and year
-@group_routes.route('/', methods=['GET'])
-@login_required
-def groups():
-    user = current_user
-    user_groups = BudgetGroup.query.filter(
-        BudgetGroup.user_id == user.id,
-        BudgetGroup.month_int == month_int,
+# @group_routes.route('/', methods=['GET'])
+# @login_required
+# def groups():
+#     user = current_user
+#     user_groups = BudgetGroup.query.filter(
+#         BudgetGroup.user_id == user.id,
+#         BudgetGroup.month_int == month_int,
 
-    )
-    return {"user_groups": [group.to_dict() for group in user_groups]}
+#     )
+#     return {"user_groups": [group.to_dict() for group in user_groups]}
 
 
-
-#update title
+# update title
 # get month_int and year_int from group id
-@group_routes.route('/<int:id>/', methods=['PATCH'])
+@group_routes.route('/<int:id>', methods=['PATCH'])
 @login_required
 def update_group(id):
-    form = GroupForm()
+    form = GroupUpdateForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+    group = BudgetGroup.query.get(id)
+    form['month_int'].data = group.month_int 
+    form['year_int'].data = group.year_int 
     # do this month_int and year_int
     # 3. Validate form data; if invalid return 400 bad request to user
     if not form.validate_on_submit():
@@ -82,14 +82,12 @@ def update_group(id):
 
     # 4. If valid then extract useful data from form
     title = form.data['title']
-    group = BudgetGroup.query.get(id)
     group.title = title
 
     db.session.commit()
 
     # 7. Send 201 response to the user
     return {"message": "success", "data": group.to_dict_on_create()}, 201
-
 
 
 @group_routes.route('/<int:id>/delete', methods=['GET'])
