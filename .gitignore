@@ -130,3 +130,6 @@ dmypy.json
 
 # Other ignores
 .DS_Store
+
+# VS Code
+.vscode
