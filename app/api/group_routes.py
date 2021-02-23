@@ -50,23 +50,10 @@ def get_groups():
     return {"user_groups": [group.to_dict() for group in user_groups]}
 
 
-# http://localhost:5000/api/month?month_int=11&year_int=2021
-# get all groups based on month, year, userId
-# get group based on month and year
-# @group_routes.route('/', methods=['GET'])
-# @login_required
-# def groups():
-#     user = current_user
-#     user_groups = BudgetGroup.query.filter(
-#         BudgetGroup.user_id == user.id,
-#         BudgetGroup.month_int == month_int,
-
-#     )
-#     return {"user_groups": [group.to_dict() for group in user_groups]}
 
 
-# update title
-# get month_int and year_int from group id
+
+#update title
 @group_routes.route('/<int:id>', methods=['PATCH'])
 @login_required
 def update_group(id):
@@ -75,7 +62,7 @@ def update_group(id):
     group = BudgetGroup.query.get(id)
     form['month_int'].data = group.month_int 
     form['year_int'].data = group.year_int 
-    # do this month_int and year_int
+  
     # 3. Validate form data; if invalid return 400 bad request to user
     if not form.validate_on_submit():
         return {"message": "validation_errors", "data": form.errors}, 400
