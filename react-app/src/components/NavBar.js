@@ -20,60 +20,52 @@ const NavBar = ({ authenticated, setAuthenticated }) => {
   const hbtrigger = () => setShowHBMenu(!showhbmenu);
   
   return (
-    <nav>
-      <div>
-        <img id="firemoney_icon" src={icon} alt="mountain road" />
-        <NavLink className="home_link" to="/" exact={true} activeClassName="active">
-          firemoney
-        </NavLink>
-      </div>
-      { authenticated &&
-        <div className="welcome_text"><span >Welcome User</span></div>}
-      <div>
-        <div className="hb_menu_button" >
-          <Link to="#" className="hbmenu_link">
-            <img src={!showhbmenu ? hbmenu_icon : closeHB_icon} alt="menu" onClick={hbtrigger}/>
-          </Link>
+    <div className="navbar_container">
+      <nav className="navbar">
+        <div className="firemoney_logo_container">
+          <img id="firemoney_icon" src={icon} alt="mountain road" />
+          <NavLink className="home_link" to="/" exact={true} activeClassName="active">
+            firemoney
+          </NavLink>
         </div>
-       
-        { showhbmenu ?
-        !authenticated ?
-        (<div className="hb_menu">
-              <LoginFormModal authenticated={authenticated} setAuthenticated={setAuthenticated}/>
-              <SignUpFormModal authenticated={authenticated} setAuthenticated={setAuthenticated}/>
-
-              {/* <NavLink className="hb_link" to="/login" exact={true} activeClassName="active">
-                <img src={login_icon} alt="login"/>
-                <span className="hb_link_text" >Login</span>
-              </NavLink> */}
-              {/* <NavLink className="hb_link" to="/sign-up" exact={true} activeClassName="active">
-                <img src={signup_icon} alt="signup" />
-                <span className="hb_link_text" >Sign Up</span>
-              </NavLink> */}
-        </div>):
-        (
-          
-          <div className="hb_menu">
-          <NavLink className="hb_link" to="/profile" exact={true} activeClassName="active">
-            <img src={login_icon} alt="login" />
-            <span className="hb_link_text" >Profile</span>
-          </NavLink>
-          <NavLink className="hb_link" to="/budget" exact={true} activeClassName="active">
-            <img src={budget_icon} alt="signup" />
-            <span className="hb_link_text" >Budget</span>
-          </NavLink>
-          <NavLink className="hb_link" to="/transactions" exact={true} activeClassName="active">
-            <img src={transaction_icon} alt="signup" />
-            <span  className="hb_link_text" id="transaction_link_text">Transaction</span>
-          </NavLink>
-          <LogoutButton setAuthenticated={setAuthenticated} />    
-        </div>
+        { authenticated &&
+          <div className="welcome_text"><span >Welcome User</span></div>}
+      
+          <div className="hb_menu_button" >
+            <Link to="#" className="hbmenu_link">
+              <img src={!showhbmenu ? hbmenu_icon : closeHB_icon} alt="hamburger menu" onClick={hbtrigger}/>
+            </Link>
+          </div>
         
-        ):
-        <></>
-      }
-      </div>
-    </nav>
+          { showhbmenu ?
+          !authenticated ?
+          (<div className="hb_menu">
+                <LoginFormModal authenticated={authenticated} setAuthenticated={setAuthenticated}/>
+                <SignUpFormModal authenticated={authenticated} setAuthenticated={setAuthenticated}/>
+          </div>):
+          (
+            <div className="hb_menu">
+            <NavLink className="hb_link" to="/profile" exact={true} activeClassName="active">
+              <img src={login_icon} alt="login" />
+              <span className="hb_link_text" >Profile</span>
+            </NavLink>
+            <NavLink className="hb_link" to="/budget" exact={true} activeClassName="active">
+              <img src={budget_icon} alt="signup" />
+              <span className="hb_link_text" >Budget</span>
+            </NavLink>
+            <NavLink className="hb_link" to="/transactions" exact={true} activeClassName="active">
+              <img src={transaction_icon} alt="signup" />
+              <span  className="hb_link_text" id="transaction_link_text">Transaction</span>
+            </NavLink>
+            <LogoutButton setAuthenticated={setAuthenticated} />    
+          </div>
+          
+          ):
+          <></>
+        }
+        
+      </nav>
+    </div>
   );
 }
 
