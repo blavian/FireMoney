@@ -18,7 +18,7 @@ const NavBar = ({ setAuthenticated }) => {
     <nav>
       <div>
         <img id="firemoney_icon" src={icon} alt="mountain road" />
-        <NavLink class="home_link" to="/" exact={true} activeClassName="active">
+        <NavLink className="home_link" to="/" exact={true} activeClassName="active">
           firemoney
         </NavLink>
       </div>
