@@ -6,28 +6,25 @@ import { NavLink } from "react-router-dom";
 
 function LandingPage(){
     return (
-        <>
+        <div className="landing_page_container">
         <div className="landing_page_image">
             <p className="landing_page_text">Get Started On The Road To Financial Freedom</p>
             <button className="build_budget_button">
                     <NavLink to="/budget" >Build your budget </NavLink>
             </button>
         </div>
-        <div >
+        <div className="landing_page_secondary_content">
             <h2 className="tiles_heading_text">Benefits of Budgeting</h2>
             <div className="tiles_container">
-                <div className="landing_page_tiles" >
+                <div className="landing_page_tile" >
                     <p className="tiles_text" >Plan for your Future!</p>
-                    <div>
-
                     <img className="landing_page_tile_images" src={list_icon} />
-                    </div>
                 </div>
-                <div className="landing_page_tiles" >
+                <div className="landing_page_tile" >
                     <p className="tiles_text" >Save for unexpected expenses!</p>
                     <img className="landing_page_tile_images" src={savings_icon}/>
                 </div>
-                <div className="landing_page_tiles " >
+                <div className="landing_page_tile " >
                     <p className="tiles_text control_tile_text" >Take control of your money!</p>
                     <img className="landing_page_tile_images" src={control_icon}/>
                 </div>
@@ -38,7 +35,7 @@ function LandingPage(){
                 </button>
             </div>
         </div>
-        </>
+        </div>
     )
 }
 

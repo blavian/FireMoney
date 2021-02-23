@@ -2,6 +2,8 @@
 /* Navbar */
 body{
     font-size: 16px;
+    margin: 0;
+    padding: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -135,7 +137,7 @@ nav a:visited{
     /* margin: 0 auto; */
 }
 
-.landing_page_tiles{
+.landing_page_tile{
     background-color: #095461;
     color: #ffffff;
     font-size: 3em;

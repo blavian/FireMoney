@@ -8,6 +8,8 @@ import SignUpFormModal from "./SignUpFormModal"
 function LoginFormModal({ authenticated, setAuthenticated, fromSignUp }){
     const [showModal, setShowModal] = useState(false);
 
+    
+
     return (
         <>
             <NavLink to="/" className="hb_link" onClick={() => setShowModal(true)} >
@@ -25,9 +27,9 @@ function LoginFormModal({ authenticated, setAuthenticated, fromSignUp }){
                 <Modal onClose={() => setShowModal(false)}>
                     <LoginForm authenticated={authenticated} setAuthenticated={setAuthenticated}/>
                     <div>
-                        <div className="redirect_modal_link">
+                        <div className="redirect_modal_link" onClose={() => setShowModal(false)}>
                             <p>Don't have an account?
-                            <SignUpFormModal fromLogin={true} authenticated={authenticated} setAuthenticated={setAuthenticated} onClick={() => setShowModal(false)} />
+                            <SignUpFormModal fromLogin={true} authenticated={authenticated} setAuthenticated={setAuthenticated} />
                             </p>
                         </div>
                     </div>
