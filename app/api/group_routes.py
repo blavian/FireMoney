@@ -1,3 +1,4 @@
+from app.forms.group_form import GroupForm
 from flask import Blueprint
 from flask_login import login_required
 from app.models import db, Budget_Group
@@ -21,21 +22,21 @@ def group(id):
 #FIND GROUPS FOR SPECIFIED MONTH AND USER
 
 
-#POST NEW GROUP
-# @group_routes.route('/new', methods=['POST'])
-# def new_group():
-#     """
-#     creates a new budget_group
-#     """
-#     get userId from session?
-#     Receive month_int & year_int from...route interpolation?
-#     Receive title from input
-
-#     group = Budget_Group(title=,
-#                     month_int=,
-#                     year_int=,
-#                     user_id=,
-#                     )
-#     db.session.add(group)
-#     db.session.commit()
-#     return
+# POST NEW GROUP
+@group_routes.route('/new', methods=['POST'])
+def new_group():
+    """
+    creates a new budget_group
+    """
+    # get userId from session?
+    # Receive month_int & year_int from...route interpolation?
+    # Receive title from input
+    form = GroupForm()
+    group = Budget_Group(title=form.data,
+                    month_int=,
+                    year_int=,
+                    user_id=,
+                    )
+    db.session.add(group)
+    db.session.commit()
+    return
