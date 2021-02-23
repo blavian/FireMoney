@@ -47,3 +47,14 @@ class GroupForm(FlaskForm):
     month_int = IntegerField('month_int', validators=[DataRequired()])
     year_int = IntegerField('year_int', validators=[DataRequired()])
     copy_previous = BooleanField('copy_previous', validators=[previous_budget_period_exists])
+
+
+# create new group form
+# group create form and group update form
+
+
+class GroupUpdateForm(FlaskForm):
+    title = StringField('title', validators=[DataRequired(), group_exists])
+    month_int = IntegerField('month_int', validators=[DataRequired()])
+    year_int = IntegerField('year_int', validators=[DataRequired()])
+    
