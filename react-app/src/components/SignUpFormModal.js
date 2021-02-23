@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Modal } from "../context/Modal";
 import SignUpForm from "./auth/SignUpForm";
 import signup_icon from "../images/signup.png";
+import LoginFormModal from "./LoginFormModal";
 
 function SignUpFormModal({ authenticated, setAuthenticated, fromLogin }){
     const [showModal, setShowModal] = useState(false);
@@ -23,6 +24,14 @@ function SignUpFormModal({ authenticated, setAuthenticated, fromLogin }){
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
                     <SignUpForm authenticated={authenticated} setAuthenticated={setAuthenticated}/>
+                    <div>
+                        <div className="redirect_modal_link">
+                            <p>Already have an account?
+                            <LoginFormModal fromSignUp={true} authenticated={authenticated} setAuthenticated={setAuthenticated} >
+                            </LoginFormModal>
+                            </p>
+                        </div>
+                    </div>
                 </Modal>
             )}
         </>

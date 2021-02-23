@@ -27,12 +27,12 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
   };
 
   if (authenticated) {
-    return <Redirect to="/" />;
+    return <Redirect to="/budget" />;
   }
 
   return (
-    <form onSubmit={onLogin}>
-      <div>
+    <form className="form_modal login_modal" onSubmit={onLogin}>
+      <div className="form_modal_div" >
         <h2>Login</h2>
       </div>
       <div>
@@ -40,7 +40,7 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
           <div>{error}</div>
         ))}
       </div>
-      <div>
+      <div className="form_modal_div" >
         <label htmlFor="email">Email</label>
         <input
           name="email"
@@ -50,7 +50,7 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
           onChange={updateEmail}
         />
       </div>
-      <div>
+      <div className="form_modal_div" >
         <label htmlFor="password">Password</label>
         <input
           name="password"
@@ -59,9 +59,8 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
           value={password}
           onChange={updatePassword}
         />
-        <button type="submit">Login</button>
+        <button className="modal_button" type="submit">Login</button>
       </div>
-      
     </form>
   );
 };

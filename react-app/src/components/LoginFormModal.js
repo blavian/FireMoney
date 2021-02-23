@@ -25,9 +25,11 @@ function LoginFormModal({ authenticated, setAuthenticated, fromSignUp }){
                 <Modal onClose={() => setShowModal(false)}>
                     <LoginForm authenticated={authenticated} setAuthenticated={setAuthenticated}/>
                     <div>
-                        <p>Don't have an account?
-                        <SignUpFormModal fromLogin={true} authenticated={authenticated} setAuthenticated={setAuthenticated} onClick={() => setShowModal(false)} />
-                        </p>
+                        <div className="redirect_modal_link">
+                            <p>Don't have an account?
+                            <SignUpFormModal fromLogin={true} authenticated={authenticated} setAuthenticated={setAuthenticated} onClick={() => setShowModal(false)} />
+                            </p>
+                        </div>
                     </div>
                 </Modal>
             )}

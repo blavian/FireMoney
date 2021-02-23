@@ -168,3 +168,48 @@ nav a:visited{
 .lower_button{
     margin: 1em auto;
 }
+
+/* Form Modals */
+.form_modal{
+    width: 20em;
+}
+
+.signup_modal{
+    width: 24em;
+}
+.form_modal *{
+    display: block;
+}
+
+.form_modal h2{
+    font-size: 2.5em;
+}
+
+.form_modal_div *{
+    width: fit-content;
+    margin: .5em auto;
+    font-size: 1.5em;
+}
+
+.form_modal_div input{
+    width: 10em;
+}
+
+.modal_button{
+    padding: .4em 1em;
+    background-color: #1286CE;
+    color: #ffffff;
+    border-radius: .3em;
+}
+
+.redirect_modal_link{
+    width: fit-content;
+    margin: 0 auto;
+}
+.redirect_modal_link a{
+    margin-left: .5em ;
+}
+.redirect_modal_link a:visited{
+    color: #ffffff;
+}
+    
