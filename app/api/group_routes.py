@@ -8,13 +8,6 @@ from app.forms.group_form import GroupForm
 group_routes = Blueprint('budget_groups', __name__)
 
 
-# @group_routes.route('/', methods=['GET'])
-# @login_required
-# def groups():
-#     groups = BudgetGroup.query.all()
-#     return {"groups": [group.to_dict() for group in groups]}
-
-
 @group_routes.route('/', methods=['POST'])
 @login_required
 # Create (POST) a new budget group
@@ -45,3 +38,45 @@ def new_group():
 
     # 7. Send 201 response to the user
     return {"message": "success", "data": group.to_dict_on_create()}, 201
+
+
+
+@group_routes.route('/', methods=['GET'])
+@login_required
+def groups():
+    user = current_user
+    user_groups = BudgetGroup.query.filter(
+        BudgetGroup.user_id == user.id
+    )
+    return {"user_groups": [group.to_dict() for group in user_groups]}
+
+
+#update title
+@group_routes.route('/<int:id>/update', methods=['GET'])
+@login_required
+def update_group():
+    form = GroupForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    # 3. Validate form data; if invalid return 400 bad request to user
+    if not form.validate_on_submit():
+        return {"message": "validation_errors", "data": form.errors}, 400
+
+    # 4. If valid then extract useful data from form
+    title = form.data['title']
+    group = BudgetGroup.query.get(id).update(title=title)
+
+    db.session.commit()
+
+    # 7. Send 201 response to the user
+    return {"message": "success", "data": group.to_dict_on_create()}, 201
+
+
+
+@group_routes.route('/<int:id>/delete', methods=['GET'])
+@login_required
+def delete_group():
+    group = BudgetGroup.query.get(id)
+    db.session.delete(group)
+    db.session.commit()
+    return

@@ -20,7 +20,7 @@ def group_exists(form, field):
         raise ValidationError(
             "A group with the provided title already exists for the same budget period."  # pylint: disable=line-too-long
         )
-
+    
 
 def previous_budget_period_exists(form, field):
     month_int = form.data["month_int"]
