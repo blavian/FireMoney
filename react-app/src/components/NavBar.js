@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import LoginFormModal from "../components/LoginFormModal"
 import LogoutButton from './auth/LogoutButton';
 import icon from '../images/Icon.png';
 import hbmenu_icon from "../images/HBMenu.png"
 import closeHB_icon from "../images/CloseHBMenu.png"
 import login_icon from "../images/login.png"
 import signup_icon from "../images/signup.png"
+import budget_icon from "../images/Budget.png"
+import transaction_icon from "../images/Transactions.png"
+import LoginForm from './auth/LoginForm';
+import SignUpFormModal from '../components/SignUpFormModal';
 
 
-const NavBar = ({ setAuthenticated }) => {
+const NavBar = ({ authenticated, setAuthenticated }) => {
 
   const [showhbmenu, setShowHBMenu] = useState(false);
 
@@ -18,27 +23,55 @@ const NavBar = ({ setAuthenticated }) => {
     <nav>
       <div>
         <img id="firemoney_icon" src={icon} alt="mountain road" />
-        <NavLink class="home_link" to="/" exact={true} activeClassName="active">
+        <NavLink className="home_link" to="/" exact={true} activeClassName="active">
           firemoney
         </NavLink>
       </div>
+      { authenticated &&
+        <div className="welcome_text"><span >Welcome User</span></div>}
       <div>
         <div className="hb_menu_button" >
           <Link to="#" className="hbmenu_link">
-            <img src={hbmenu_icon} alt="menu" onClick={hbtrigger}/>
+            <img src={!showhbmenu ? hbmenu_icon : closeHB_icon} alt="menu" onClick={hbtrigger}/>
           </Link>
         </div>
-        { showhbmenu &&
+       
+        { showhbmenu ?
+        !authenticated ?
         (<div className="hb_menu">
-              <NavLink to="/login" exact={true} activeClassName="active">
+              <LoginFormModal authenticated={authenticated} setAuthenticated={setAuthenticated}/>
+              <SignUpFormModal authenticated={authenticated} setAuthenticated={setAuthenticated}/>
+
+              {/* <NavLink className="hb_link" to="/login" exact={true} activeClassName="active">
                 <img src={login_icon} alt="login"/>
-                <span>Login</span>
-              </NavLink>
-              <NavLink to="/sign-up" exact={true} activeClassName="active">
+                <span className="hb_link_text" >Login</span>
+              </NavLink> */}
+              {/* <NavLink className="hb_link" to="/sign-up" exact={true} activeClassName="active">
                 <img src={signup_icon} alt="signup" />
-                <span>Sign Up</span>
-              </NavLink>
-        </div>)}
+                <span className="hb_link_text" >Sign Up</span>
+              </NavLink> */}
+        </div>):
+        (
+          
+          <div className="hb_menu">
+          <NavLink className="hb_link" to="/profile" exact={true} activeClassName="active">
+            <img src={login_icon} alt="login" />
+            <span className="hb_link_text" >Profile</span>
+          </NavLink>
+          <NavLink className="hb_link" to="/budget" exact={true} activeClassName="active">
+            <img src={budget_icon} alt="signup" />
+            <span className="hb_link_text" >Budget</span>
+          </NavLink>
+          <NavLink className="hb_link" to="/transactions" exact={true} activeClassName="active">
+            <img src={transaction_icon} alt="signup" />
+            <span  className="hb_link_text" id="transaction_link_text">Transaction</span>
+          </NavLink>
+          <LogoutButton setAuthenticated={setAuthenticated} />    
+        </div>
+        
+        ):
+        <></>
+      }
       </div>
     </nav>
   );

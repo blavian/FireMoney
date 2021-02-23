@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { login } from "../../services/auth";
+import SignUpFormModal from "../SignUpFormModal";
 
 const LoginForm = ({ authenticated, setAuthenticated }) => {
   const [errors, setErrors] = useState([]);
@@ -32,6 +33,9 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
   return (
     <form onSubmit={onLogin}>
       <div>
+        <h2>Login</h2>
+      </div>
+      <div>
         {errors.map((error) => (
           <div>{error}</div>
         ))}
@@ -57,6 +61,7 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
         />
         <button type="submit">Login</button>
       </div>
+      
     </form>
   );
 };

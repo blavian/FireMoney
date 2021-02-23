@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from 'react-router-dom';
 import { signUp } from '../../services/auth';
+import LoginFormModal from "../LoginFormModal";
 
 const SignUpForm = ({authenticated, setAuthenticated}) => {
   const [username, setUsername] = useState("");
@@ -41,6 +42,9 @@ const SignUpForm = ({authenticated, setAuthenticated}) => {
   return (
     <form onSubmit={onSignUp}>
       <div>
+        <h2>Sign Up</h2>
+      </div>
+      <div>
         <label>User Name</label>
         <input
           type="text"
@@ -78,6 +82,12 @@ const SignUpForm = ({authenticated, setAuthenticated}) => {
         ></input>
       </div>
       <button type="submit">Sign Up</button>
+      <div>
+        <p>Already have an account?
+          <LoginFormModal fromSignUp={true} authenticated={authenticated} setAuthenticated={setAuthenticated} >
+          </LoginFormModal>
+        </p>
+      </div>
     </form>
   );
 };
