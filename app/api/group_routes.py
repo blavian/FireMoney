@@ -8,12 +8,6 @@ from app.forms.group_form import GroupForm
 group_routes = Blueprint('budget_groups', __name__)
 
 
-# @group_routes.route('/', methods=['GET'])
-# @login_required
-# def groups():
-#     groups = BudgetGroup.query.all()
-#     return {"groups": [group.to_dict() for group in groups]}
-
 
 @group_routes.route('/', methods=['POST'])
 @login_required
@@ -45,3 +39,66 @@ def new_group():
 
     # 7. Send 201 response to the user
     return {"message": "success", "data": group.to_dict_on_create()}, 201
+
+
+
+@group_routes.route('/', methods=['GET'])
+@login_required
+def groups():
+    user = current_user
+    user_groups = BudgetGroup.query.filter(
+        BudgetGroup.user_id == user.id
+    )
+    return {"user_groups": [group.to_dict() for group in user_groups]}
+
+
+# http://localhost:5000/api/month?month_int=11&year_int=2021
+# get all groups based on month, year, userId
+# get group based on month and year
+@group_routes.route('/', methods=['GET'])
+@login_required
+def groups():
+    user = current_user
+    user_groups = BudgetGroup.query.filter(
+        BudgetGroup.user_id == user.id,
+        BudgetGroup.month_int == month_int,
+
+    )
+    return {"user_groups": [group.to_dict() for group in user_groups]}
+
+
+
+#update title
+# get month_int and year_int from group id
+@group_routes.route('/<int:id>/', methods=['PATCH'])
+@login_required
+def update_group(id):
+    form = GroupForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    # do this month_int and year_int
+    # 3. Validate form data; if invalid return 400 bad request to user
+    if not form.validate_on_submit():
+        return {"message": "validation_errors", "data": form.errors}, 400
+
+    # 4. If valid then extract useful data from form
+    title = form.data['title']
+    group = BudgetGroup.query.get(id)
+    group.title = title
+
+    db.session.commit()
+
+    # 7. Send 201 response to the user
+    return {"message": "success", "data": group.to_dict_on_create()}, 201
+
+
+
+@group_routes.route('/<int:id>/delete', methods=['GET'])
+@login_required
+def delete_group():
+    group = BudgetGroup.query.get(id)
+    db.session.delete(group)
+    db.session.commit()
+    return
+
+
+# create default groups
