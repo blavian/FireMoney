@@ -2,6 +2,12 @@ from .db import db
 
 
 class BudgetGroup(db.Model):
+    def __init__(self, user_id, title, month_int, year_int):
+        self.user_id = user_id
+        self.title = title
+        self.month_int = month_int
+        self.year_int = year_int
+
     __tablename__ = 'budget_groups'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -20,6 +26,12 @@ class BudgetGroup(db.Model):
             "month_int": self.month_int,
             "year_int": self.year_int,
             "user_id": self.user_id,
-            "createdAt": self.createdAt,
-            "updatedAt": self.updatedAt,
+            "created_at": self.createdAt,
+            "updated_at": self.updatedAt,
+        }
+
+    def to_dict_on_create(self):
+        return {
+            "title": self.title,
+            "created_at": self.createdAt
         }
