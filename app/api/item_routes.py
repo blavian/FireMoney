@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask_login import login_required
-from app.models import db, Budget_Item
+from app.models import db, BudgetItem
 
 item_routes = Blueprint('budget_items', __name__)
 
@@ -8,14 +8,14 @@ item_routes = Blueprint('budget_items', __name__)
 @item_routes.route('/')
 @login_required
 def items():
-    items = Budget_Item.query.all()
+    items = BudgetItem.query.all()
     return {"items": [item.to_dict() for item in items]}
 
 # FIND BUDGET ITEM BY ID
 @item_routes.route('/<int:id>')
 @login_required
 def item(id):
-    item = Budget_Item.query.get(id)
+    item = BudgetItem.query.get(id)
     return item.to_dict()
 
 # FIND BUDGET ITEMS BY GROUP ID
