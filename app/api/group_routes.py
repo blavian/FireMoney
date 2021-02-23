@@ -8,6 +8,7 @@ from app.forms.group_form import GroupForm
 group_routes = Blueprint('budget_groups', __name__)
 
 
+
 @group_routes.route('/', methods=['POST'])
 @login_required
 # Create (POST) a new budget group
@@ -52,7 +53,7 @@ def groups():
 
 
 #update title
-@group_routes.route('/<int:id>/update', methods=['GET'])
+@group_routes.route('/<int:id>/update', methods=['PATCH'])
 @login_required
 def update_group():
     form = GroupForm()
@@ -80,3 +81,6 @@ def delete_group():
     db.session.delete(group)
     db.session.commit()
     return
+
+
+# create default groups
