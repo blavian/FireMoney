@@ -14,6 +14,7 @@ from app.api.auth_routes import auth_routes
 from app.api.transaction_routes import transaction_routes
 from app.api.group_routes import group_routes
 from app.api.item_routes import item_routes
+from app.api.month_routes import month_routes
 
 
 app = Flask(__name__, static_folder="../react-app/build")
@@ -38,6 +39,7 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(transaction_routes, url_prefix='/api/transactions')
 app.register_blueprint(group_routes, url_prefix='/api/groups')
 app.register_blueprint(item_routes, url_prefix='/api/items')
+app.register_blueprint(month_routes, url_prefix='/api/months')
 db.init_app(app)
 Migrate(app, db)
 
