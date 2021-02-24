@@ -78,7 +78,6 @@ def new_month():
         }
     }, 201
 
-
 @month_routes.route('', methods=['GET'])
 @login_required
 def months():
