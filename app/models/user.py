@@ -32,10 +32,9 @@ class User(db.Model, UserMixin):
             "email": self.email,
             "createdAt": self.createdAt,
             "updatedAt": self.updatedAt,
-            "groups": self.groups,
         }
     
-    def to_auth_response(self):
+    def to_auth_response_dict(self):
         return {
             "id": self.id,
             "username": self.username,
