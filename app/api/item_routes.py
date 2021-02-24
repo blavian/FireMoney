@@ -21,16 +21,16 @@ def item(id):
 
 
 # CREATE BUDGET ITEMS
-@item_routes.route('/group/<int:id>', methods=['POST'])
+@item_routes.route('/', methods=['POST'])
 @login_required
-def new_item(id):
+def new_item():
     # 1. Get user from session
     user = current_user
 
     # 2. Prepare form data for validation
     form = ItemForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    group_id = id
+    group_id = request.json['group_id']
 
     # 3. Validate form data; if invalid return 400 bad request to user
     if not form.validate_on_submit():
