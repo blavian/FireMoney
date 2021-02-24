@@ -6,9 +6,6 @@ from app.models import db, BudgetItem
 item_routes = Blueprint('budget_items', __name__)
 
 
-
-
-
 # CREATE BUDGET ITEMS
 @item_routes.route('/', methods=['POST'])
 @login_required
@@ -45,8 +42,9 @@ def new_item():
     # 7. Send 201 response to the user
     return {"message": "success", "data": item.to_dict()}, 201
 
+ # UPDATE  BUDGET ITEMS BY ID
 
- #UPDATE  BUDGET ITEMS BY ID
+
 @item_routes.route('/<int:id>', methods=['PATCH'])
 @login_required
 def update_items(id):
@@ -55,7 +53,7 @@ def update_items(id):
     form = ItemForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
-    # 2. find item by id and 
+    # 2. find item by id and
     item = BudgetItem.query.get(id)
 
     # 3. Validates form data; if invalid return 400 bad request to user
@@ -87,3 +85,18 @@ def update_items(id):
 # UPDATE BUDGET ITEM
 
 # DELETE BUDGET ITEM
+
+
+@item_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
+def delete_item(id):
+    # 1. Find item by id
+    item = BudgetItem.query.get(id)
+
+    # 2. if item exists, delete and commit, else return msg
+    if item:
+        db.session.delete(item)
+        db.session.commit()
+        return {"message": "successfully deleted"}, 200
+    else:
+        return {"message": "item does not exist"}, 404

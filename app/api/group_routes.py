@@ -95,11 +95,9 @@ def delete_group(id):
     if group:
         db.session.delete(group)
         db.session.commit()
-        return "group was successfully deleted"
+        return {"message": " group was successfully deleted"}, 200
     else:
-        return "no such group exists"
-
-
+        return {"message": "group does not exist"}, 404
 
 
 # create default groups
