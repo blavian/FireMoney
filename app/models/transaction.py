@@ -15,7 +15,7 @@ class Transaction(db.Model):
     def to_dict(self):
         return {
             "title": self.title,
-            "amount": self.amount,
-            "budget_item_id": self.budget_item_id,
+            "amount": str(self.amount),
+            "item_id": self.item_id,
             "date": self.date,
         }

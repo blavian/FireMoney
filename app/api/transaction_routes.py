@@ -19,9 +19,8 @@ def transaction(id):
     transaction = Transaction.query.get(id)
     return transaction.to_dict()
 
+
 # CREATE BUDGET ITEMS
-
-
 @transaction_routes.route('/', methods=['POST'])
 @login_required
 def new_transaction():
@@ -31,34 +30,45 @@ def new_transaction():
     # 2. Prepare form data for validation
     form = TransactionForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    group_id = request.json['group_id']
-    
+    item_id = request.json['item_id']
+
     # 3. Validate form data; if invalid return 400 bad request to user
     if not form.validate_on_submit():
         return {"message": "validation_errors", "data": form.errors}, 400
 
     # 4. If valid then extract useful data from form
     title = form.data['title']
-    description = form.data['description']
-    expected_amount = form.data['expected_amount']
-    due_date = form.data['due_date']
+    amount = form.data['amount']
+    date = form.data['date']
 
     # 5. Create the budget group
-    item = BudgetItem(title=title,
-                      description=description,
-                      expected_amount=expected_amount,
-                      group_id=group_id,
-                      due_date=due_date)
+    transaction = Transaction(title=title,
+                              amount=amount,
+                              item_id=item_id,
+                              date=date)
 
     # 6. Add and commit the budget group
-    db.session.add(item)
+    db.session.add(transaction)
     db.session.commit()
 
     # 7. Send 201 response to the user
-    return {"message": "success", "data": item.to_dict()}, 201
+    return {"message": "success", "data": transaction.to_dict()}, 201
 
 
+# DELETE BUDGET TRANSACTION
+@transaction_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
+def delete_transaction(id):
+    # 1. Find transaction by id
+    transaction = Transaction.query.get(id)
 
+    # 2. if transaction exists, delete and commit, else return msg
+    if transaction:
+        db.session.delete(transaction)
+        db.session.commit()
+        return {"message": "successfully deleted"}, 200
+    else:
+        return {"message": "transaction does not exist"}, 404
 
 
 
