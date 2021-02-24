@@ -39,7 +39,7 @@ export const createBudgetMonth = ({
   yearInt,
   copyPrevious,
 }) => async (dispatch) => {
-  const res = await fetch(`/api/month`, {
+  const res = await fetch(`/api/months/`, {
     method: "POST",
     body: JSON.stringify({
       month_int: monthInt,
@@ -51,9 +51,10 @@ export const createBudgetMonth = ({
   dispatch(createBudgetMonthActionCreator(data));
   return data;
 };
+
 export const getBudgetMonth = ({ monthInt, yearInt }) => async (dispatch) => {
   const res = await fetch(
-    `/api/month?month_int=${monthInt}&year_int=${yearInt}`,
+    `/api/months?month_int=${monthInt}&year_int=${yearInt}`,
     {
       method: "GET",
     }
@@ -62,6 +63,7 @@ export const getBudgetMonth = ({ monthInt, yearInt }) => async (dispatch) => {
   dispatch(getBudgetMonthActionCreator(data));
   return data;
 };
+
 export const createBudgetGroup = ({
   title,
   monthInt,
@@ -79,6 +81,7 @@ export const createBudgetGroup = ({
   dispatch(createBudgetGroupActionCreator(data));
   return data;
 };
+
 export const updateBudgetGroup = ({
   title,
   monthInt,
@@ -104,40 +107,41 @@ const reducer = (
 ) => {
   switch (type) {
     case CREATE_BUDGET_MONTH:
+      console.log(payload)
       const createBudgetConvertData = {
-        monthInt: payload.data.month_int,
-        month: getMonthFromInt(payload.data.month_int),
-        year: payload.data.year_int,
-        groups: payload.data.groups,
+        monthInt: payload.month_int,
+        month: getMonthFromInt(payload.month_int),
+        year: payload.year_int,
+        groups: payload.groups,
       };
       return { budgetMonth: { ...state.budgetMonth, ...createBudgetConvertData } };
 
     case GET_BUDGET_MONTH:
       const getBudgetConvertData = {
-        monthInt: payload.data.month_int,
-        month: getMonthFromInt(payload.data.month_int),
-        year: payload.data.year_int,
-        groups: payload.data.groups,
+        monthInt: payload.month_int,
+        month: getMonthFromInt(payload.month_int),
+        year: payload.year_int,
+        groups: payload.groups,
       };
       return { budgetMonth: { ...state.budgetMonth, ...getBudgetConvertData } };
 
     case CREATE_BUDGET_GROUP:
       const createBudgetGroupConvertData = [{
-        title: payload.data.title,
-        monthInt: payload.data.month_int,
-        month: getMonthFromInt(payload.data.month_int),
-        year: payload.data.year_int,
-        items: payload.data.items,
+        title: payload.title,
+        monthInt: payload.month_int,
+        month: getMonthFromInt(payload.month_int),
+        year: payload.year_int,
+        items: payload.items,
       }];
       return { budgetMonth: { ...state.budgetMonth, groups: [...state.budgetMonth.groups, ...createBudgetGroupConvertData] } }
 
     case UPDATE_BUDGET_GROUP:
       const updateBudgetGroupConvertData = [{
-        title: payload.data.title,
-        monthInt: payload.data.month_int,
-        month: getMonthFromInt(payload.data.month_int),
-        year: payload.data.year_int,
-        items: payload.data.items,
+        title: payload.title,
+        monthInt: payload.month_int,
+        month: getMonthFromInt(payload.month_int),
+        year: payload.year_int,
+        items: payload.items,
       }];
       return { budgetMonth: { ...state.budgetMonth, groups: [...state.budgetMonth.groups, ...updateBudgetGroupConvertData] } }
 
@@ -147,17 +151,16 @@ const reducer = (
 };
 
 /**
- * Accepts a string integer between 1 and 12 and returns the corresponding
- * calendar month as a string.
+ * Accepts an integer between 1 and 12 and returns the corresponding calendar
+ * month as a string.
  *
- * @param {monthIntAsString} monthIntAsString
- * Integer as string, e.g. "12" will return "December"
+ * @param {monthInt} monthInt
+ * Integer representing a calendar month, e.g. 12 will return "December"
  *
  */
-export const getMonthFromInt = (monthIntAsString) => {
+export const getMonthFromInt = (monthInt) => {
   for (const key in monthDict) {
-    console.log(key);
-    if (monthIntAsString === key) return monthDict[key];
+    if (monthInt.toString() === key) return monthDict[key];
   }
   throw RangeError("Month integer is out of range; must be between 1 and 12.");
 };

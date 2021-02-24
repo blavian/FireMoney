@@ -9,8 +9,8 @@ class Transaction(db.Model):
     amount = db.Column(db.Float(3, 2), nullable=False, default=0)
     item_id = db.Column(db.Integer, db.ForeignKey('budget_items.id'), nullable=False)
     date = db.Column(db.Date)
-    createdAt = db.Column(db.DateTime, server_default=db.func.now())
-    updatedAt = db.Column(db.DateTime, server_default=db.func.now())
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, server_default=db.func.now())
 
     def to_dict(self):
         return {
@@ -18,5 +18,4 @@ class Transaction(db.Model):
             "amount": self.amount,
             "budget_item_id": self.budget_item_id,
             "date": self.date,
-            "items": self.items,
         }

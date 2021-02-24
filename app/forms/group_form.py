@@ -57,7 +57,3 @@ class GroupUpdateForm(FlaskForm):
     title = StringField('title', validators=[DataRequired(), group_exists])
     month_int = IntegerField('month_int', validators=[DataRequired()])
     year_int = IntegerField('year_int', validators=[DataRequired()])
-
-
-
-    
