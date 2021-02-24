@@ -1,6 +1,9 @@
 /* TODO Add site wide styles */
+/* Navbar */
 body{
     font-size: 16px;
+    margin: 0;
+    padding: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -35,10 +38,18 @@ nav a:visited{
     letter-spacing: 0.01em;
 }
 
+.welcome_text{
+    font-size: 2em;
+    color: #ffffff;
+    padding-top: 1em;
+    position: absolute;
+    right: 10em;
+}
+
 .hb_menu{
     background-color: #0E3541;
     width: 15em;
-    height: 10em;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -50,19 +61,18 @@ nav a:visited{
 }
 
 .hb_menu *{
-    margin-top: .5em;
+    margin: .5em 0 .25em 0;
     display: flex;
-    /* justify-content: space-around;
-    align-items: center; */
 }
 
-.hb_menu span{
+.hb_link_text{
     font-size: 2em;
     text-align: left;
-    margin-left: 1em
+    margin-left: 1em;
+    color: #ffffff;
 }
 
-.hb_menu a{
+.hb_link{
     margin-left: 1.5em;
 }
 
@@ -76,3 +86,132 @@ nav a:visited{
     width: 3em;
 }
 
+#transaction_link_text{
+    font-size: 1.5em;
+    margin-top: .8em;
+}
+
+
+/* Landing Page */
+.landing_page_image{
+    background-image: url("./images/mountain_road.png");
+    background-size: cover;
+    height: 60em;
+    color: #ffffff;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.landing_page_text{
+    margin: 0;
+    font-size: 4em;
+    width: 13em;
+    padding-top: 4.5em;
+    padding-left: .5em;
+}
+
+.build_budget_button{
+    font-size: 2em;
+    border-radius: .25em;
+    text-align: center;
+    background-color: #FC6100;
+    color: #ffffff;
+    height: 2em;
+    width: 9em;
+    margin: 1em 0 0 7em;
+}
+
+.build_budget_button a, .build_budget_button a:visited{
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.tiles_heading_text{
+    text-align: center;
+    font-size: 3em;
+}
+
+.tiles_container{
+    display: flex;
+    justify-content: center;
+    /* margin: 0 auto; */
+}
+
+.landing_page_tile{
+    background-color: #095461;
+    color: #ffffff;
+    font-size: 3em;
+    width: 10em;
+    height: 10em;
+    border-radius: 1em;
+    margin: 0 1em;
+}
+
+.tiles_text{
+    margin: 1em auto .5em;
+    width: 5em;
+    text-align: center;
+}
+
+.control_tile_text{
+    width: 6em;
+}
+
+.landing_page_tile_images{
+    width: 4.5em;
+    margin: 0 auto;
+    display: flex;
+}
+
+.budget_button_container{
+    display: flex;
+}
+
+.lower_button{
+    margin: 1em auto;
+}
+
+/* Form Modals */
+.form_modal{
+    width: 20em;
+}
+
+.signup_modal{
+    width: 24em;
+}
+.form_modal *{
+    display: block;
+}
+
+.form_modal h2{
+    font-size: 2.5em;
+}
+
+.form_modal_div *{
+    width: fit-content;
+    margin: .5em auto;
+    font-size: 1.5em;
+}
+
+.form_modal_div input{
+    width: 10em;
+}
+
+.modal_button{
+    padding: .4em 1em;
+    background-color: #1286CE;
+    color: #ffffff;
+    border-radius: .3em;
+}
+
+.redirect_modal_link{
+    width: fit-content;
+    margin: 0 auto;
+}
+.redirect_modal_link a{
+    margin-left: .5em ;
+}
+.redirect_modal_link a:visited{
+    color: #ffffff;
+}
+    

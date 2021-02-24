@@ -25,19 +25,35 @@ def group_exists(form, field):
 def previous_budget_period_exists(form, field):
     month_int = form.data["month_int"]
     year_int = form.data["year_int"]
+    copy_previous = form.data["copy_previous"]
 
-    copy_target = BudgetGroup.query.filter(
-        BudgetGroup.month_int == (month_int - 1),
-        BudgetGroup.year_int == year_int).first()
+    if copy_previous is True:
+        copy_target = BudgetGroup.query.filter(
+            BudgetGroup.month_int == (month_int - 1),
+            BudgetGroup.year_int == year_int).first()
 
-    if not copy_target:
-        raise ValidationError(
-            "A previous active budget period is necessary to create a new budget group."  # pylint: disable=line-too-long
-        )
+        copy_target2 = BudgetGroup.query.filter(
+            BudgetGroup.year_int == (year_int - 1),
+            BudgetGroup.month_int == (month_int + 11)).first()
+
+        if not copy_target and not copy_target2:
+            raise ValidationError(
+                "A previous active budget period is necessary to create a new budget group."  # pylint: disable=line-too-long
+            )
 
 
 class GroupForm(FlaskForm):
     title = StringField('title', validators=[DataRequired(), group_exists])
     month_int = IntegerField('month_int', validators=[DataRequired()])
     year_int = IntegerField('year_int', validators=[DataRequired()])
-    copy_previous = BooleanField('copy_previous', validators=[DataRequired(), previous_budget_period_exists])
+    copy_previous = BooleanField('copy_previous', validators=[previous_budget_period_exists])
+
+
+# create new group form
+# group create form and group update form
+
+
+class GroupUpdateForm(FlaskForm):
+    title = StringField('title', validators=[DataRequired(), group_exists])
+    month_int = IntegerField('month_int', validators=[DataRequired()])
+    year_int = IntegerField('year_int', validators=[DataRequired()])

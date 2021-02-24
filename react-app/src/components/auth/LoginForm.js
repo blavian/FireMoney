@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { login } from "../../services/auth";
+import SignUpFormModal from "../SignUpFormModal";
 
 const LoginForm = ({ authenticated, setAuthenticated }) => {
   const [errors, setErrors] = useState([]);
@@ -26,17 +27,20 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
   };
 
   if (authenticated) {
-    return <Redirect to="/" />;
+    return <Redirect to="/budget" />;
   }
 
   return (
-    <form onSubmit={onLogin}>
+    <form className="form_modal login_modal" onSubmit={onLogin}>
+      <div className="form_modal_div" >
+        <h2>Login</h2>
+      </div>
       <div>
         {errors.map((error) => (
           <div>{error}</div>
         ))}
       </div>
-      <div>
+      <div className="form_modal_div" >
         <label htmlFor="email">Email</label>
         <input
           name="email"
@@ -46,7 +50,7 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
           onChange={updateEmail}
         />
       </div>
-      <div>
+      <div className="form_modal_div" >
         <label htmlFor="password">Password</label>
         <input
           name="password"
@@ -55,7 +59,7 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
           value={password}
           onChange={updatePassword}
         />
-        <button type="submit">Login</button>
+        <button className="modal_button" type="submit">Login</button>
       </div>
     </form>
   );
