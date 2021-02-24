@@ -36,7 +36,7 @@ def new_month():
         db.session.add(new_group)
     db.session.commit()
 
-# 7. Send new month(groups) and 201 (successful creation) response
+    # 5. Send new month(groups) and 201 (successful creation) response
     return {"message": "success", "user_groups": [group.to_dict() for group in new_groups]}, 201
 
 
