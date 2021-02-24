@@ -1,8 +1,10 @@
 import { fetch } from "../../services/fetch";
 
 // Action constants
-const CREATE_BUDGET_MONTH = "session/createBudgetMonth";
-const GET_BUDGET_MONTH = "session/setBudgetMonth";
+const CREATE_BUDGET_MONTH = "budget/createBudgetMonth";
+const GET_BUDGET_MONTH = "budget/setBudgetMonth";
+const CREATE_BUDGET_GROUP = "budget/createBudgetGroup";
+const UPDATE_BUDGET_GROUP = "budget/updateBudgetGroup";
 
 // State template
 const budgetMonthTemplate = {
@@ -21,6 +23,15 @@ const getBudgetMonthActionCreator = (payload) => ({
   type: GET_BUDGET_MONTH,
   payload,
 });
+const createBudgetGroupActionCreator = (payload) => ({
+  type: CREATE_BUDGET_GROUP,
+  payload,
+});
+const updateBudgetGroupActionCreator = (payload) => ({
+  type: UPDATE_BUDGET_GROUP,
+  payload,
+});
+
 
 // Thunks
 export const createBudgetMonth = ({
@@ -51,6 +62,40 @@ export const getBudgetMonth = ({ monthInt, yearInt }) => async (dispatch) => {
   dispatch(getBudgetMonthActionCreator(data));
   return data;
 };
+export const createBudgetGroup = ({
+  title,
+  monthInt,
+  yearInt,
+}) => async (dispatch) => {
+  const res = await fetch(`/api/groups`, {
+    method: "POST",
+    body: JSON.stringify({
+      title: title,
+      month_int: monthInt,
+      year_int: yearInt
+    }),
+  });
+  const { data } = res.data;
+  dispatch(createBudgetGroupActionCreator(data));
+  return data;
+};
+export const updateBudgetGroup = ({
+  title,
+  monthInt,
+  yearInt,
+}) => async (dispatch) => {
+  const res = await fetch(`/api/groups`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      title: title,
+      month_int: monthInt,
+      year_int: yearInt
+    }),
+  });
+  const { data } = res.data;
+  dispatch(updateBudgetGroupActionCreator(data));
+  return data;
+};
 
 // Reducer configuration
 const reducer = (
@@ -59,22 +104,42 @@ const reducer = (
 ) => {
   switch (type) {
     case CREATE_BUDGET_MONTH:
-      const convertData = {
+      const createBudgetConvertData = {
         monthInt: payload.data.month_int,
         month: getMonthFromInt(payload.data.month_int),
         year: payload.data.year_int,
         groups: payload.data.groups,
       };
-      return { budgetMonth: { ...state.budgetMonth, ...convertData } };
+      return { budgetMonth: { ...state.budgetMonth, ...createBudgetConvertData } };
 
     case GET_BUDGET_MONTH:
-      const convertData = {
+      const getBudgetConvertData = {
         monthInt: payload.data.month_int,
         month: getMonthFromInt(payload.data.month_int),
         year: payload.data.year_int,
         groups: payload.data.groups,
       };
-      return { budgetMonth: { ...state.budgetMonth, ...convertData } };
+      return { budgetMonth: { ...state.budgetMonth, ...getBudgetConvertData } };
+
+    case CREATE_BUDGET_GROUP:
+      const createBudgetGroupConvertData = [{
+        title: payload.data.title,
+        monthInt: payload.data.month_int,
+        month: getMonthFromInt(payload.data.month_int),
+        year: payload.data.year_int,
+        items: payload.data.items,
+      }];
+      return { budgetMonth: { ...state.budgetMonth, groups: [...state.budgetMonth.groups, ...createBudgetGroupConvertData] } }
+
+    case UPDATE_BUDGET_GROUP:
+      const updateBudgetGroupConvertData = [{
+        title: payload.data.title,
+        monthInt: payload.data.month_int,
+        month: getMonthFromInt(payload.data.month_int),
+        year: payload.data.year_int,
+        items: payload.data.items,
+      }];
+      return { budgetMonth: { ...state.budgetMonth, groups: [...state.budgetMonth.groups, ...updateBudgetGroupConvertData] } }
 
     default:
       return state;
