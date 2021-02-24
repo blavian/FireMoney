@@ -42,9 +42,8 @@ def new_item():
     # 7. Send 201 response to the user
     return {"message": "success", "data": item.to_dict()}, 201
 
+
  # UPDATE  BUDGET ITEMS BY ID
-
-
 @item_routes.route('/<int:id>', methods=['PATCH'])
 @login_required
 def update_items(id):
@@ -76,17 +75,8 @@ def update_items(id):
     # 6. Returns message with updated item and a 201 response
     return {"message": "success", "data": item.to_dict()}, 201
 
-# READ BUDGET ITEMS BY GROUP ID
-# @item_routes.route('/<id:int>')
-# @login_required
-# def items(id):
-#     items = BudgetItem.query.all()
-#     return {"items": [item.to_dict() for item in items]}
-# UPDATE BUDGET ITEM
 
 # DELETE BUDGET ITEM
-
-
 @item_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_item(id):
@@ -100,3 +90,4 @@ def delete_item(id):
         return {"message": "successfully deleted"}, 200
     else:
         return {"message": "item does not exist"}, 404
+

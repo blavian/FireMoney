@@ -50,6 +50,8 @@ def get_groups():
     # 2. finds groups based off of user.id
     user_groups = BudgetGroup.query.filter(
         BudgetGroup.user_id == user.id)
+    # for every item that has a transaction get the sum of the transaction totals
+    # 
 
     # 3. returns users groups
     return {"message": "success", "user_groups": [group.to_dict() for group in user_groups]}, 200
