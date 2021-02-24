@@ -32,6 +32,8 @@ psycopg2 = "*"
 autopep8 = "*"
 pylint = "*"
 psycopg2-binary = "==2.8.6"
+pylint-flask = "*"
+pylint-flask-sqlalchemy = "*"
 
 [requires]
 python_version = "3.8"
