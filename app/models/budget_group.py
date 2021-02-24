@@ -48,6 +48,9 @@ class BudgetGroup(db.Model):
 
     def to_group_created_dict(self):
         return {
+            "id": self.id,
             "title": self.title,
             "created_at": self.created_at,
+            "month_int": self.month_int,
+            "year_int": self.year_int
         }
