@@ -15,10 +15,15 @@ class BudgetGroup(db.Model):
     month_int = db.Column(db.Integer, nullable=False)
     year_int = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    createdAt = db.Column(db.DateTime, server_default=db.func.now())
-    updatedAt = db.Column(db.DateTime, server_default=db.func.now())
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, server_default=db.func.now())
 
-    items = db.relationship("BudgetItem", backref="budget_groups")
+    user = db.relationship("User", back_populates="groups")
+    _items = db.relationship("BudgetItem", back_populates="group")
+
+    @property
+    def items(self):
+        return [item.to_dict() for item in self._items]
 
     def to_dict(self):
         return {
@@ -26,12 +31,23 @@ class BudgetGroup(db.Model):
             "month_int": self.month_int,
             "year_int": self.year_int,
             "user_id": self.user_id,
-            "created_at": self.createdAt,
-            "updated_at": self.updatedAt,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
         }
 
-    def to_dict_on_create(self):
+    def to_items_list_dict(self):
         return {
             "title": self.title,
-            "created_at": self.createdAt
+            "month_int": self.month_int,
+            "year_int": self.year_int,
+            "user_id": self.user_id,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+            "items": self.items,
+        }
+
+    def to_group_created_dict(self):
+        return {
+            "title": self.title,
+            "created_at": self.created_at,
         }

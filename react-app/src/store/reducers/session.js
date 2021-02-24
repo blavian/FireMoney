@@ -5,7 +5,7 @@ import { fetch } from '../../services/fetch';
 const SET_SESSION_USER = 'session/setSessionUser';
 
 // State template
-const user = {
+const userTemplate = {
   id: null,
   username: null,
   email: null,
@@ -29,7 +29,7 @@ export const setSessionUser = ({ email, password }) => async dispatch => {
 };
 
 // Reducer configuration
-const reducer = (state = { user }, { type, payload }) => {
+const reducer = (state = { user: userTemplate }, { type, payload }) => {
   switch (type) {
     case SET_SESSION_USER:
       return { user: { ...state.user, ...payload } };

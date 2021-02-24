@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from 'react-router-dom';
 import { signUp } from '../../services/auth';
+import LoginFormModal from "../LoginFormModal";
 
 const SignUpForm = ({authenticated, setAuthenticated}) => {
   const [username, setUsername] = useState("");
@@ -35,12 +36,15 @@ const SignUpForm = ({authenticated, setAuthenticated}) => {
   };
 
   if (authenticated) {
-    return <Redirect to="/" />;
+    return <Redirect to="/budget" />;
   }
 
   return (
-    <form onSubmit={onSignUp}>
-      <div>
+    <form className="form_modal signup_modal" onSubmit={onSignUp}>
+      <div className="form_modal_div">
+        <h2>Sign Up</h2>
+      </div>
+      <div className="form_modal_div" >
         <label>User Name</label>
         <input
           type="text"
@@ -49,7 +53,7 @@ const SignUpForm = ({authenticated, setAuthenticated}) => {
           value={username}
         ></input>
       </div>
-      <div>
+      <div className="form_modal_div" >
         <label>Email</label>
         <input
           type="text"
@@ -58,7 +62,7 @@ const SignUpForm = ({authenticated, setAuthenticated}) => {
           value={email}
         ></input>
       </div>
-      <div>
+      <div className="form_modal_div" >
         <label>Password</label>
         <input
           type="password"
@@ -67,7 +71,7 @@ const SignUpForm = ({authenticated, setAuthenticated}) => {
           value={password}
         ></input>
       </div>
-      <div>
+      <div className="form_modal_div" >
         <label>Repeat Password</label>
         <input
           type="password"
@@ -77,7 +81,10 @@ const SignUpForm = ({authenticated, setAuthenticated}) => {
           required={true}
         ></input>
       </div>
-      <button type="submit">Sign Up</button>
+      <div className="form_modal_div" >
+        <button className="modal_button" type="submit">Sign Up</button>
+      </div>
+      
     </form>
   );
 };

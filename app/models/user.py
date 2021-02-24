@@ -9,10 +9,10 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(30), nullable=False, unique=True)
     email = db.Column(db.String(256), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
-    createdAt = db.Column(db.DateTime, server_default=db.func.now())
-    updatedAt = db.Column(db.DateTime, server_default=db.func.now())
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, server_default=db.func.now())
 
-    groups = db.relationship("BudgetGroup", backref="users")
+    groups = db.relationship("BudgetGroup", back_populates="user")
 
     @property
     def password(self):
@@ -30,12 +30,11 @@ class User(db.Model, UserMixin):
             "id": self.id,
             "username": self.username,
             "email": self.email,
-            "createdAt": self.createdAt,
-            "updatedAt": self.updatedAt,
-            "groups": self.groups,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
         }
     
-    def to_auth_response(self):
+    def to_auth_response_dict(self):
         return {
             "id": self.id,
             "username": self.username,
