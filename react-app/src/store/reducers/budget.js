@@ -52,7 +52,7 @@ export const createBudgetMonth = ({
   yearInt,
   copyPrevious,
 }) => async (dispatch) => {
-  const res = await fetch(`/api/months/`, {
+  const res = await fetch(`/api/months`, {
     method: "POST",
     body: JSON.stringify({
       month_int: monthInt,
@@ -83,7 +83,7 @@ export const createBudgetGroup = ({
   monthInt,
   yearInt,
 }) => async (dispatch) => {
-  const res = await fetch(`/api/groups/`, {
+  const res = await fetch(`/api/groups`, {
     method: "POST",
     body: JSON.stringify({ 
       title: title,

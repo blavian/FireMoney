@@ -7,6 +7,7 @@ import User from "./components/User";
 import LandingPage from "./components/LandingPage"
 import { authenticate } from "./services/auth";
 import "./index.css"
+import Throw from "./components/Throw";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -30,15 +31,6 @@ function App() {
     <BrowserRouter>
       <NavBar authenticated={authenticated} setAuthenticated={setAuthenticated} />
       <Switch>
-        {/* <Route path="/login" exact={true}>
-          <LoginForm
-            authenticated={authenticated}
-            setAuthenticated={setAuthenticated}
-          />
-        </Route> */}
-        {/* <Route path="/sign-up" exact={true}>
-          <SignUpForm authenticated={authenticated} setAuthenticated={setAuthenticated} />
-        </Route> */}
         <Route path="/" exact={true}>
           <LandingPage />
         </Route>
@@ -49,7 +41,7 @@ function App() {
           <User />
         </ProtectedRoute>
         <ProtectedRoute path="/budget" exact={true} authenticated={authenticated}>
-          <h1>My Home Page</h1>
+          <Throw />
         </ProtectedRoute>
       </Switch>
     </BrowserRouter>

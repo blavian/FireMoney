@@ -214,4 +214,38 @@ nav a:visited{
 .redirect_modal_link a:visited{
     color: #ffffff;
 }
-    
+
+/* Budget Month Page */
+.budget_group_container{
+    margin: 0 auto;
+    width: 90%;
+    border: #707070 solid .2em;
+    border-radius: .5em;
+}
+.budget_group_heading_container{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr;
+    grid-template-areas:
+    "budgetTitle . budgetAmount budgetSpent";
+    justify-items: center;
+}
+.budget_group_title{
+    grid-area: budgetTitle;
+}
+.budget_group_amount{
+    grid-area: budgetAmount;
+}
+.budget_group_spent{
+    grid-area: budgetSpent;
+}
+
+.budget_group_items_container{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr;
+    padding: 1em 0;
+    justify-items: center;
+}
+
+.budget_group_amount{
+
+}
