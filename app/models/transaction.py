@@ -13,7 +13,7 @@ class Transaction(db.Model):
     updated_at = db.Column(db.DateTime, server_default=db.func.now())
 
     # Associations
-    _item = db.relationship("Transaction", back_populates="_transactions")
+    _item = db.relationship("BudgetItem", back_populates="_transactions")
 
     # Association properties
     @property
