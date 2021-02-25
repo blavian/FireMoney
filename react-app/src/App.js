@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import LoginForm from "./components/auth/LoginForm";
-import SignUpForm from "./components/auth/SignUpForm";
+
+import { authenticate } from "./services/auth";
+
+import Budget from "./components/Budget";
+import LandingPage from "./components/LandingPage"
 import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
-import UsersList from "./components/UsersList";
 import User from "./components/User";
-import LandingPage from "./components/LandingPage"
-import { authenticate } from "./services/auth";
+import UsersList from "./components/UsersList";
+
 import "./index.css"
 
 function App() {
@@ -32,15 +34,6 @@ function App() {
     <BrowserRouter>
       <NavBar authenticated={authenticated} setAuthenticated={setAuthenticated} />
       <Switch>
-        {/* <Route path="/login" exact={true}>
-          <LoginForm
-            authenticated={authenticated}
-            setAuthenticated={setAuthenticated}
-          />
-        </Route> */}
-        {/* <Route path="/sign-up" exact={true}>
-          <SignUpForm authenticated={authenticated} setAuthenticated={setAuthenticated} />
-        </Route> */}
         <Route path="/" exact={true}>
           <LandingPage />
         </Route>
@@ -51,7 +44,7 @@ function App() {
           <User />
         </ProtectedRoute>
         <ProtectedRoute path="/budget" exact={true} authenticated={authenticated}>
-          <h1>My Home Page</h1>
+          <Budget />
         </ProtectedRoute>
       </Switch>
     </BrowserRouter>
