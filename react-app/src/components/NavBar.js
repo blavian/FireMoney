@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import LoginFormModal from "../components/LoginFormModal"
 import LogoutButton from './auth/LogoutButton';
@@ -6,10 +6,8 @@ import icon from '../images/Icon.png';
 import hbmenu_icon from "../images/HBMenu.png"
 import closeHB_icon from "../images/CloseHBMenu.png"
 import login_icon from "../images/login.png"
-import signup_icon from "../images/signup.png"
 import budget_icon from "../images/Budget.png"
 import transaction_icon from "../images/Transactions.png"
-import LoginForm from './auth/LoginForm';
 import SignUpFormModal from '../components/SignUpFormModal';
 
 
@@ -71,7 +69,7 @@ const NavBar = ({ authenticated, setAuthenticated }) => {
 
 export default NavBar;
 
-{/* <ul>
+/* <ul>
   <li className="logo_li">
     <img id="firemoney_icon" src={icon} alt="mountain road" />
     <NavLink class="home_link" to="/" exact={true} activeClassName="active">
@@ -96,4 +94,4 @@ export default NavBar;
   <li>
     <LogoutButton setAuthenticated={setAuthenticated} />
   </li>
-</ul> */}
+</ul> */

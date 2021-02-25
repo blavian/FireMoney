@@ -6,6 +6,13 @@ const GET_BUDGET_MONTH = "budget/setBudgetMonth";
 const CREATE_BUDGET_GROUP = "budget/createBudgetGroup";
 const UPDATE_BUDGET_GROUP = "budget/updateBudgetGroup";
 const DELETE_BUDGET_GROUP = "budget/deleteBudgetGroup";
+const CREATE_BUDGET_ITEMS = "budget/createBudgetItems";
+const UPDATE_BUDGET_ITEMS = "budget/updateBudgetItems";
+const DELETE_BUDGET_ITEMS = "budget/deleteBudgetItems";
+const CREATE_TRANSACTIONS = "budget/createTransactions";
+const GET_TRANSACTIONS = "budget/getTransactions";
+const UPDATE_TRANSACTIONS = "budget/updateTransactions";
+const DELETE_TRANSACTIONS = "budget/deleteTransactions";
 
 // State template
 const budgetMonthTemplate = {
@@ -54,6 +61,7 @@ export const createBudgetMonth = ({
     }),
   });
   const { data } = res.data;
+
   dispatch(createBudgetMonthActionCreator(data));
   return data;
 };
@@ -206,12 +214,111 @@ const monthDict = {
 export default reducer;
 
 /*  Testing Procedure
-    Create Group
-store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
-    Get Group
-store.dispatch(budgetActions.getBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
-    Update Group
-store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
-    Delete Group
-store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+
+ =============================== Budget Month ==============================================
+
+    Create Budget Month with previous month True - FAILED
+    Expected Result: should create new month with previous month's groups - failed
+    Reason: New month is not saving to db and groups are not passing over. Redux store shows new month
+            but empty groups array
+    Test(s):
+      store.dispatch(budgetActions.createBudgetMonth({ monthInt: 4, yearInt: 2021, copyPrevious: "True" }))
+
+    Create Budget Month with previous month False - NOT TESTED - Depends on previous test
+    Expected Result: Undefined
+    Reason: NOT TESTED
+    Test(s):
+      store.dispatch(budgetActions.createBudgetMonth({ monthInt: 5, yearInt: 2021, copyPrevious: "False" }))
+
+    Create Budget Month with nonexistent previous month - PASSED
+    Expected Result: Should return Error status 400 with message:"previous_month_does_not_exist"
+    Reason: PASSED
+    Test(s):
+      store.dispatch(budgetActions.createBudgetMonth({ monthInt: 2, yearInt: 2021, copyPrevious: "True" }))
+      store.dispatch(budgetActions.createBudgetMonth({ monthInt: 2, yearInt: 2021, copyPrevious: "False" }))
+
+    Create Budget Month that already exists - PASSED
+    Expected Result: Should return Error status 400 with message:"month_already_exists"
+    Reason: PASSED
+    Test(s):
+      store.dispatch(budgetActions.createBudgetMonth({ monthInt: 3, yearInt: 2021, copyPrevious: "True" }))
+      store.dispatch(budgetActions.createBudgetMonth({ monthInt: 3, yearInt: 2021, copyPrevious: "False" }))
+
+    Get Budget Month - PASSED
+    Expected Result: Should return month with groups
+    Reason: PASSED
+    Test(s):
+      store.dispatch(budgetActions.getBudgetMonth({ monthInt: 3, yearInt: 2021 }))
+
+    Get Budget Month that does not exist- PASSED
+    Expected Result: Should return Error status 400 with message:"month_does_not_exist"
+    Reason: PASSED
+    Test(s):
+      store.dispatch(budgetActions.getBudgetMonth({ monthInt: 3, yearInt: 2021 }))
+
+ =============================== Budget Group ==============================================
+
+    Create Budget Group
+    Expected Result:
+    Reason:
+    Test(s):
+      store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+    
+    Update Budget Group
+    Expected Result:
+    Reason:
+    Test(s):
+      store.dispatch(budgetActions.udpateBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+    
+    Delete Budget Group
+    Expected Result:
+    Reason:
+    Test(s):
+      store.dispatch(budgetActions.deleteBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+
+ =============================== Budget Items ==============================================
+
+    Create Budget Items
+    Expected Result:
+    Reason:
+    Test(s):
+      store.dispatch(budgetActions.createBudgetItems({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+    
+    Update Budget Items
+    Expected Result:
+    Reason:
+    Test(s):
+      store.dispatch(budgetActions.udpateBudgetItems({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+    
+    Delete Budget Items
+    Expected Result:
+    Reason:
+    Test(s):
+      store.dispatch(budgetActions.deleteBudgetItems({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+
+ =============================== Budget Transactions ==============================================
+
+    Create Transactions
+    Expected Result:
+    Reason:
+    Test(s):
+      store.dispatch(budgetActions.createTransactions({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+
+    Get Transactions
+    Expected Result:
+    Reason:
+    Test(s):
+      store.dispatch(budgetActions.getTransactions({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+    
+    Update Transactions
+    Expected Result:
+    Reason:
+    Test(s):
+      store.dispatch(budgetActions.updateTransactions({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+    
+    Delete Transactions
+    Expected Result:
+    Reason:
+    Test(s):
+      store.dispatch(budgetActions.deleteTransactions({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
 */
