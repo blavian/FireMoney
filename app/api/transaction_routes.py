@@ -6,6 +6,8 @@ from app.forms.transaction_form import TransactionForm
 transaction_routes = Blueprint('transactions', __name__)
 
 # FIND ALL TRANSACTIONS BY MONTH
+
+
 @transaction_routes.route('/')
 @login_required
 def transactions():
@@ -13,6 +15,8 @@ def transactions():
     return {"transactions": [transaction.to_dict() for transaction in transactions]}
 
 # FIND TRANSACTION BY ID
+
+
 @transaction_routes.route('/<int:id>')
 @login_required
 def transaction(id):
@@ -54,8 +58,9 @@ def new_transaction():
     # 7. Send 201 response to the user
     return {"message": "success", "data": transaction.to_dict()}, 201
 
-
  # UPDATE BUDGET TRANSACTION BY ID
+
+
 @transaction_routes.route('/<int:id>', methods=['PATCH'])
 @login_required
 def update_transaction(id):
@@ -86,9 +91,6 @@ def update_transaction(id):
     return {"message": "success", "data": transaction.to_dict()}, 201
 
 
-
-
-
 # DELETE BUDGET TRANSACTION
 @transaction_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
@@ -103,7 +105,6 @@ def delete_transaction(id):
         return {"message": "successfully deleted"}, 200
     else:
         return {"message": "transaction does not exist"}, 404
-
 
 
 # User.groups --> find all budget groups for specific month/year

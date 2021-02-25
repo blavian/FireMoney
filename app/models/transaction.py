@@ -12,11 +12,6 @@ class Transaction(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now())
 
-    # Association properties
-    @property
-    def item(self):
-        return self._item.to_dict()
-
     # Scope
     def to_dict(self):
         return {
