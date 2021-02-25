@@ -9,7 +9,7 @@ group_routes = Blueprint('budget_groups', __name__)
 
 
 # CREATE NEW BUDGET GROUP
-@group_routes.route('/', methods=['POST'])
+@group_routes.route('', methods=['POST'])
 @login_required
 def new_group():
     # 1. Get user from session
@@ -41,7 +41,7 @@ def new_group():
 
 
 # READ GROUPS FOR CURRENT USER
-@group_routes.route('/', methods=['GET'])
+@group_routes.route('', methods=['GET'])
 @login_required
 def get_groups():
     # 1. gets user from session
@@ -51,10 +51,10 @@ def get_groups():
     user_groups = BudgetGroup.query.filter(
         BudgetGroup.user_id == user.id)
     # for every item that has a transaction get the sum of the transaction totals
-    # 
+    #
 
     # 3. returns users groups
-    return {"message": "success", "user_groups": [group.to_dict() for group in user_groups]}, 200
+    return {"message": "success", "data": [group.to_dict() for group in user_groups]}, 200
 
 
 # UPDATE GROUP TITLE

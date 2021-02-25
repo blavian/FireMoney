@@ -8,7 +8,7 @@ from app.models import db, BudgetGroup, User
 month_routes = Blueprint('months', __name__)
 
 
-@month_routes.route('/', methods=['POST'])
+@month_routes.route('', methods=['POST'])
 @login_required
 def new_month():
 
@@ -52,8 +52,11 @@ def new_month():
             "message": "previous_month_does_not_exist"
         }, 400
 
-    user_groups = list(filter(lambda x: x.month_int == int(month_int) and
-                              x.year_int == int(year_int), user.groups))
+    user_groups = BudgetGroup.query.filter(
+        BudgetGroup.user_id == user.id,
+        BudgetGroup.month_int == previous_month,
+        BudgetGroup.year_int == previous_year).all()
+
 
     # 6. Create new groups for current month and add/commit to database
     current_month_groups = []
