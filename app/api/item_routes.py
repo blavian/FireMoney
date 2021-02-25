@@ -5,20 +5,6 @@ from app.models import db, BudgetItem
 
 item_routes = Blueprint('budget_items', __name__)
 
-# FIND ALL BUDGET ITEMS
-@item_routes.route('/')
-@login_required
-def items():
-    items = BudgetItem.query.all()
-    return {"items": [item.to_dict() for item in items]}
-
-# FIND BUDGET ITEM BY ID
-@item_routes.route('/<int:id>')
-@login_required
-def item(id):
-    item = BudgetItem.query.get(id)
-    return item.to_dict()
-
 
 # CREATE BUDGET ITEMS
 @item_routes.route('/', methods=['POST'])
@@ -57,9 +43,51 @@ def new_item():
     return {"message": "success", "data": item.to_dict()}, 201
 
 
+ # UPDATE  BUDGET ITEMS BY ID
+@item_routes.route('/<int:id>', methods=['PATCH'])
+@login_required
+def update_items(id):
 
-# READ BUDGET ITEMS BY GROUP ID
+    # 1. creates form, adds csrf token
+    form = ItemForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
 
-# UPDATE BUDGET ITEM
+    # 2. find item by id and
+    item = BudgetItem.query.get(id)
+
+    # 3. Validates form data; if invalid return 400 bad request to user
+    if not form.validate_on_submit():
+        return {"message": "validation_errors", "data": form.errors}, 400
+
+    # 4. If valid then extract information from the user's input
+    title = form.data['title']
+    description = form.data['description']
+    expected_amount = form.data['expected_amount']
+    due_date = form.data['due_date']
+
+    # 5. updates the item  and commits the changes to the database
+    item.title = title
+    item.description = description
+    item.expected_amount = expected_amount
+    item.due_date = due_date
+    db.session.commit()
+
+    # 6. Returns message with updated item and a 201 response
+    return {"message": "success", "data": item.to_dict()}, 201
+
 
 # DELETE BUDGET ITEM
+@item_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
+def delete_item(id):
+    # 1. Find item by id
+    item = BudgetItem.query.get(id)
+
+    # 2. if item exists, delete and commit, else return msg
+    if item:
+        db.session.delete(item)
+        db.session.commit()
+        return {"message": "successfully deleted"}, 200
+    else:
+        return {"message": "item does not exist"}, 404
+
