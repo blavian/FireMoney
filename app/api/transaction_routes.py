@@ -113,7 +113,7 @@ def delete_transaction(id):
 # return all transactions in to_dict
 
 # READ TRANSACTIONS FOR SPECIFIED MONTH AND USER
-@group_routes.route('/', methods=['GET'])
+@transaction_routes.route('/', methods=['GET'])
 @login_required
 def get_groups():
     # 1. gets user from session
