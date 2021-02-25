@@ -15,16 +15,11 @@ class BudgetItem(db.Model):
     updated_at = db.Column(db.DateTime, server_default=db.func.now())
 
     # Associations
-    _group = db.relationship("BudgetGroup", back_populates="_items")
-    _transactions = db.relationship("Transaction", back_populates="_item")
+    _transactions = db.relationship("Transaction", backref="budget_items")
 
     # Association properties
     @property
-    def group(self):
-        return _group.to_dict()
-
-    @property
-    def items(self):
+    def transactions(self):
         return [x.to_dict() for x in self._transactions]
 
     # Scope
@@ -36,7 +31,6 @@ class BudgetItem(db.Model):
             "description": self.description,
             "expected_amount": str(self.expected_amount),
             "due_date": self.due_date,
-            "parent_group": self.group,
             "transactions": self.transactions,
             "created_at": self.created_at,
             "updated_at": self.updated_at,

@@ -12,13 +12,10 @@ class Transaction(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now())
 
-    # Associations
-    _item = db.relationship("Transaction", back_populates="_transactions")
-
     # Association properties
     @property
     def item(self):
-        return _item.to_dict()
+        return self._item.to_dict()
 
     # Scope
     def to_dict(self):
@@ -28,7 +25,6 @@ class Transaction(db.Model):
             "title": self.title,
             "amount": str(self.amount),
             "date": self.date,
-            "parent_item": self.item,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
         }
