@@ -19,7 +19,8 @@ class BudgetGroup(db.Model):
     updated_at = db.Column(db.DateTime, server_default=db.func.now())
 
     # Associations
-    _items = db.relationship("BudgetItem", backref="budget_groups")
+    _items = db.relationship(
+        "BudgetItem", backref="budget_groups", cascade="all, delete-orphan")
 
     # Association properties
     @property
