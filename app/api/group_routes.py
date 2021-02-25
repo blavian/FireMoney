@@ -37,7 +37,7 @@ def new_group():
     db.session.commit()
 
     # 7. Send 201 response to the user
-    return {"message": "success", "data": group.to_group_created_dict()}, 201
+    return {"message": "success", "data": group.to_dict()}, 201
 
 
 # READ GROUPS FOR CURRENT USER
@@ -83,7 +83,7 @@ def update_group(id):
     db.session.commit()
 
     # 6. Return message with updated group and a 201 response
-    return {"message": "success", "data": group.to_group_created_dict()}, 201
+    return {"message": "success", "data": group.to_dict()}, 201
 
 
 # DELETE SPECIFIED GROUP
