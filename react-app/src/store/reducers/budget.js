@@ -206,12 +206,22 @@ const monthDict = {
 export default reducer;
 
 /*  Testing Procedure
+
+    Create Budget Month
+store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+
     Create Group
 store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+
+    Create Group
+store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+    
     Get Group
 store.dispatch(budgetActions.getBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+    
     Update Group
 store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+    
     Delete Group
 store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
 */
