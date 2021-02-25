@@ -1,8 +1,10 @@
 import React from "react"
 import BudgetItem from "./BudgetItem"
+import { useDispatch, useSelector } from "react-redux"
 
 
 function BudgetGroup() {
+    const dispatch = useDispatch();
     return (
         <div className="budget_group_container">
             <div className="budget_group_heading_container">
