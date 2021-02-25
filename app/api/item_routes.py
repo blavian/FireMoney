@@ -7,7 +7,7 @@ item_routes = Blueprint('budget_items', __name__)
 
 
 # CREATE BUDGET ITEMS
-@item_routes.route('/', methods=['POST'])
+@item_routes.route('', methods=['POST'])
 @login_required
 def new_item():
     # 1. Get user from session
@@ -90,4 +90,3 @@ def delete_item(id):
         return {"message": "successfully deleted"}, 200
     else:
         return {"message": "item does not exist"}, 404
-
