@@ -5,6 +5,7 @@ const CREATE_BUDGET_MONTH = "budget/createBudgetMonth";
 const GET_BUDGET_MONTH = "budget/setBudgetMonth";
 const CREATE_BUDGET_GROUP = "budget/createBudgetGroup";
 const UPDATE_BUDGET_GROUP = "budget/updateBudgetGroup";
+const DELETE_BUDGET_GROUP = "budget/deleteBudgetGroup";
 
 // State template
 const budgetMonthTemplate = {
@@ -31,6 +32,11 @@ const updateBudgetGroupActionCreator = (payload) => ({
   type: UPDATE_BUDGET_GROUP,
   payload,
 });
+const deleteBudgetGroupActionCreator = (payload) => ({
+  type: DELETE_BUDGET_GROUP,
+  payload,
+});
+
 
 
 // Thunks
@@ -69,9 +75,9 @@ export const createBudgetGroup = ({
   monthInt,
   yearInt,
 }) => async (dispatch) => {
-  const res = await fetch(`/api/groups`, {
+  const res = await fetch(`/api/groups/`, {
     method: "POST",
-    body: JSON.stringify({
+    body: JSON.stringify({ 
       title: title,
       month_int: monthInt,
       year_int: yearInt
@@ -97,6 +103,18 @@ export const updateBudgetGroup = ({
   });
   const { data } = res.data;
   dispatch(updateBudgetGroupActionCreator(data));
+  return data;
+};
+
+export const deleteBudgetGroup = ({
+  groupId
+}) => async (dispatch) => {
+  const res = await fetch(`/api/groups/${groupId}`, {
+    method: "DELETE"
+  });
+  const { data } = res.data;
+  data.groupId = groupId;
+  dispatch(deleteBudgetGroupActionCreator(data));
   return data;
 };
 
@@ -126,14 +144,15 @@ const reducer = (
       return { budgetMonth: { ...state.budgetMonth, ...getBudgetConvertData } };
 
     case CREATE_BUDGET_GROUP:
-      const createBudgetGroupConvertData = [{
+      const createBudgetGroupConvertData = {
+        id: payload.id,
         title: payload.title,
         monthInt: payload.month_int,
         month: getMonthFromInt(payload.month_int),
         year: payload.year_int,
         items: payload.items,
-      }];
-      return { budgetMonth: { ...state.budgetMonth, groups: [...state.budgetMonth.groups, ...createBudgetGroupConvertData] } }
+      };
+      return { budgetMonth: { ...state.budgetMonth, groups: [...state.budgetMonth.groups, createBudgetGroupConvertData] } }
 
     case UPDATE_BUDGET_GROUP:
       const updateBudgetGroupConvertData = [{
@@ -144,6 +163,10 @@ const reducer = (
         items: payload.items,
       }];
       return { budgetMonth: { ...state.budgetMonth, groups: [...state.budgetMonth.groups, ...updateBudgetGroupConvertData] } }
+
+    case DELETE_BUDGET_GROUP:
+      const groupsCopy = state.budgetMonth.groups.filter( x => x.id !== payload.groupId);
+      return { budgetMonth: { ...state.budgetMonth, groups: [...groupsCopy] } };
 
     default:
       return state;
@@ -181,3 +204,14 @@ const monthDict = {
 };
 
 export default reducer;
+
+/*  Testing Procedure
+    Create Group
+store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+    Get Group
+store.dispatch(budgetActions.getBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+    Update Group
+store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+    Delete Group
+store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+*/
