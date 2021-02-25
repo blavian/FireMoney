@@ -6,6 +6,8 @@ from app.forms.transaction_form import TransactionForm
 transaction_routes = Blueprint('transactions', __name__)
 
 # FIND ALL TRANSACTIONS BY MONTH
+
+
 @transaction_routes.route('/')
 @login_required
 def transactions():
@@ -13,6 +15,8 @@ def transactions():
     return {"transactions": [transaction.to_dict() for transaction in transactions]}
 
 # FIND TRANSACTION BY ID
+
+
 @transaction_routes.route('/<int:id>')
 @login_required
 def transaction(id):
@@ -54,8 +58,9 @@ def new_transaction():
     # 7. Send 201 response to the user
     return {"message": "success", "data": transaction.to_dict()}, 201
 
-
  # UPDATE BUDGET TRANSACTION BY ID
+
+
 @transaction_routes.route('/<int:id>', methods=['PATCH'])
 @login_required
 def update_transaction(id):
@@ -86,9 +91,6 @@ def update_transaction(id):
     return {"message": "success", "data": transaction.to_dict()}, 201
 
 
-
-
-
 # DELETE BUDGET TRANSACTION
 @transaction_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
@@ -105,7 +107,6 @@ def delete_transaction(id):
         return {"message": "transaction does not exist"}, 404
 
 
-
 # User.groups --> find all budget groups for specific month/year
 # BudgetGroup.items --> loop through and find ids of items -->
 # find transaction.item_id == item.id
@@ -113,17 +114,17 @@ def delete_transaction(id):
 # return all transactions in to_dict
 
 # READ TRANSACTIONS FOR SPECIFIED MONTH AND USER
-# @group_routes.route('/', methods=['GET'])
-# @login_required
-# def get_groups():
-#     # 1. gets user from session
-#     user = current_user
+@transaction_routes.route('/', methods=['GET'])
+@login_required
+def get_groups():
+    # 1. gets user from session
+    user = current_user
 
-#     # 2. finds groups based off of user.id
-#     user_groups = BudgetGroup.query.filter(
-#         BudgetGroup.user_id == user.id)
-#     # for every item that has a transaction get the sum of the transaction totals
-#     #
+    # 2. finds groups based off of user.id
+    user_groups = BudgetGroup.query.filter(
+        BudgetGroup.user_id == user.id)
+    # for every item that has a transaction get the sum of the transaction totals
+    #
 
-#     # 3. returns users groups
-#     return {"message": "success", "user_groups": [group.to_dict() for group in user_groups]}, 200
+    # 3. returns users groups
+    return {"message": "success", "user_groups": [group.to_dict() for group in user_groups]}, 200

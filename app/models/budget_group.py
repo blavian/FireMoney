@@ -19,8 +19,7 @@ class BudgetGroup(db.Model):
     updated_at = db.Column(db.DateTime, server_default=db.func.now())
 
     # Associations
-    _user = db.relationship("User", back_populates="_groups")
-    _items = db.relationship("BudgetItem", back_populates="_group")
+    _items = db.relationship("BudgetItem", backref="budget_groups")
 
     # Association properties
     @property
@@ -30,6 +29,7 @@ class BudgetGroup(db.Model):
     # Scope
     def to_dict(self):
         return {
+            "id": self.id,
             "title": self.title,
             "user_id": self.user_id,
             "title": self.title,

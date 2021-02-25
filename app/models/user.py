@@ -26,12 +26,12 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
     # Associations
-    _groups = db.relationship("BudgetGroup", back_populates="_user")
+    _groups = db.relationship("BudgetGroup", backref="users")
 
     # Association properties
     @property
     def groups(self):
-        return [x.to_dict() for x in _groups]
+        return [x.to_dict() for x in self._groups]
 
     # Scope
     def to_dict(self):

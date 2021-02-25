@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
 from flask_login import login_required, current_user
 
 
@@ -53,7 +53,7 @@ def new_month():
         }, 400
 
     user_groups = list(filter(lambda x: x.month_int == int(month_int) and
-                                           x.year_int == int(year_int), user.groups))
+                              x.year_int == int(year_int), user.groups))
 
     # 6. Create new groups for current month and add/commit to database
     current_month_groups = []
@@ -65,7 +65,6 @@ def new_month():
             db.session.add(current_month_group)
         db.session.commit()
 
-
     # 7. Send new month(groups) and 201 (successful creation) response
     return {
         "message": "success",
@@ -75,6 +74,7 @@ def new_month():
             "groups": [group.to_dict() for group in current_month_groups]
         }
     }, 201
+
 
 @month_routes.route('', methods=['GET'])
 @login_required
@@ -86,8 +86,10 @@ def months():
     year_int = request.args.get("year_int")
 
     # 2. Get users groups for specified month/year
-    current_groups = list(filter(lambda x: x.month_int == int(month_int) and
-                                           x.year_int == int(year_int), user.groups))
+    current_groups = [x.to_dict() for
+                      x in BudgetGroup.query.filter(BudgetGroup.user_id == user.id,
+                                                    BudgetGroup.month_int == month_int,
+                                                    BudgetGroup.year_int == year_int)]
 
     # 3. Return bad request if current month does not exist
     month_does_not_exist = True if not current_groups else False
@@ -102,6 +104,6 @@ def months():
         "data": {
             "month_int": month_int,
             "year_int": year_int,
-            "groups": [group.to_dict() for group in current_groups]
+            "groups": current_groups
         }
     }, 200
