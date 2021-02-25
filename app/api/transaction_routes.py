@@ -113,17 +113,17 @@ def delete_transaction(id):
 # return all transactions in to_dict
 
 # READ TRANSACTIONS FOR SPECIFIED MONTH AND USER
-@group_routes.route('/', methods=['GET'])
-@login_required
-def get_groups():
-    # 1. gets user from session
-    user = current_user
+# @group_routes.route('/', methods=['GET'])
+# @login_required
+# def get_groups():
+#     # 1. gets user from session
+#     user = current_user
 
-    # 2. finds groups based off of user.id
-    user_groups = BudgetGroup.query.filter(
-        BudgetGroup.user_id == user.id)
-    # for every item that has a transaction get the sum of the transaction totals
-    #
+#     # 2. finds groups based off of user.id
+#     user_groups = BudgetGroup.query.filter(
+#         BudgetGroup.user_id == user.id)
+#     # for every item that has a transaction get the sum of the transaction totals
+#     #
 
-    # 3. returns users groups
-    return {"message": "success", "user_groups": [group.to_dict() for group in user_groups]}, 200
+#     # 3. returns users groups
+#     return {"message": "success", "user_groups": [group.to_dict() for group in user_groups]}, 200
