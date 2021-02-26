@@ -217,6 +217,7 @@ const reducer = (
   state = { budgetMonth: budgetMonthTemplate },
   { type, payload }
 ) => {
+  let stateCopy;
   switch (type) {
     case CREATE_BUDGET_MONTH:
       return state;
@@ -224,24 +225,13 @@ const reducer = (
     case GET_BUDGET_MONTH:
       // payload.month = getMonthFromInt(payload.monthInt)
       // payload.year = payload.year_int
-      const month = { ...payload, month: getMonthFromInt(payload.monthInt)}
+      const month = { ...payload, month: getMonthFromInt(payload.monthInt) };
       return { budgetMonth: { ...state.budgetMonth, ...month } };
 
     case CREATE_BUDGET_GROUP:
-      const createBudgetGroupConvertData = {
-        id: payload.id,
-        title: payload.title,
-        monthInt: payload.month_int,
-        month: getMonthFromInt(payload.monthInt),
-        year: payload.year_int,
-        items: payload.items,
-      };
-      return {
-        budgetMonth: {
-          ...state.budgetMonth,
-          groups: [...state.budgetMonth.groups, createBudgetGroupConvertData],
-        },
-      };
+      stateCopy = { budgetMonth: { ...state.budgetMonth } };
+      stateCopy.budgetMonth.groups[payload.id] = payload;
+      return stateCopy;
 
     case UPDATE_BUDGET_GROUP:
       const updateBudgetGroupConvertData = {
@@ -268,7 +258,7 @@ const reducer = (
       return { budgetMonth: { ...state.budgetMonth, groups: [...groupsCopy] } };
 
     case CREATE_BUDGET_ITEM:
-      let stateCopy = { budgetMonth: { ...state.budgetMonth } };
+      stateCopy = { budgetMonth: { ...state.budgetMonth } };
       stateCopy.budgetMonth.groups[payload.groupId].items[payload.id] = payload;
       return stateCopy;
 
