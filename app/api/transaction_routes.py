@@ -8,7 +8,7 @@ transaction_routes = Blueprint('transactions', __name__)
 # FIND ALL TRANSACTIONS BY MONTH
 
 
-@transaction_routes.route('/')
+@transaction_routes.route('')
 @login_required
 def transactions():
     transactions = Transaction.query.all()
@@ -25,7 +25,7 @@ def transaction(id):
 
 
 # CREATE BUDGET ITEMS
-@transaction_routes.route('/', methods=['POST'])
+@transaction_routes.route('', methods=['POST'])
 @login_required
 def new_transaction():
     # 1. Get user from session
@@ -114,7 +114,7 @@ def delete_transaction(id):
 # return all transactions in to_dict
 
 # READ TRANSACTIONS FOR SPECIFIED MONTH AND USER
-@transaction_routes.route('/', methods=['GET'])
+@transaction_routes.route('', methods=['GET'])
 @login_required
 def get_groups():
     # 1. gets user from session
