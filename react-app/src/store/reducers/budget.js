@@ -1,5 +1,5 @@
 import { fetch } from "../../services/fetch";
-import { normalizedData } from "../../services/normalize_data"
+import { normalizedData } from "../../services/normalize_data";
 
 // Action constants
 const CREATE_BUDGET_MONTH = "budget/createBudgetMonth";
@@ -17,9 +17,6 @@ const GET_TRANSACTION = "budget/getTransaction";
 const UPDATE_TRANSACTION = "budget/updateTransaction";
 const DELETE_TRANSACTION = "budget/deleteTransaction";
 
-
-
-
 // --------------------------BUDGET MONTH------------------------
 
 // State template
@@ -29,6 +26,7 @@ const budgetMonthTemplate = {
   year: null,
   groups: [],
 };
+
 // Action creators
 const createBudgetMonthActionCreator = (payload) => ({
   type: CREATE_BUDGET_MONTH,
@@ -51,8 +49,11 @@ const deleteBudgetGroupActionCreator = (payload) => ({
   payload,
 });
 
+// * ------------------------------------------------------ //
+// * THUNKS
+// * ------------------------------------------------------ //
 
-// Thunks
+// -------------------------------------------------------- createBudgetMonth
 export const createBudgetMonth = ({
   monthInt,
   yearInt,
@@ -71,6 +72,7 @@ export const createBudgetMonth = ({
   return data;
 };
 
+// -------------------------------------------------------- getBudgetMonth
 export const getBudgetMonth = ({ monthInt, yearInt }) => async (dispatch) => {
   const res = await fetch(
     `/api/months?month_int=${monthInt}&year_int=${yearInt}`,
@@ -81,31 +83,29 @@ export const getBudgetMonth = ({ monthInt, yearInt }) => async (dispatch) => {
   const { data } = res.data;
 
   for (let i = 0; i < data.groups.length; i++) {
-    let group = data.groups[i]
+    let group = data.groups[i];
     for (let j = 0; j < group.items.length; j++) {
-      let item = group.items[j]
-      item.transactions = normalizedData(item.transactions)
+      let item = group.items[j];
+      item.transactions = normalizedData(item.transactions);
     }
-    group.items = normalizedData(group.items)
+    group.items = normalizedData(group.items);
   }
 
-  data.groups = normalizedData(data.groups)
+  data.groups = normalizedData(data.groups);
 
   dispatch(getBudgetMonthActionCreator(data));
   return data;
 };
 
-export const createBudgetGroup = ({
-  title,
-  monthInt,
-  yearInt,
-}) => async (dispatch) => {
+export const createBudgetGroup = ({ title, monthInt, yearInt }) => async (
+  dispatch
+) => {
   const res = await fetch(`/api/groups`, {
     method: "POST",
     body: JSON.stringify({
       title: title,
       month_int: monthInt,
-      year_int: yearInt
+      year_int: yearInt,
     }),
   });
   const { data } = res.data;
@@ -124,7 +124,7 @@ export const updateBudgetGroup = ({
     body: JSON.stringify({
       title: title,
       month_int: monthInt,
-      year_int: yearInt
+      year_int: yearInt,
     }),
   });
   const { data } = res.data;
@@ -132,12 +132,9 @@ export const updateBudgetGroup = ({
   return data;
 };
 
-
-export const deleteBudgetGroup = ({
-  groupId
-}) => async (dispatch) => {
+export const deleteBudgetGroup = ({ groupId }) => async (dispatch) => {
   const res = await fetch(`/api/groups/${groupId}`, {
-    method: "DELETE"
+    method: "DELETE",
   });
   const { data } = res.data;
   data.groupId = groupId;
@@ -152,9 +149,8 @@ const budgetItemTemplate = {
   expected_amount: null,
   group_id: null,
   title: null,
-  transactions: []
+  transactions: [],
 };
-
 
 // -----------------------------------BUDGET ITEM ----------------------------------
 const createBudgetItemActionCreator = (payload) => ({
@@ -170,13 +166,12 @@ const deleteBudgetItemActionCreator = (payload) => ({
   payload,
 });
 
-
 export const createBudgetItem = ({
   title,
   description,
   expectedAmount,
   groupId,
-  dueDate
+  dueDate,
 }) => async (dispatch) => {
   const res = await fetch(`/api/items`, {
     method: "POST",
@@ -185,7 +180,7 @@ export const createBudgetItem = ({
       description: description,
       expected_amount: expectedAmount,
       group_id: groupId,
-      due_date: dueDate
+      due_date: dueDate,
     }),
   });
   const { data } = res.data;
@@ -194,13 +189,12 @@ export const createBudgetItem = ({
   return data;
 };
 
-
 export const updateBudgetItem = ({
   title,
   description,
   expectedAmount,
   groupId,
-  dueDate
+  dueDate,
 }) => async (dispatch) => {
   const res = await fetch(`/api/items`, {
     method: "PATCH",
@@ -209,7 +203,7 @@ export const updateBudgetItem = ({
       description: description,
       expected_amount: expectedAmount,
       group_id: groupId,
-      due_date: dueDate
+      due_date: dueDate,
     }),
   });
   const { data } = res.data;
@@ -218,7 +212,6 @@ export const updateBudgetItem = ({
   return data;
 };
 
-
 // --------------------- REDUCER -----------------------------------
 const reducer = (
   state = { budgetMonth: budgetMonthTemplate },
@@ -226,31 +219,31 @@ const reducer = (
 ) => {
   switch (type) {
     case CREATE_BUDGET_MONTH:
-      console.log(payload)
-      const createBudgetConvertData = {
-        monthInt: payload.month_int,
-        month: getMonthFromInt(payload.month_int),
-        year: payload.year_int,
-        groups: payload.groups,
+      return {
+        budgetMonth: {
+          ...state.budgetMonth,
+          ...payload,
+          month: getMonthFromInt(payload.monthInt),
+        },
       };
-      return { budgetMonth: { ...state.budgetMonth, ...createBudgetConvertData } };
 
-    case CREATE_BUDGET_ITEM:
-      const createBudgetItemConvertData = {
-          id: payload.id,
-          title: payload.title,
-          groupId: payload.group_id,
-      }
-      const newState = { budgetMonth: {...state.budgetMonth }}
-      newState.budgetMonth.groups[createBudgetItemConvertData.groupId]
-        .items[createBudgetItemConvertData.id] = createBudgetItemConvertData
-      return newState
+    // case CREATE_BUDGET_ITEM:
+    //   const createBudgetItemConvertData = {
+    //     id: payload.id,
+    //     title: payload.title,
+    //     groupId: payload.group_id,
+    //   };
+    //   const newState = { budgetMonth: { ...state.budgetMonth } };
+    //   newState.budgetMonth.groups[createBudgetItemConvertData.groupId].items[
+    //     createBudgetItemConvertData.id
+    //   ] = createBudgetItemConvertData;
+    //   return newState;
 
     case GET_BUDGET_MONTH:
       const getBudgetConvertData = {
-        monthInt: payload.month_int,
-        month: getMonthFromInt(payload.month_int),
-        year: payload.year_int,
+        monthInt: payload.monthInt,
+        month: getMonthFromInt(payload.monthInt),
+        year: payload.yearInt,
         groups: payload.groups,
       };
       return { budgetMonth: { ...state.budgetMonth, ...getBudgetConvertData } };
@@ -260,28 +253,45 @@ const reducer = (
         id: payload.id,
         title: payload.title,
         monthInt: payload.month_int,
-        month: getMonthFromInt(payload.month_int),
+        month: getMonthFromInt(payload.monthInt),
         year: payload.year_int,
         items: payload.items,
       };
-      return { budgetMonth: { ...state.budgetMonth, groups: [...state.budgetMonth.groups, createBudgetGroupConvertData] } }
+      return {
+        budgetMonth: {
+          ...state.budgetMonth,
+          groups: [...state.budgetMonth.groups, createBudgetGroupConvertData],
+        },
+      };
 
     case UPDATE_BUDGET_GROUP:
       const updateBudgetGroupConvertData = {
         id: payload.id,
         title: payload.title,
         monthInt: payload.month_int,
-        month: getMonthFromInt(payload.month_int),
+        month: getMonthFromInt(payload.monthInt),
         year: payload.year_int,
         items: payload.items,
-      }
-      const groupCopy = [...state.budgetMonth.groups]
+      };
+      const groupCopy = [...state.budgetMonth.groups];
       // const groupsCopy = state.budgetMonth.groups.filter(x => x.id !== payload.groupId);
-      return { budgetMonth: { ...state.budgetMonth, groups: [...groupsCopy, ...updateBudgetGroupConvertData] } }
+      return {
+        budgetMonth: {
+          ...state.budgetMonth,
+          groups: [...groupsCopy, ...updateBudgetGroupConvertData],
+        },
+      };
 
     case DELETE_BUDGET_GROUP:
-      const groupsCopy = state.budgetMonth.groups.filter(x => x.id !== payload.groupId);
+      const groupsCopy = state.budgetMonth.groups.filter(
+        (x) => x.id !== payload.groupId
+      );
       return { budgetMonth: { ...state.budgetMonth, groups: [...groupsCopy] } };
+
+    case CREATE_BUDGET_ITEM:
+      let stateCopy = { budgetMonth: { ...state.budgetMonth } };
+      stateCopy.budgetMonth.groups[payload.groupId].items[payload.id] = payload;
+      return stateCopy;
 
     default:
       return state;
@@ -319,8 +329,6 @@ const monthDict = {
 };
 
 export default reducer;
-
-
 
 //  =============================== Budget Month ==============================================
 
