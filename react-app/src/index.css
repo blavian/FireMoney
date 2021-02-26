@@ -221,6 +221,7 @@ nav a:visited{
     width: 90%;
     border: #707070 solid .2em;
     border-radius: .5em;
+    padding-bottom: 1em;
 }
 .budget_group_heading_container{
     display: grid;
@@ -256,8 +257,8 @@ nav a:visited{
 
 .budget_group_item::after{
     content: ' ';
-    margin: 0 auto;
-    width: 95%;
+    margin: .5em auto auto 1em;
+    width: 480%;
     display: block;
     border-bottom: .3em solid #12788B;
 }

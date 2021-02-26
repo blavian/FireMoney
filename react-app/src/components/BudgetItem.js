@@ -22,7 +22,12 @@ function BudgetItem() {
                 </div>
             </div>
             <div className="transaction_buttons">
-                <button onClick={() => setTransactionDisplay(!transactionDisplay)}>View Transactions</button>
+                <button onClick={() => setTransactionDisplay(!transactionDisplay)}>
+                    View Transactions
+                    <span className="transaction_active">
+                        {transactionDisplay ? " +" : " -"}
+                    </span>
+                </button>
             </div>
             <div className="item_transactions_container" style={ transactionDisplay ? {display:"none"} : {display:"block"} }>
                 <div className="transaction_heading_container">
@@ -37,9 +42,6 @@ function BudgetItem() {
                     </div>
                 </div>
                 <Transaction />
-            </div>
-            <div className="add_budget_item_container">
-                <button className="add_budget_item_button">ADD ITEM</button>
             </div>
         </div>
     )
