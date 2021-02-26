@@ -27,12 +27,12 @@ class BudgetItem(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
-            "group_id": self.group_id,
+            "groupId": self.group_id,
             "title": self.title,
             "description": self.description,
-            "expected_amount": str(self.expected_amount),
-            "due_date": self.due_date,
+            "expectedAmount": str(self.expected_amount),
+            "dueDate": self.due_date,
             "transactions": self.transactions,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
+            "createdAt": self.created_at,
+            "updatedAt": self.updated_at,
         }

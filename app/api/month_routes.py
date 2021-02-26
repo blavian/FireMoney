@@ -72,8 +72,8 @@ def new_month():
     return {
         "message": "success",
         "data": {
-            "month_int": month_int,
-            "year_int": year_int,
+            "monthInt": month_int,
+            "yearInt": year_int,
             "groups": [group.to_dict() for group in current_month_groups]
         }
     }, 201
@@ -105,8 +105,8 @@ def months():
     return {
         "message": "success",
         "data": {
-            "month_int": month_int,
-            "year_int": year_int,
+            "monthInt": month_int,
+            "yearInt": year_int,
             "groups": current_groups
         }
     }, 200

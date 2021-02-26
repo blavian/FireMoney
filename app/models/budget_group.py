@@ -32,11 +32,11 @@ class BudgetGroup(db.Model):
         return {
             "id": self.id,
             "title": self.title,
-            "user_id": self.user_id,
+            "userId": self.user_id,
             "title": self.title,
-            "month_int": self.month_int,
-            "year_int": self.year_int,
+            "monthInt": self.month_int,
+            "yearInt": self.year_int,
             "items": self.items,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
+            "createdAt": self.created_at,
+            "updatedAt": self.updated_at,
         }
