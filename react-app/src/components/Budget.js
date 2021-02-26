@@ -25,13 +25,13 @@ function Budget({ monthInt, yearInt }) {
         : parseInt(budgetMonth.monthInt) + 1;
     const nextYear =
       budgetMonth.monthInt === 12
-        ? parseInt(budgetMonth.year) + 1
-        : parseInt(budgetMonth.year);
+        ? parseInt(budgetMonth.yearInt) + 1
+        : parseInt(budgetMonth.yearInt);
     // Copy this month into a new month retaining groups and items
     dispatch(
       budgetActions.createBudgetMonth({
         monthInt: budgetMonth.monthInt,
-        yearInt: budgetMonth.year,
+        yearInt: budgetMonth.yearInt,
         copyPrevious,
       })
     );
@@ -46,7 +46,7 @@ function Budget({ monthInt, yearInt }) {
   return (
     <div className="budget_page_container">
       <div className="budget_page_heading">
-        <h1 className="budget_page_heading__month_title">{`Budget for ${budgetMonth.month}, ${budgetMonth.year}`}</h1>
+        <h1 className="budget_page_heading__month_title">{`Budget for ${budgetMonth.month}, ${budgetMonth.yearInt}`}</h1>
         <p>
           <a
             href="/#"

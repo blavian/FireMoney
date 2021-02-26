@@ -23,7 +23,7 @@ const DELETE_TRANSACTION = "budget/deleteTransaction";
 const budgetMonthTemplate = {
   monthInt: null,
   month: null,
-  year: null,
+  yearInt: null,
   groups: [],
 };
 
@@ -221,26 +221,11 @@ const reducer = (
     case CREATE_BUDGET_MONTH:
       return state;
 
-    // case CREATE_BUDGET_ITEM:
-    //   const createBudgetItemConvertData = {
-    //     id: payload.id,
-    //     title: payload.title,
-    //     groupId: payload.group_id,
-    //   };
-    //   const newState = { budgetMonth: { ...state.budgetMonth } };
-    //   newState.budgetMonth.groups[createBudgetItemConvertData.groupId].items[
-    //     createBudgetItemConvertData.id
-    //   ] = createBudgetItemConvertData;
-    //   return newState;
-
     case GET_BUDGET_MONTH:
-      const getBudgetConvertData = {
-        monthInt: payload.monthInt,
-        month: getMonthFromInt(payload.monthInt),
-        year: payload.yearInt,
-        groups: payload.groups,
-      };
-      return { budgetMonth: { ...state.budgetMonth, ...getBudgetConvertData } };
+      // payload.month = getMonthFromInt(payload.monthInt)
+      // payload.year = payload.year_int
+      const month = { ...payload, month: getMonthFromInt(payload.monthInt)}
+      return { budgetMonth: { ...state.budgetMonth, ...month } };
 
     case CREATE_BUDGET_GROUP:
       const createBudgetGroupConvertData = {
