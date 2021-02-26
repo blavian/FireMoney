@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Route, Switch, useLocation } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { authenticate } from "./services/auth";
+import { useQuery } from "./services/useQuery";
 
 import Budget from "./components/Budget";
 import LandingPage from "./components/LandingPage";
@@ -17,6 +18,7 @@ import * as sessionActions from "./store/reducers/session";
 import "./index.css";
 
 function App() {
+  const query = useQuery();
   const [authenticated, setAuthenticated] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
+    <>
       <NavBar
         authenticated={authenticated}
         setAuthenticated={setAuthenticated}
@@ -64,10 +66,13 @@ function App() {
           exact={true}
           authenticated={authenticated}
         >
-          <Budget />
+          <Budget
+            monthInt={query.get("monthInt")}
+            yearInt={query.get("yearInt")}
+          />
         </ProtectedRoute>
       </Switch>
-    </BrowserRouter>
+    </>
   );
 }
 

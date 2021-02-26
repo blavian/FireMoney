@@ -2,9 +2,12 @@ import React from "react"
 import BudgetItem from "./BudgetItem"
 import { useDispatch, useSelector } from "react-redux"
 
+import * as budgetActions from "../store/reducers/budget";
 
-function BudgetGroup() {
+function BudgetGroup({id}) {
+    // const budgetGroupState = useSelector(x => x.budget.budgetMonth.groups[id]);
     const dispatch = useDispatch();
+    
     return (
         <div className="budget_group_container">
             <div className="budget_group_heading_container">
