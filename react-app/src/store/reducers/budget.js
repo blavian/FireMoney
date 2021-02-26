@@ -1,4 +1,6 @@
 import { fetch } from "../../services/fetch";
+import { normalizedData } from "../../services/normalize_data"
+import { normalizedDataMonth } from "../../services/normalize_data"
 
 // Action constants
 const CREATE_BUDGET_MONTH = "budget/createBudgetMonth";
@@ -6,13 +8,11 @@ const GET_BUDGET_MONTH = "budget/setBudgetMonth";
 const CREATE_BUDGET_GROUP = "budget/createBudgetGroup";
 const UPDATE_BUDGET_GROUP = "budget/updateBudgetGroup";
 const DELETE_BUDGET_GROUP = "budget/deleteBudgetGroup";
-const CREATE_BUDGET_ITEMS = "budget/createBudgetItems";
-const UPDATE_BUDGET_ITEMS = "budget/updateBudgetItems";
-const DELETE_BUDGET_ITEMS = "budget/deleteBudgetItems";
-const CREATE_TRANSACTIONS = "budget/createTransactions";
-const GET_TRANSACTIONS = "budget/getTransactions";
-const UPDATE_TRANSACTIONS = "budget/updateTransactions";
-const DELETE_TRANSACTIONS = "budget/deleteTransactions";
+
+const CREATE_TRANSACTION = "budget/createTransaction";
+const GET_TRANSACTION = "budget/getTransaction";
+const UPDATE_TRANSACTION = "budget/updateTransaction";
+const DELETE_TRANSACTION = "budget/deleteTransaction";
 
 // State template
 const budgetMonthTemplate = {
@@ -61,7 +61,6 @@ export const createBudgetMonth = ({
     }),
   });
   const { data } = res.data;
-
   dispatch(createBudgetMonthActionCreator(data));
   return data;
 };
@@ -74,6 +73,18 @@ export const getBudgetMonth = ({ monthInt, yearInt }) => async (dispatch) => {
     }
   );
   const { data } = res.data;
+
+  for (let i = 0; i < data.groups.length; i++) {
+    let group = data.groups[i]
+    for (let j = 0; j < group.items.length; j++) {
+      let item = group.items[j]
+      item.transactions = normalizedData(item.transactions)
+    }
+    group.items = normalizedData(group.items)
+  }
+
+  data.groups = normalizedData(data.groups)
+
   dispatch(getBudgetMonthActionCreator(data));
   return data;
 };
@@ -85,7 +96,7 @@ export const createBudgetGroup = ({
 }) => async (dispatch) => {
   const res = await fetch(`/api/groups`, {
     method: "POST",
-    body: JSON.stringify({ 
+    body: JSON.stringify({
       title: title,
       month_int: monthInt,
       year_int: yearInt
@@ -98,10 +109,11 @@ export const createBudgetGroup = ({
 
 export const updateBudgetGroup = ({
   title,
+  groupId,
   monthInt,
   yearInt,
 }) => async (dispatch) => {
-  const res = await fetch(`/api/groups`, {
+  const res = await fetch(`/api/groups/${groupId}`, {
     method: "PATCH",
     body: JSON.stringify({
       title: title,
@@ -113,6 +125,7 @@ export const updateBudgetGroup = ({
   dispatch(updateBudgetGroupActionCreator(data));
   return data;
 };
+
 
 export const deleteBudgetGroup = ({
   groupId
@@ -163,17 +176,20 @@ const reducer = (
       return { budgetMonth: { ...state.budgetMonth, groups: [...state.budgetMonth.groups, createBudgetGroupConvertData] } }
 
     case UPDATE_BUDGET_GROUP:
-      const updateBudgetGroupConvertData = [{
+      const updateBudgetGroupConvertData = {
+        id: payload.id,
         title: payload.title,
         monthInt: payload.month_int,
         month: getMonthFromInt(payload.month_int),
         year: payload.year_int,
         items: payload.items,
-      }];
-      return { budgetMonth: { ...state.budgetMonth, groups: [...state.budgetMonth.groups, ...updateBudgetGroupConvertData] } }
+      }
+      const groupCopy = [...state.budgetMonth.groups]
+      // const groupsCopy = state.budgetMonth.groups.filter(x => x.id !== payload.groupId);
+      return { budgetMonth: { ...state.budgetMonth, groups: [...groupsCopy, ...updateBudgetGroupConvertData] } }
 
     case DELETE_BUDGET_GROUP:
-      const groupsCopy = state.budgetMonth.groups.filter( x => x.id !== payload.groupId);
+      const groupsCopy = state.budgetMonth.groups.filter(x => x.id !== payload.groupId);
       return { budgetMonth: { ...state.budgetMonth, groups: [...groupsCopy] } };
 
     default:
@@ -263,13 +279,13 @@ export default reducer;
     Reason:
     Test(s):
       store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
-    
+
     Update Budget Group
     Expected Result:
     Reason:
     Test(s):
       store.dispatch(budgetActions.udpateBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
-    
+
     Delete Budget Group
     Expected Result:
     Reason:
@@ -283,13 +299,13 @@ export default reducer;
     Reason:
     Test(s):
       store.dispatch(budgetActions.createBudgetItems({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
-    
+
     Update Budget Items
     Expected Result:
     Reason:
     Test(s):
       store.dispatch(budgetActions.udpateBudgetItems({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
-    
+
     Delete Budget Items
     Expected Result:
     Reason:
@@ -309,13 +325,13 @@ export default reducer;
     Reason:
     Test(s):
       store.dispatch(budgetActions.getTransactions({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
-    
+
     Update Transactions
     Expected Result:
     Reason:
     Test(s):
       store.dispatch(budgetActions.updateTransactions({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
-    
+
     Delete Transactions
     Expected Result:
     Reason:
