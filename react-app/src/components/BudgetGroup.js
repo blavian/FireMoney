@@ -8,6 +8,7 @@ function BudgetGroup({ id }) {
   const budgetGroup = useSelector((x) => x.budget.budgetMonth.groups[id]);
   const dispatch = useDispatch();
 
+  // Get a sum of all expected amounts from child items
   const getItemsExpectedAmountTotal = () => {
     let total = 0;
     for (const key in budgetGroup.items) {
