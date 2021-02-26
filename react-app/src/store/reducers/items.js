@@ -1,5 +1,5 @@
-import normalizedData from "../services/normalize_data"
-
+import normalizedData from "../../services/normalize_data"
+import {fetch} from "../../services/fetch"
 const CREATE_BUDGET_ITEM = "budget/createBudgetItem";
 const UPDATE_BUDGET_ITEM = "budget/updateBudgetItem";
 const DELETE_BUDGET_ITEM = "budget/deleteBudgetItem";
@@ -77,3 +77,78 @@ export const updateBudgetItem = ({
   dispatch(updateBudgetItemActionCreator(data));
   return data;
 };
+
+
+//  =============================== Budget Items ==============================================
+
+//     Create Budget Items
+//     Expected Result:
+//     Reason:
+//     Test(s):
+//       store.dispatch(itemActions.createBudgetItem({ title: "gas", description: "spent on gas", expectedAmount: 20.00, groupId:1, dueDate: "2022-01-22" }))
+
+//     Update Budget Items
+//     Expected Result:
+//     Reason:
+//     Test(s):
+//       store.dispatch(itemActions.updateBudgetItem({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+
+//     Delete Budget Items
+//     Expected Result:
+//     Reason:
+//     Test(s):
+//       store.dispatch(itemActions.deleteBudgetItem({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+
+//  =============================== Budget Transactions ==============================================
+
+
+// Reducer configuration
+// const itemReducer = (
+//   state = { budgetItem: budgetItemTemplate },
+//   { type, payload }
+// ) => {
+//   switch (type) {
+//     case CREATE_BUDGET_ITEM:
+//       return { budgetItem: { ...state.budgetItem, ...createBudgetConvertData } };
+
+//     case GET_BUDGET_MONTH:
+//       const getBudgetConvertData = {
+//         monthInt: payload.month_int,
+//         month: getMonthFromInt(payload.month_int),
+//         year: payload.year_int,
+//         groups: payload.groups,
+//       };
+//       return { budgetMonth: { ...state.budgetMonth, ...getBudgetConvertData } };
+
+//     case CREATE_BUDGET_GROUP:
+//       const createBudgetGroupConvertData = {
+//         id: payload.id,
+//         title: payload.title,
+//         monthInt: payload.month_int,
+//         month: getMonthFromInt(payload.month_int),
+//         year: payload.year_int,
+//         items: payload.items,
+//       };
+//       return { budgetMonth: { ...state.budgetMonth, groups: [...state.budgetMonth.groups, createBudgetGroupConvertData] } }
+
+//     case UPDATE_BUDGET_GROUP:
+//       const updateBudgetGroupConvertData = {
+//         id: payload.id,
+//         title: payload.title,
+//         monthInt: payload.month_int,
+//         month: getMonthFromInt(payload.month_int),
+//         year: payload.year_int,
+//         items: payload.items,
+//       }
+//       const groupCopy = [...state.budgetMonth.groups]
+//       // const groupsCopy = state.budgetMonth.groups.filter(x => x.id !== payload.groupId);
+//       return { budgetMonth: { ...state.budgetMonth, groups: [...groupsCopy, ...updateBudgetGroupConvertData] } }
+
+//     case DELETE_BUDGET_GROUP:
+//       const groupsCopy = state.budgetMonth.groups.filter(x => x.id !== payload.groupId);
+//       return { budgetMonth: { ...state.budgetMonth, groups: [...groupsCopy] } };
+
+//     default:
+//       return state;
+//   }
+// };
