@@ -46,7 +46,6 @@ function Budget({ monthInt, yearInt }) {
 
   return (
     <div className="budget_page_container">
-      <div className="budget_page_heading">
         <h1 className="budget_page_heading__month_title">{`Budget for ${budgetMonth.month}, ${budgetMonth.year}`}</h1>
         <p>
           <a
@@ -65,7 +64,9 @@ function Budget({ monthInt, yearInt }) {
             key={`budget-group-${budgetMonth.groups[key].id}`}
           />
         ))}
-      </div>
+        <div className="add_group_container">
+          <button className="add_group_button" type="button"><span>+</span>Add Group</button>
+        </div>
     </div>
   );
 }
