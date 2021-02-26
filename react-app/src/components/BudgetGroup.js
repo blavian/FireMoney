@@ -9,12 +9,12 @@ function BudgetGroup({ id }) {
   const dispatch = useDispatch();
 
   const getItemsExpectedAmountTotal = () => {
-      let total = 0;
-      for (const key in budgetGroup.items) {
-          total += parseFloat(budgetGroup.items[key].expected_amount);
-      }
-      return total;
-  }
+    let total = 0;
+    for (const key in budgetGroup.items) {
+      total += parseFloat(budgetGroup.items[key].expected_amount);
+    }
+    return total;
+  };
 
   return (
     <div className="budget_group_container">
@@ -27,6 +27,12 @@ function BudgetGroup({ id }) {
         </div>
         <div className="budget_group_heading budget_group_spent">
           <h3>Total Spent</h3>
+        </div>
+        <div>
+          <BudgetItem />
+          <div className="add_budget_item_container">
+            <button className="add_budget_item_button">ADD ITEM</button>
+          </div>
         </div>
       </div>
       <BudgetItem />

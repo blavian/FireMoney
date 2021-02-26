@@ -221,6 +221,7 @@ nav a:visited{
     width: 90%;
     border: #707070 solid .2em;
     border-radius: .5em;
+    padding-bottom: 1em;
 }
 .budget_group_heading_container{
     display: grid;
@@ -231,6 +232,8 @@ nav a:visited{
 }
 .budget_group_title{
     grid-area: budgetTitle;
+    justify-self: flex-start;
+    margin: 0 0 0 3em;
 }
 .budget_group_amount{
     grid-area: budgetAmount;
@@ -239,13 +242,64 @@ nav a:visited{
     grid-area: budgetSpent;
 }
 
-.budget_group_items_container{
+.budget_group_amount{
+
+}
+
+/* Budget Item */
+
+.budget_group_item{
     display: grid;
     grid-template-columns: 1fr 2fr 1fr 1fr;
     padding: 1em 0;
     justify-items: center;
 }
 
-.budget_group_amount{
+.budget_group_item::after{
+    content: ' ';
+    margin: .5em auto auto 1em;
+    width: 480%;
+    display: block;
+    border-bottom: .3em solid #12788B;
+}
 
+.budget_item_title{
+    justify-self: flex-start;
+    margin: 0 0 0 3em;
+}
+
+.add_budget_item_container{
+
+}
+
+.add_budget_item_button{
+    font-size: 1em;
+    color: #5B90D4;
+    background-color: #ffffff;
+    border: none;
+    /* margin-left: 2em; */
+        /* justify-self: flex-start; */
+    margin: 0 0 0 2em;
+}
+
+/* Transaction */
+
+.item_transactions_container{
+    /* display: none; */
+    width: 80%;
+    margin: 0 auto;
+}
+
+.transaction_heading_container, .item_transaction{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+}
+
+.transaction_buttons{
+   display: flex;
+}
+.transaction_buttons button{
+    height: fit-content;
+    margin: .1em auto;
 }
