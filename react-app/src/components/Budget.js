@@ -19,7 +19,8 @@ function Budget({ monthInt, yearInt }) {
     evt.preventDefault();
     // Handle year carryover
     const nextMonth = budgetMonth.monthInt === 12 ? 1 : budgetMonth.monthInt;
-    const nextYear = budgetMonth.monthInt === 12 ? budgetMonth.year + 1 : budgetMonth.year;
+    const nextYear =
+      budgetMonth.monthInt === 12 ? budgetMonth.year + 1 : budgetMonth.year;
     // Copy this month into a new month retaining groups and items
     dispatch(
       budgetActions.createBudgetMonth({
@@ -47,8 +48,11 @@ function Budget({ monthInt, yearInt }) {
           from this month.
         </p>
         <strong>Budget Month:</strong> {budgetMonth.month}
-        {budgetMonth.groups.map((group) => (
-          <BudgetGroup id={group.id} key={`budget-group-${group.id}`} />
+        {Object.keys(budgetMonth.groups).map((key) => (
+          <BudgetGroup
+            id={budgetMonth.groups[key].id}
+            key={`budget-group-${budgetMonth.groups[key].id}`}
+          />
         ))}
       </div>
     </div>
