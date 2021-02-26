@@ -1,8 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import AddBudget from "./AddBudget";
 import BudgetGroup from "./BudgetGroup"
 
 function Budget({ monthInt, yearInt }) {
+
+  
   return (
     <div className="budget_page_container">
       <div className="budget_page_heading">
@@ -10,6 +13,7 @@ function Budget({ monthInt, yearInt }) {
         <Link to=""></Link>
       </div>
       <BudgetGroup />
+      <AddBudget />
     </div>
   );
 }
