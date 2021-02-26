@@ -1,8 +1,8 @@
-import { fetch } from '../../services/fetch';
-
+import { fetch } from "../../services/fetch";
 
 // Action constants
-const SET_SESSION_USER = 'session/setSessionUser';
+const SET_SESSION_USER = "session/setSessionUser";
+const LOGIN_SESSION_USER = "session/loginSessionUser";
 
 // State template
 const userTemplate = {
@@ -12,19 +12,25 @@ const userTemplate = {
 };
 
 // Action creators
-const setSessionUserActionCreator = payload => ({
+const loginSessionUserActionCreator = (payload) => ({
+  type: LOGIN_SESSION_USER,
+  payload,
+});
+
+// Actions
+export const setSessionUser = (payload) => ({
   type: SET_SESSION_USER,
   payload,
 });
 
 // Thunks
-export const setSessionUser = ({ email, password }) => async dispatch => {
-  const res = await fetch('/api/auth/login', {
-    method: 'POST',
+export const loginSessionUser = ({ email, password }) => async (dispatch) => {
+  const res = await fetch("/api/auth/login", {
+    method: "POST",
     body: JSON.stringify({ email, password }),
   });
   const { data } = res.data;
-  dispatch(setSessionUserActionCreator(data));
+  dispatch(loginSessionUserActionCreator(data));
   return data;
 };
 
@@ -32,6 +38,9 @@ export const setSessionUser = ({ email, password }) => async dispatch => {
 const reducer = (state = { user: userTemplate }, { type, payload }) => {
   switch (type) {
     case SET_SESSION_USER:
+      return { user: { ...state.user, ...payload } };
+
+    case LOGIN_SESSION_USER:
       return { user: { ...state.user, ...payload } };
 
     default:
