@@ -13,26 +13,36 @@ function Budget({ monthInt, yearInt }) {
 
   useEffect(() => {
     dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
-  }, []);
+  }, [history]);
 
+  // Budget month create action
   const createNextBudgetMonth = (evt, copyPrevious) => {
     // Prevents navigating to a fake link
     evt.preventDefault();
     // Handle year carryover
-    const nextMonth = budgetMonth.monthInt === 12 ? 1 : budgetMonth.monthInt;
+    const nextMonth =
+      parseInt(budgetMonth.monthInt) === 12
+        ? 1
+        : parseInt(budgetMonth.monthInt) + 1;
     const nextYear =
-      budgetMonth.monthInt === 12 ? budgetMonth.year + 1 : budgetMonth.year;
+      budgetMonth.monthInt === 12
+        ? parseInt(budgetMonth.year) + 1
+        : parseInt(budgetMonth.year);
     // Copy this month into a new month retaining groups and items
     dispatch(
       budgetActions.createBudgetMonth({
-        monthInt,
-        yearInt,
-        copyPrevious: true,
+        monthInt: budgetMonth.monthInt,
+        yearInt: budgetMonth.year,
+        copyPrevious,
       })
     );
     // Change location to new month
     history.push(`/budget?monthInt=${nextMonth}&yearInt=${nextYear}`);
+    // Set new budget month
+    dispatch(budgetActions.getBudgetMonth({ monthInt: nextMonth, yearInt: nextYear }));
   };
+
+  // Budget group create action
 
   return (
     <div className="budget_page_container">

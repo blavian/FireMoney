@@ -219,13 +219,7 @@ const reducer = (
 ) => {
   switch (type) {
     case CREATE_BUDGET_MONTH:
-      return {
-        budgetMonth: {
-          ...state.budgetMonth,
-          ...payload,
-          month: getMonthFromInt(payload.monthInt),
-        },
-      };
+      return state;
 
     // case CREATE_BUDGET_ITEM:
     //   const createBudgetItemConvertData = {

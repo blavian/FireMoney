@@ -1,0 +1,4 @@
+[**.js]
+tab_width = 2
+indent_style = space
+insert_final_newline = true
