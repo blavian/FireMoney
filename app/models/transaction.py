@@ -16,10 +16,10 @@ class Transaction(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
-            "item_id": self.item_id,
+            "itemId": self.item_id,
             "title": self.title,
             "amount": str(self.amount),
             "date": self.date,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
+            "createdAt": self.created_at,
+            "updatedAt": self.updated_at,
         }

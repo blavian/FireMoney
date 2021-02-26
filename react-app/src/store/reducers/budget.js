@@ -1,6 +1,5 @@
 import { fetch } from "../../services/fetch";
 import { normalizedData } from "../../services/normalize_data"
-import { normalizedDataMonth } from "../../services/normalize_data"
 
 // Action constants
 const CREATE_BUDGET_MONTH = "budget/createBudgetMonth";
@@ -9,10 +8,19 @@ const CREATE_BUDGET_GROUP = "budget/createBudgetGroup";
 const UPDATE_BUDGET_GROUP = "budget/updateBudgetGroup";
 const DELETE_BUDGET_GROUP = "budget/deleteBudgetGroup";
 
+const CREATE_BUDGET_ITEM = "budget/createBudgetItem";
+const UPDATE_BUDGET_ITEM = "budget/updateBudgetItem";
+const DELETE_BUDGET_ITEM = "budget/deleteBudgetItem";
+
 const CREATE_TRANSACTION = "budget/createTransaction";
 const GET_TRANSACTION = "budget/getTransaction";
 const UPDATE_TRANSACTION = "budget/updateTransaction";
 const DELETE_TRANSACTION = "budget/deleteTransaction";
+
+
+
+
+// --------------------------BUDGET MONTH------------------------
 
 // State template
 const budgetMonthTemplate = {
@@ -21,7 +29,6 @@ const budgetMonthTemplate = {
   year: null,
   groups: [],
 };
-
 // Action creators
 const createBudgetMonthActionCreator = (payload) => ({
   type: CREATE_BUDGET_MONTH,
@@ -43,7 +50,6 @@ const deleteBudgetGroupActionCreator = (payload) => ({
   type: DELETE_BUDGET_GROUP,
   payload,
 });
-
 
 
 // Thunks
@@ -139,7 +145,81 @@ export const deleteBudgetGroup = ({
   return data;
 };
 
-// Reducer configuration
+const budgetItemTemplate = {
+  id: null,
+  description: null,
+  due_date: null,
+  expected_amount: null,
+  group_id: null,
+  title: null,
+  transactions: []
+};
+
+
+// -----------------------------------BUDGET ITEM ----------------------------------
+const createBudgetItemActionCreator = (payload) => ({
+  type: CREATE_BUDGET_ITEM,
+  payload,
+});
+const updateBudgetItemActionCreator = (payload) => ({
+  type: UPDATE_BUDGET_ITEM,
+  payload,
+});
+const deleteBudgetItemActionCreator = (payload) => ({
+  type: DELETE_BUDGET_ITEM,
+  payload,
+});
+
+
+export const createBudgetItem = ({
+  title,
+  description,
+  expectedAmount,
+  groupId,
+  dueDate
+}) => async (dispatch) => {
+  const res = await fetch(`/api/items`, {
+    method: "POST",
+    body: JSON.stringify({
+      title: title,
+      description: description,
+      expected_amount: expectedAmount,
+      group_id: groupId,
+      due_date: dueDate
+    }),
+  });
+  const { data } = res.data;
+
+  dispatch(createBudgetItemActionCreator(data));
+  return data;
+};
+
+
+export const updateBudgetItem = ({
+  title,
+  description,
+  expectedAmount,
+  groupId,
+  dueDate
+}) => async (dispatch) => {
+  const res = await fetch(`/api/items`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      title: title,
+      description: description,
+      expected_amount: expectedAmount,
+      group_id: groupId,
+      due_date: dueDate
+    }),
+  });
+  const { data } = res.data;
+
+  dispatch(updateBudgetItemActionCreator(data));
+  return data;
+};
+
+
+// --------------------- REDUCER -----------------------------------
 const reducer = (
   state = { budgetMonth: budgetMonthTemplate },
   { type, payload }
@@ -154,6 +234,17 @@ const reducer = (
         groups: payload.groups,
       };
       return { budgetMonth: { ...state.budgetMonth, ...createBudgetConvertData } };
+
+    case CREATE_BUDGET_ITEM:
+      const createBudgetItemConvertData = {
+          id: payload.id,
+          title: payload.title,
+          groupId: payload.group_id,
+      }
+      const newState = { budgetMonth: {...state.budgetMonth }}
+      newState.budgetMonth.groups[createBudgetItemConvertData.groupId]
+        .items[createBudgetItemConvertData.id] = createBudgetItemConvertData
+      return newState
 
     case GET_BUDGET_MONTH:
       const getBudgetConvertData = {
@@ -229,112 +320,110 @@ const monthDict = {
 
 export default reducer;
 
-/*  Testing Procedure
 
- =============================== Budget Month ==============================================
 
-    Create Budget Month with previous month True - FAILED
-    Expected Result: should create new month with previous month's groups - failed
-    Reason: New month is not saving to db and groups are not passing over. Redux store shows new month
-            but empty groups array
-    Test(s):
-      store.dispatch(budgetActions.createBudgetMonth({ monthInt: 4, yearInt: 2021, copyPrevious: "True" }))
+//  =============================== Budget Month ==============================================
 
-    Create Budget Month with previous month False - NOT TESTED - Depends on previous test
-    Expected Result: Undefined
-    Reason: NOT TESTED
-    Test(s):
-      store.dispatch(budgetActions.createBudgetMonth({ monthInt: 5, yearInt: 2021, copyPrevious: "False" }))
+//     Create Budget Month with previous month True - FAILED
+//     Expected Result: should create new month with previous month's groups - failed
+//     Reason: New month is not saving to db and groups are not passing over. Redux store shows new month
+//             but empty groups array
+//     Test(s):
+//       store.dispatch(budgetActions.createBudgetMonth({ monthInt: 4, yearInt: 2021, copyPrevious: "True" }))
 
-    Create Budget Month with nonexistent previous month - PASSED
-    Expected Result: Should return Error status 400 with message:"previous_month_does_not_exist"
-    Reason: PASSED
-    Test(s):
-      store.dispatch(budgetActions.createBudgetMonth({ monthInt: 2, yearInt: 2021, copyPrevious: "True" }))
-      store.dispatch(budgetActions.createBudgetMonth({ monthInt: 2, yearInt: 2021, copyPrevious: "False" }))
+//     Create Budget Month with previous month False - NOT TESTED - Depends on previous test
+//     Expected Result: Undefined
+//     Reason: NOT TESTED
+//     Test(s):
+//       store.dispatch(budgetActions.createBudgetMonth({ monthInt: 5, yearInt: 2021, copyPrevious: "False" }))
 
-    Create Budget Month that already exists - PASSED
-    Expected Result: Should return Error status 400 with message:"month_already_exists"
-    Reason: PASSED
-    Test(s):
-      store.dispatch(budgetActions.createBudgetMonth({ monthInt: 3, yearInt: 2021, copyPrevious: "True" }))
-      store.dispatch(budgetActions.createBudgetMonth({ monthInt: 3, yearInt: 2021, copyPrevious: "False" }))
+//     Create Budget Month with nonexistent previous month - PASSED
+//     Expected Result: Should return Error status 400 with message:"previous_month_does_not_exist"
+//     Reason: PASSED
+//     Test(s):
+//       store.dispatch(budgetActions.createBudgetMonth({ monthInt: 2, yearInt: 2021, copyPrevious: "True" }))
+//       store.dispatch(budgetActions.createBudgetMonth({ monthInt: 2, yearInt: 2021, copyPrevious: "False" }))
 
-    Get Budget Month - PASSED
-    Expected Result: Should return month with groups
-    Reason: PASSED
-    Test(s):
-      store.dispatch(budgetActions.getBudgetMonth({ monthInt: 3, yearInt: 2021 }))
+//     Create Budget Month that already exists - PASSED
+//     Expected Result: Should return Error status 400 with message:"month_already_exists"
+//     Reason: PASSED
+//     Test(s):
+//       store.dispatch(budgetActions.createBudgetMonth({ monthInt: 3, yearInt: 2021, copyPrevious: "True" }))
+//       store.dispatch(budgetActions.createBudgetMonth({ monthInt: 3, yearInt: 2021, copyPrevious: "False" }))
 
-    Get Budget Month that does not exist- PASSED
-    Expected Result: Should return Error status 400 with message:"month_does_not_exist"
-    Reason: PASSED
-    Test(s):
-      store.dispatch(budgetActions.getBudgetMonth({ monthInt: 3, yearInt: 2021 }))
+//     Get Budget Month - PASSED
+//     Expected Result: Should return month with groups
+//     Reason: PASSED
+//     Test(s):
+//       store.dispatch(budgetActions.getBudgetMonth({ monthInt: 3, yearInt: 2021 }))
 
- =============================== Budget Group ==============================================
+//     Get Budget Month that does not exist- PASSED
+//     Expected Result: Should return Error status 400 with message:"month_does_not_exist"
+//     Reason: PASSED
+//     Test(s):
+//       store.dispatch(budgetActions.getBudgetMonth({ monthInt: 3, yearInt: 2021 }))
 
-    Create Budget Group
-    Expected Result:
-    Reason:
-    Test(s):
-      store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+//  =============================== Budget Group ==============================================
 
-    Update Budget Group
-    Expected Result:
-    Reason:
-    Test(s):
-      store.dispatch(budgetActions.udpateBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+//     Create Budget Group
+//     Expected Result:
+//     Reason:
+//     Test(s):
+//       store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
 
-    Delete Budget Group
-    Expected Result:
-    Reason:
-    Test(s):
-      store.dispatch(budgetActions.deleteBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+//     Update Budget Group
+//     Expected Result:
+//     Reason:
+//     Test(s):
+//       store.dispatch(budgetActions.updateBudgetGroup({ groupId: 1, monthInt: 3, yearInt: 2021, title: "Gas4" }))
 
- =============================== Budget Items ==============================================
+//     Delete Budget Group
+//     Expected Result:
+//     Reason:
+//     Test(s):
+//       store.dispatch(budgetActions.deleteBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
 
-    Create Budget Items
-    Expected Result:
-    Reason:
-    Test(s):
-      store.dispatch(budgetActions.createBudgetItems({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+//  =============================== Budget Items ==============================================
 
-    Update Budget Items
-    Expected Result:
-    Reason:
-    Test(s):
-      store.dispatch(budgetActions.udpateBudgetItems({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+//     Create Budget Items
+//     Expected Result:
+//     Reason:
+//     Test(s):
+//       store.dispatch(budgetActions.createBudgetItem({ title: "gas", description: "spent on gas", expectedAmount: 20.00, groupId:1, dueDate: "2022-01-22" }))
 
-    Delete Budget Items
-    Expected Result:
-    Reason:
-    Test(s):
-      store.dispatch(budgetActions.deleteBudgetItems({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+//     Update Budget Items
+//     Expected Result:
+//     Reason:
+//     Test(s):
+//       store.dispatch(budgetActions.updateBudgetItem({ title: "gas", description: "spent on gas", expectedAmount: 20.00, groupId:1, dueDate: "2022-01-22" }))
 
- =============================== Budget Transactions ==============================================
+//     Delete Budget Items
+//     Expected Result:
+//     Reason:
+//     Test(s):
+//       store.dispatch(budgetActions.deleteBudgetItem({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
 
-    Create Transactions
-    Expected Result:
-    Reason:
-    Test(s):
-      store.dispatch(budgetActions.createTransactions({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+//  =============================== Transactions ==============================================
+// Create Transactions
+// Expected Result:
+// Reason:
+// Test(s):
+// store.dispatch(budgetActions.createTransaction({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
 
-    Get Transactions
-    Expected Result:
-    Reason:
-    Test(s):
-      store.dispatch(budgetActions.getTransactions({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+// Get Transactions
+// Expected Result:
+// Reason:
+// Test(s):
+// store.dispatch(budgetActions.getTransaction({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
 
-    Update Transactions
-    Expected Result:
-    Reason:
-    Test(s):
-      store.dispatch(budgetActions.updateTransactions({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+// Update Transactions
+// Expected Result:
+// Reason:
+// Test(s):
+// store.dispatch(budgetActions.updateTransaction({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
 
-    Delete Transactions
-    Expected Result:
-    Reason:
-    Test(s):
-      store.dispatch(budgetActions.deleteTransactions({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
-*/
+// Delete Transactions
+// Expected Result:
+// Reason:
+// Test(s):
+// store.dispatch(budgetActions.deleteTransaction({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
