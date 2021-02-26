@@ -19,6 +19,9 @@ function BudgetGroup() {
                 </div>
             </div>
             <BudgetItem />
+            <div className="add_budget_item_container">
+                <button className="add_budget_item_button">ADD ITEM</button>
+            </div>
         </div>
     )
 }
