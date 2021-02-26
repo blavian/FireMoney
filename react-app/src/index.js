@@ -22,8 +22,6 @@ if (process.env.NODE_ENV !== 'production') {
   window.store = store;
   window.sessionActions = sessionActions;
   window.budgetActions = budgetActions;
-  window.itemActions = itemActions;
-  window.transactionActions = transactionActions;
 }
 
 ReactDOM.render(

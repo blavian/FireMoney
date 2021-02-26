@@ -9,7 +9,18 @@ const UPDATE_BUDGET_GROUP = "budget/updateBudgetGroup";
 const DELETE_BUDGET_GROUP = "budget/deleteBudgetGroup";
 
 const CREATE_BUDGET_ITEM = "budget/createBudgetItem";
+const UPDATE_BUDGET_ITEM = "budget/updateBudgetItem";
+const DELETE_BUDGET_ITEM = "budget/deleteBudgetItem";
 
+const CREATE_TRANSACTION = "budget/createTransaction";
+const GET_TRANSACTION = "budget/getTransaction";
+const UPDATE_TRANSACTION = "budget/updateTransaction";
+const DELETE_TRANSACTION = "budget/deleteTransaction";
+
+
+
+
+// --------------------------BUDGET MONTH------------------------
 
 // State template
 const budgetMonthTemplate = {
@@ -18,13 +29,6 @@ const budgetMonthTemplate = {
   year: null,
   groups: [],
 };
-
-const createBudgetItemActionCreator = (payload) => ({
-  type: CREATE_BUDGET_ITEM,
-  payload,
-});
-
-
 // Action creators
 const createBudgetMonthActionCreator = (payload) => ({
   type: CREATE_BUDGET_MONTH,
@@ -46,30 +50,6 @@ const deleteBudgetGroupActionCreator = (payload) => ({
   type: DELETE_BUDGET_GROUP,
   payload,
 });
-
-export const createBudgetItem = ({
-  title,
-  description,
-  expectedAmount,
-  groupId,
-  dueDate
-}) => async (dispatch) => {
-  const res = await fetch(`/api/items`, {
-    method: "POST",
-    body: JSON.stringify({
-      title: title,
-      description: description,
-      expected_amount: expectedAmount,
-      group_id: groupId,
-      due_date: dueDate
-    }),
-  });
-  const { data } = res.data;
-
-  dispatch(createBudgetItemActionCreator(data));
-  return data;
-};
-
 
 
 // Thunks
@@ -165,7 +145,81 @@ export const deleteBudgetGroup = ({
   return data;
 };
 
-// Reducer configuration
+const budgetItemTemplate = {
+  id: null,
+  description: null,
+  due_date: null,
+  expected_amount: null,
+  group_id: null,
+  title: null,
+  transactions: []
+};
+
+
+// -----------------------------------BUDGET ITEM ----------------------------------
+const createBudgetItemActionCreator = (payload) => ({
+  type: CREATE_BUDGET_ITEM,
+  payload,
+});
+const updateBudgetItemActionCreator = (payload) => ({
+  type: UPDATE_BUDGET_ITEM,
+  payload,
+});
+const deleteBudgetItemActionCreator = (payload) => ({
+  type: DELETE_BUDGET_ITEM,
+  payload,
+});
+
+
+export const createBudgetItem = ({
+  title,
+  description,
+  expectedAmount,
+  groupId,
+  dueDate
+}) => async (dispatch) => {
+  const res = await fetch(`/api/items`, {
+    method: "POST",
+    body: JSON.stringify({
+      title: title,
+      description: description,
+      expected_amount: expectedAmount,
+      group_id: groupId,
+      due_date: dueDate
+    }),
+  });
+  const { data } = res.data;
+
+  dispatch(createBudgetItemActionCreator(data));
+  return data;
+};
+
+
+export const updateBudgetItem = ({
+  title,
+  description,
+  expectedAmount,
+  groupId,
+  dueDate
+}) => async (dispatch) => {
+  const res = await fetch(`/api/items`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      title: title,
+      description: description,
+      expected_amount: expectedAmount,
+      group_id: groupId,
+      due_date: dueDate
+    }),
+  });
+  const { data } = res.data;
+
+  dispatch(updateBudgetItemActionCreator(data));
+  return data;
+};
+
+
+// --------------------- REDUCER -----------------------------------
 const reducer = (
   state = { budgetMonth: budgetMonthTemplate },
   { type, payload }
@@ -328,3 +382,48 @@ export default reducer;
 //     Reason:
 //     Test(s):
 //       store.dispatch(budgetActions.deleteBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+
+//  =============================== Budget Items ==============================================
+
+//     Create Budget Items
+//     Expected Result:
+//     Reason:
+//     Test(s):
+//       store.dispatch(budgetActions.createBudgetItem({ title: "gas", description: "spent on gas", expectedAmount: 20.00, groupId:1, dueDate: "2022-01-22" }))
+
+//     Update Budget Items
+//     Expected Result:
+//     Reason:
+//     Test(s):
+//       store.dispatch(budgetActions.updateBudgetItem({ title: "gas", description: "spent on gas", expectedAmount: 20.00, groupId:1, dueDate: "2022-01-22" }))
+
+//     Delete Budget Items
+//     Expected Result:
+//     Reason:
+//     Test(s):
+//       store.dispatch(budgetActions.deleteBudgetItem({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+
+//  =============================== Transactions ==============================================
+// Create Transactions
+// Expected Result:
+// Reason:
+// Test(s):
+// store.dispatch(budgetActions.createTransaction({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+
+// Get Transactions
+// Expected Result:
+// Reason:
+// Test(s):
+// store.dispatch(budgetActions.getTransaction({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+
+// Update Transactions
+// Expected Result:
+// Reason:
+// Test(s):
+// store.dispatch(budgetActions.updateTransaction({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+
+// Delete Transactions
+// Expected Result:
+// Reason:
+// Test(s):
+// store.dispatch(budgetActions.deleteTransaction({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
