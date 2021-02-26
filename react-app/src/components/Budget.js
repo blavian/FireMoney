@@ -33,6 +33,8 @@ function Budget({ monthInt, yearInt }) {
     history.push(`/budget?monthInt=${nextMonth}&yearInt=${nextYear}`);
   };
 
+
+function Budget({ monthInt, yearInt }) {
   return (
     <div className="budget_page_container">
       <div className="budget_page_heading">

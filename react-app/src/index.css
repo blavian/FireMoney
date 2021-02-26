@@ -216,13 +216,18 @@ nav a:visited{
 }
 
 /* Budget Month Page */
-.budget_group_container{
-    margin: 0 auto;
+.budget_group_container, .add_group_container{
+    margin: 1em auto;
     width: 90%;
     border: #707070 solid .2em;
     border-radius: .5em;
     padding-bottom: 1em;
 }
+
+.add_group_container{
+    border-style: dashed;
+}
+
 .budget_group_heading_container{
     display: grid;
     grid-template-columns: 1fr 2fr 1fr 1fr;
@@ -272,14 +277,17 @@ nav a:visited{
 
 }
 
-.add_budget_item_button{
+.add_budget_item_button, .add_group_button{
     font-size: 1em;
     color: #5B90D4;
     background-color: #ffffff;
     border: none;
-    /* margin-left: 2em; */
-        /* justify-self: flex-start; */
-    margin: 0 0 0 2em;
+    margin: 1em 0 0 2em;
+}
+
+.add_group_button span{
+    font-size: 1.2em;
+    margin-right: .2em;
 }
 
 /* Transaction */
