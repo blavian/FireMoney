@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import BudgetGroup from "./BudgetGroup";
 
 import * as budgetActions from "../store/reducers/budget";
+  
 
 function Budget({ monthInt, yearInt }) {
   const budgetMonth = useSelector((x) => x.budget.budgetMonth);
@@ -33,8 +34,6 @@ function Budget({ monthInt, yearInt }) {
     history.push(`/budget?monthInt=${nextMonth}&yearInt=${nextYear}`);
   };
 
-
-function Budget({ monthInt, yearInt }) {
   return (
     <div className="budget_page_container">
       <div className="budget_page_heading">
