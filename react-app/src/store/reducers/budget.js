@@ -137,7 +137,6 @@ export const deleteBudgetGroup = ({ groupId }) => async (dispatch) => {
     method: "DELETE",
   });
   const { data } = res.data;
-  data.groupId = groupId;
   dispatch(deleteBudgetGroupActionCreator(data));
   return data;
 };
@@ -193,18 +192,29 @@ export const updateBudgetItem = ({
   title,
   description,
   expectedAmount,
-  groupId,
+  itemId,
   dueDate,
 }) => async (dispatch) => {
-  const res = await fetch(`/api/items`, {
+  const res = await fetch(`/api/items/${itemId}`, {
     method: "PATCH",
     body: JSON.stringify({
       title: title,
       description: description,
       expected_amount: expectedAmount,
-      group_id: groupId,
       due_date: dueDate,
     }),
+  });
+  const { data } = res.data;
+
+  dispatch(updateBudgetItemActionCreator(data));
+  return data;
+};
+
+export const deleteBudgetItem = ({
+  itemId
+}) => async (dispatch) => {
+  const res = await fetch(`/api/items/${itemId}`, {
+    method: "DELETE"
   });
   const { data } = res.data;
 
@@ -223,8 +233,6 @@ const reducer = (
       return state;
 
     case GET_BUDGET_MONTH:
-      // payload.month = getMonthFromInt(payload.monthInt)
-      // payload.year = payload.year_int
       const month = { ...payload, month: getMonthFromInt(payload.monthInt) };
       return { budgetMonth: { ...state.budgetMonth, ...month } };
 
@@ -234,33 +242,30 @@ const reducer = (
       return stateCopy;
 
     case UPDATE_BUDGET_GROUP:
-      const updateBudgetGroupConvertData = {
-        id: payload.id,
-        title: payload.title,
-        monthInt: payload.month_int,
-        month: getMonthFromInt(payload.monthInt),
-        year: payload.year_int,
-        items: payload.items,
-      };
-      const groupCopy = [...state.budgetMonth.groups];
-      // const groupsCopy = state.budgetMonth.groups.filter(x => x.id !== payload.groupId);
-      return {
-        budgetMonth: {
-          ...state.budgetMonth,
-          groups: [...groupsCopy, ...updateBudgetGroupConvertData],
-        },
-      };
+      stateCopy = { budgetMonth: { ...state.budgetMonth } };
+      stateCopy.budgetMonth.groups[payload.id] = payload;
+      return stateCopy;
 
     case DELETE_BUDGET_GROUP:
-      const groupsCopy = state.budgetMonth.groups.filter(
-        (x) => x.id !== payload.groupId
-      );
-      return { budgetMonth: { ...state.budgetMonth, groups: [...groupsCopy] } };
+      stateCopy = {...state}
+      delete stateCopy.budgetMonth.groups[payload.groupId]
+      return stateCopy
 
     case CREATE_BUDGET_ITEM:
       stateCopy = { budgetMonth: { ...state.budgetMonth } };
       stateCopy.budgetMonth.groups[payload.groupId].items[payload.id] = payload;
       return stateCopy;
+
+    case UPDATE_BUDGET_ITEM:
+      stateCopy = { budgetMonth: { ...state.budgetMonth } };
+      console.log("--------------------------",payload)
+      stateCopy.budgetMonth.groups[payload.groupId].items[payload.id] = payload;
+      return stateCopy;
+
+    case DELETE_BUDGET_ITEM:
+      stateCopy = { ...state }
+      delete stateCopy.budgetMonth.groups[payload.groupId].items[payload.id]
+      return stateCopy
 
     default:
       return state;
@@ -352,8 +357,7 @@ export default reducer;
 //     Expected Result:
 //     Reason:
 //     Test(s):
-//       store.dispatch(budgetActions.updateBudgetGroup({ groupId: 1, monthInt: 3, yearInt: 2021, title: "Gas4" }))
-
+//       store.dispatch(budgetActions.updateBudgetGroup({ groupId: 1, monthInt: 3, yearInt: 2021, title: "Gas5" }))
 //     Delete Budget Group
 //     Expected Result:
 //     Reason:
@@ -372,13 +376,13 @@ export default reducer;
 //     Expected Result:
 //     Reason:
 //     Test(s):
-//       store.dispatch(budgetActions.updateBudgetItem({ title: "gas", description: "spent on gas", expectedAmount: 20.00, groupId:1, dueDate: "2022-01-22" }))
+//       store.dispatch(budgetActions.updateBudgetItem({ title: "yus", description: "spent on nothin", expectedAmount: 21.00, itemId:1, dueDate: "2022-01-23" }))
 
 //     Delete Budget Items
 //     Expected Result:
 //     Reason:
 //     Test(s):
-//       store.dispatch(budgetActions.deleteBudgetItem({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+//       store.dispatch(budgetActions.deleteBudgetItem({ itemId: 1 }))
 
 //  =============================== Transactions ==============================================
 // Create Transactions
