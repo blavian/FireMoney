@@ -10,7 +10,7 @@ function BudgetItem({ groupId, itemId }) {
 
   // Hooks
   const budgetItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId]);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   return (
     <div className="budget_group_items_container">
@@ -56,12 +56,16 @@ function BudgetItem({ groupId, itemId }) {
           <div className="transaction_heading transaction_spent">
             <h4>Amount</h4>
           </div>
-          {Object.keys(budgetItem.transactions).map((key) => (
-            <Transaction
-              transaction={budgetItem.transactions[key]}
-              key={budgetItem.transactions[key].id}
-            />
-          ))}
+          {budgetItem.transactions
+            ? Object.keys(budgetItem.transactions).map((key) => (
+                <Transaction
+                  groupId={groupId}
+                  itemId={itemId}
+                  transactionId={budgetItem.transactions[key].id}
+                  key={budgetItem.transactions[key].id}
+                />
+              ))
+            : ""}
         </div>
         <Transaction />
       </div>
