@@ -216,7 +216,7 @@ export const deleteBudgetItem = ({
   });
   const { data } = res.data;
 
-  dispatch(updateBudgetItemActionCreator(data));
+  dispatch(deleteBudgetItemActionCreator(data));
   return data;
 };
 

@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
 import Transaction from "./Transaction";
 import { useDispatch, useSelector } from "react-redux";
+import {forceUpdate} from "react"
 
 import * as budgetActions from "../store/reducers/budget";
 
 function BudgetItem({ groupId, itemId }) {
   // Local state
   const [transactionsAreVisible, setTransactionsAreVisible] = useState(false);
+  const [itemChange, setItemChange] = useState(false);
 
   // Hooks
   const budgetItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId]);
@@ -25,7 +27,8 @@ function BudgetItem({ groupId, itemId }) {
 
   function deleteItem(evt){
     evt.preventDefault();
-    dispatch(budgetActions.deleteBudgetItem(budgetItem.id));
+    dispatch(budgetActions.deleteBudgetItem({id:budgetItem.id}));
+    setItemChange(true)
   }
 
   return (
