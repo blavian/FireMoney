@@ -83,11 +83,11 @@ def update_items(id):
 def delete_item(id):
     # 1. Find item by id
     item = BudgetItem.query.get(id)
-
+    data = item.to_dict()
     # 2. if item exists, delete and commit, else return msg
     if item:
         db.session.delete(item)
         db.session.commit()
-        return {"message": "successfully deleted"}, 200
+        return {"message": "successfully deleted", "data": data }, 200
     else:
         return {"message": "item does not exist"}, 404
