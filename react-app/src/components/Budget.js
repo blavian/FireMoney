@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import BudgetGroup from "./BudgetGroup";
 
 import * as budgetActions from "../store/reducers/budget";
 
 function Budget({ monthInt, yearInt }) {
-  // Local State
+  // Local state
   const [newGroupName, setNewGroupName] = useState("");
 
   // Hooks
@@ -43,16 +43,23 @@ function Budget({ monthInt, yearInt }) {
     );
   };
 
-  // TODO Budget group create action
+  // Budget group create action
   const createBudgetGroup = () => {
-    dispatch(budgetActions.createBudgetGroup({title: newGroupName, monthInt, yearInt}));
+    dispatch(
+      budgetActions.createBudgetGroup({
+        title: newGroupName,
+        monthInt,
+        yearInt,
+      })
+    );
     setNewGroupName("");
-  } 
+  };
 
   return (
     <div className="budget_page_container">
       <h1 className="budget_page_heading__month_title">{`Budget for ${budgetMonth.month}, ${budgetMonth.yearInt}`}</h1>
       <p>
+        <img src="/images/blah.png"></img>
         <a
           href="/#"
           type="button"
@@ -63,14 +70,20 @@ function Budget({ monthInt, yearInt }) {
         from this month.
       </p>
       <strong>Budget Month:</strong> {budgetMonth.month}
-      {Object.keys(budgetMonth.groups).map((key) => (
-        <BudgetGroup
-          id={budgetMonth.groups[key].id}
-          key={`budget-group-${budgetMonth.groups[key].id}`}
-        />
-      ))}
+      {budgetMonth.groups
+        ? Object.keys(budgetMonth.groups).map((key) => (
+            <BudgetGroup
+              groupId={budgetMonth.groups[key].id}
+              key={`budget-group-${budgetMonth.groups[key].id}`}
+            />
+          ))
+        : ""}
       <div className="add_group_container">
-        <button className="add_group_button" type="button" onClick={createBudgetGroup}>
+        <button
+          className="add_group_button"
+          type="button"
+          onClick={createBudgetGroup}
+        >
           <span>+</span>Add Group
         </button>
         <input

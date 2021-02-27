@@ -17,7 +17,7 @@ from app.api.item_routes import item_routes
 from app.api.month_routes import month_routes
 
 
-app = Flask(__name__, static_folder="../react-app/build")
+app = Flask(__name__)
 
 
 # Setup login manager
