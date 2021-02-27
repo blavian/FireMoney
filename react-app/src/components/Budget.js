@@ -1,25 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import BudgetGroup from "./BudgetGroup";
 
 import * as budgetActions from "../store/reducers/budget";
 
-
 function Budget({ monthInt, yearInt }) {
-  const budgetMonth = useSelector((x) => x.budget.budgetMonth);
+  // Local State
+  const [newGroupName, setNewGroupName] = useState("");
+
+  // Hooks
   const dispatch = useDispatch();
+  const budgetMonth = useSelector((x) => x.budget.budgetMonth);
   const history = useHistory();
 
+  // Run ONLY on first render--gets requested budget month
   useEffect(() => {
     dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
   }, [history]);
 
   // Budget month create action
   const createNextBudgetMonth = (evt, copyPrevious) => {
-    // Prevents navigating to a fake link
     evt.preventDefault();
-    // Handle year carryover
     const nextMonth =
       parseInt(budgetMonth.monthInt) === 12
         ? 1
@@ -28,7 +30,6 @@ function Budget({ monthInt, yearInt }) {
       budgetMonth.monthInt === 12
         ? parseInt(budgetMonth.yearInt) + 1
         : parseInt(budgetMonth.yearInt);
-    // Copy this month into a new month retaining groups and items
     dispatch(
       budgetActions.createBudgetMonth({
         monthInt: budgetMonth.monthInt,
@@ -36,37 +37,48 @@ function Budget({ monthInt, yearInt }) {
         copyPrevious,
       })
     );
-    // Change location to new month
     history.push(`/budget?monthInt=${nextMonth}&yearInt=${nextYear}`);
-    // Set new budget month
-    dispatch(budgetActions.getBudgetMonth({ monthInt: nextMonth, yearInt: nextYear }));
+    dispatch(
+      budgetActions.getBudgetMonth({ monthInt: nextMonth, yearInt: nextYear })
+    );
   };
 
-  // Budget group create action
+  // TODO Budget group create action
+  const createBudgetGroup = () => {
+    dispatch(budgetActions.createBudgetGroup({title: newGroupName, monthInt, yearInt}));
+    setNewGroupName("");
+  } 
 
   return (
     <div className="budget_page_container">
-        <h1 className="budget_page_heading__month_title">{`Budget for ${budgetMonth.month}, ${budgetMonth.yearInt}`}</h1>
-        <p>
-          <a
-            href="/#"
-            type="button"
-            onClick={(evt) => createNextBudgetMonth(evt, true)}
-          >
-            Create a new budget month{" "}
-          </a>{" "}
-          from this month.
-        </p>
-        <strong>Budget Month:</strong> {budgetMonth.month}
-        {Object.keys(budgetMonth.groups).map((key) => (
-          <BudgetGroup
-            id={budgetMonth.groups[key].id}
-            key={`budget-group-${budgetMonth.groups[key].id}`}
-          />
-        ))}
-        <div className="add_group_container">
-          <button className="add_group_button" type="button"><span>+</span>Add Group</button>
-        </div>
+      <h1 className="budget_page_heading__month_title">{`Budget for ${budgetMonth.month}, ${budgetMonth.yearInt}`}</h1>
+      <p>
+        <a
+          href="/#"
+          type="button"
+          onClick={(evt) => createNextBudgetMonth(evt, true)}
+        >
+          Create a new budget month{" "}
+        </a>{" "}
+        from this month.
+      </p>
+      <strong>Budget Month:</strong> {budgetMonth.month}
+      {Object.keys(budgetMonth.groups).map((key) => (
+        <BudgetGroup
+          id={budgetMonth.groups[key].id}
+          key={`budget-group-${budgetMonth.groups[key].id}`}
+        />
+      ))}
+      <div className="add_group_container">
+        <button className="add_group_button" type="button" onClick={createBudgetGroup}>
+          <span>+</span>Add Group
+        </button>
+        <input
+          type="text"
+          placeholder="Group name"
+          onChange={(e) => setNewGroupName(e.target.value)}
+        ></input>
+      </div>
     </div>
   );
 }
