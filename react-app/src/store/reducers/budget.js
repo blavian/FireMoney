@@ -13,7 +13,7 @@ const UPDATE_BUDGET_ITEM = "budget/updateBudgetItem";
 const DELETE_BUDGET_ITEM = "budget/deleteBudgetItem";
 
 const CREATE_TRANSACTION = "budget/createTransaction";
-const GET_TRANSACTION = "budget/getTransaction";
+// const GET_TRANSACTION = "budget/getTransaction";
 const UPDATE_TRANSACTION = "budget/updateTransaction";
 const DELETE_TRANSACTION = "budget/deleteTransaction";
 
@@ -115,16 +115,14 @@ export const createBudgetGroup = ({ title, monthInt, yearInt }) => async (
 
 export const updateBudgetGroup = ({
   title,
-  groupId,
-  monthInt,
-  yearInt,
+  id
 }) => async (dispatch) => {
-  const res = await fetch(`/api/groups/${groupId}`, {
+  const res = await fetch(`/api/groups/${id}`, {
     method: "PATCH",
     body: JSON.stringify({
       title: title,
-      month_int: monthInt,
-      year_int: yearInt,
+      // month_int: monthInt,
+      // year_int: yearInt,
     }),
   });
   const { data } = res.data;
@@ -132,8 +130,8 @@ export const updateBudgetGroup = ({
   return data;
 };
 
-export const deleteBudgetGroup = ({ groupId }) => async (dispatch) => {
-  const res = await fetch(`/api/groups/${groupId}`, {
+export const deleteBudgetGroup = ({ id }) => async (dispatch) => {
+  const res = await fetch(`/api/groups/${id}`, {
     method: "DELETE",
   });
   const { data } = res.data;
@@ -222,6 +220,75 @@ export const deleteBudgetItem = ({
   return data;
 };
 
+//-----------------------------TRANSACTIONS----------------------------
+
+const createTransactionActionCreator = (payload) => ({
+  type: CREATE_TRANSACTION,
+  payload,
+});
+const updateTransactionActionCreator = (payload) => ({
+  type: UPDATE_TRANSACTION,
+  payload,
+});
+const deleteTransactionActionCreator = (payload) => ({
+  type: DELETE_TRANSACTION,
+  payload,
+});
+
+export const createTransaction = ({
+  title,
+  amount,
+  itemId,
+  date,
+}) => async (dispatch) => {
+  const res = await fetch(`/api/transactions`, {
+    method: "POST",
+    body: JSON.stringify({
+      title: title,
+      amount: amount,
+      item_id: itemId,
+      date: date,
+    }),
+  });
+  const { data } = res.data;
+
+  dispatch(createTransactionActionCreator(data));
+  return data;
+};
+
+export const updateTransaction = ({
+  title,
+  amount,
+  date,
+  id
+}) => async (dispatch) => {
+  const res = await fetch(`/api/transactions/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      title: title,
+      amount: amount,
+      date: date,
+    }),
+  });
+  const { data } = res.data;
+
+  dispatch(updateTransactionActionCreator(data));
+  return data;
+};
+
+export const deleteTransaction = ({
+  id
+}) => async (dispatch) => {
+  const res = await fetch(`/api/transactions/${id}`, {
+    method: "DELETE"
+  });
+  const { data } = res.data;
+  // data.groupId = groupId
+
+  dispatch(deleteTransactionActionCreator(data));
+  return data;
+};
+
 // --------------------- REDUCER -----------------------------------
 const reducer = (
   state = { budgetMonth: budgetMonthTemplate },
@@ -247,12 +314,13 @@ const reducer = (
       return stateCopy;
 
     case DELETE_BUDGET_GROUP:
-      stateCopy = {...state}
+      stateCopy = { ...state }
       delete stateCopy.budgetMonth.groups[payload.groupId]
       return stateCopy
 
     case CREATE_BUDGET_ITEM:
       stateCopy = { budgetMonth: { ...state.budgetMonth } };
+      console.log("payload----------------", payload)
       stateCopy.budgetMonth.groups[payload.groupId].items[payload.id] = payload;
       return stateCopy;
 
@@ -264,6 +332,21 @@ const reducer = (
     case DELETE_BUDGET_ITEM:
       stateCopy = { ...state }
       delete stateCopy.budgetMonth.groups[payload.groupId].items[payload.id]
+      return stateCopy
+
+    case CREATE_TRANSACTION:
+      stateCopy = { ...state }
+      stateCopy.budgetMonth.groups[payload.groupId].items[payload.itemId].transactions[payload.id] = payload
+      return stateCopy
+
+    case UPDATE_TRANSACTION:
+      stateCopy = { ...state }
+      stateCopy.budgetMonth.groups[payload.groupId].items[payload.itemId].transactions[payload.id] = payload
+      return stateCopy
+
+    case DELETE_TRANSACTION:
+      stateCopy = { ...state }
+      delete stateCopy.budgetMonth.groups[payload.groupId].items[payload.itemId].transactions[payload.id]
       return stateCopy
 
     default:
@@ -302,6 +385,21 @@ const monthDict = {
 };
 
 export default reducer;
+
+
+//-------------- up to date tests---------------------------------
+
+//CBM store.dispatch(budgetActions.createBudgetMonth({ monthInt: 3, yearInt: 2021, copyPrevious: "True" }))
+//GBM store.dispatch(budgetActions.getBudgetMonth({ monthInt: 3, yearInt: 2021 }))
+//CBG store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+//UBG store.dispatch(budgetActions.updateBudgetGroup({ id: 1, title: "Gas8" }))
+//CBI store.dispatch(budgetActions.createBudgetItem({ title: "gas", description: "spent on gas", expectedAmount: 20.00, groupId:2, dueDate: "2022-01-22" }))
+//UBI store.dispatch(budgetActions.updateBudgetItem({ title: "yus", description: "spent on nothin", expectedAmount: 21.00, itemId:1, dueDate: "2022-01-23" }))
+//DBI store.dispatch(budgetActions.deleteBudgetItem({ itemId: 1 }))
+//CT store.dispatch(budgetActions.createTransaction({ "title": "paid foascascasr exhaust", "amount": "20", "itemId": 11, "date": "2022-01-22"}))
+//UT store.dispatch(budgetActions.updateTransaction({ "title": "paid for exhaust", "amount": "30", "id": 10, "date": "2022-01-22"}))
+//DT store.dispatch(budgetActions.deleteTransaction({"id": 10}))
+
 
 //  =============================== Budget Month ==============================================
 
@@ -406,4 +504,4 @@ export default reducer;
 // Expected Result:
 // Reason:
 // Test(s):
-// store.dispatch(budgetActions.deleteTransaction({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
+// store.dispatch(budgetActions.deleteTransaction({ id: 3 }))

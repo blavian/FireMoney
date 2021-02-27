@@ -83,7 +83,6 @@ def update_items(id):
 def delete_item(id):
     # 1. Find item by id
     item = BudgetItem.query.get(id)
-    groupId = item.group_id
     data = item.to_dict()
     # 2. if item exists, delete and commit, else return msg
     if item:
