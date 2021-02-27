@@ -190,10 +190,10 @@ export const updateBudgetItem = ({
   title,
   description,
   expectedAmount,
-  itemId,
+  id,
   dueDate,
 }) => async (dispatch) => {
-  const res = await fetch(`/api/items/${itemId}`, {
+  const res = await fetch(`/api/items/${id}`, {
     method: "PATCH",
     body: JSON.stringify({
       title: title,
@@ -209,9 +209,9 @@ export const updateBudgetItem = ({
 };
 
 export const deleteBudgetItem = ({
-  itemId
+  id
 }) => async (dispatch) => {
-  const res = await fetch(`/api/items/${itemId}`, {
+  const res = await fetch(`/api/items/${id}`, {
     method: "DELETE"
   });
   const { data } = res.data;
@@ -394,8 +394,8 @@ export default reducer;
 //CBG store.dispatch(budgetActions.createBudgetGroup({ monthInt: 3, yearInt: 2021, title: "Gas4" }))
 //UBG store.dispatch(budgetActions.updateBudgetGroup({ id: 1, title: "Gas8" }))
 //CBI store.dispatch(budgetActions.createBudgetItem({ title: "gas", description: "spent on gas", expectedAmount: 20.00, groupId:2, dueDate: "2022-01-22" }))
-//UBI store.dispatch(budgetActions.updateBudgetItem({ title: "yus", description: "spent on nothin", expectedAmount: 21.00, itemId:1, dueDate: "2022-01-23" }))
-//DBI store.dispatch(budgetActions.deleteBudgetItem({ itemId: 1 }))
+//UBI store.dispatch(budgetActions.updateBudgetItem({ title: "yus", description: "spent on nothin", expectedAmount: 21.00, id:1, dueDate: "2022-01-23" }))
+//DBI store.dispatch(budgetActions.deleteBudgetItem({ id: 1 }))
 //CT store.dispatch(budgetActions.createTransaction({ "title": "paid foascascasr exhaust", "amount": "20", "itemId": 11, "date": "2022-01-22"}))
 //UT store.dispatch(budgetActions.updateTransaction({ "title": "paid for exhaust", "amount": "30", "id": 10, "date": "2022-01-22"}))
 //DT store.dispatch(budgetActions.deleteTransaction({"id": 10}))
