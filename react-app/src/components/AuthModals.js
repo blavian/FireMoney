@@ -5,56 +5,48 @@ import LoginForm from "./auth/LoginForm"
 import login_icon from "../images/login.png"
 import SignUpForm from "./auth/SignUpForm";
 import signup_icon from "../images/signup.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import * as modalActions from "../store/reducers/modal";
 
 function AuthModals({ authenticated, setAuthenticated }){
-    const [showLoginModal, setShowLoginModal] = useState(false);
-    const [showSignUpModal, setShowSignUpModal] = useState(false);
-
-    function redirectToLogin(){
-        setShowSignUpModal(false)
-        setShowLoginModal(true)
-    }
-    function redirectToSignUp(){
-        setShowLoginModal(false)
-        setShowSignUpModal(true)
-    }
+    const dispatch = useDispatch();
+    const showModals = useSelector( x => x.modal);
 
     return (
         <>
-            <NavLink to="/" className="hb_link" onClick={() => setShowLoginModal(true)} >
+            <NavLink to="/" className="hb_link" onClick={() => dispatch(modalActions.getLoginModal())} >
                     <>
                         <img src={login_icon} alt="login" />
                         <span className="hb_link_text" >Login</span>
                     </> 
             </NavLink>
-            <NavLink to="/" className="hb_link" onClick={() => setShowSignUpModal(true)} >
+            <NavLink to="/" className="hb_link" onClick={() => dispatch(modalActions.getSignUpModal())} >
                     <>
                         <img src={signup_icon} alt="signup" />
                         <span className="hb_link_text" >Sign Up</span>
                     </>
             </NavLink>
 
-            {showLoginModal && (
-                <Modal onClose={() => setShowLoginModal(false)}>
+            {showModals.loginModalShow && (
+                <Modal onClose={() => dispatch(modalActions.hideModal())}>
                     <LoginForm authenticated={authenticated} setAuthenticated={setAuthenticated}/>
                     <div>
                         <div className="redirect_modal_link">
                             <p>Don't have an account?
-                            <span onClick={redirectToSignUp}> Sign Up</span>
+                            <span onClick={() => dispatch(modalActions.getSignUpModal())}> Sign Up</span>
                             </p>
                         </div>
                     </div>
                 </Modal>
             )}
             
-            {showSignUpModal && (
-                <Modal onClose={() => setShowSignUpModal(false)}>
+            {showModals.signUpModalShow && (
+                <Modal onClose={() => dispatch(modalActions.hideModal())}>
                     <SignUpForm authenticated={authenticated} setAuthenticated={setAuthenticated} />
                     <div>
                         <div className="redirect_modal_link">
                             <p>Already have an account?
-                            <span onClick={redirectToLogin}> Login</span>
+                            <span onClick={() => dispatch(modalActions.getLoginModal())}> Login</span>
                             </p>
                         </div>
                     </div>
