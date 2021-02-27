@@ -11,6 +11,7 @@ import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import User from "./components/User";
 import UsersList from "./components/UsersList";
+import Profile from "./components/Profile"
 
 // Redux actions imports
 import * as sessionActions from "./store/reducers/session";
@@ -31,7 +32,7 @@ function App() {
       }
       setLoaded(true);
     })();
-  }, []);
+  }, [authenticated]);
 
   if (!loaded) {
     return null;
@@ -70,6 +71,13 @@ function App() {
             monthInt={query.get("monthInt")}
             yearInt={query.get("yearInt")}
           />
+        </ProtectedRoute>
+        <ProtectedRoute
+          path="/profile"
+          exact={true}
+          authenticated={authenticated}
+        >
+          <Profile />
         </ProtectedRoute>
       </Switch>
     </>

@@ -1,8 +1,15 @@
-import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Redirect, useHistory } from "react-router-dom";
 import { login } from "../../services/auth";
+import { useDispatch } from "react-redux"
+
+// Redux actions imports
+import * as sessionActions from "../../store/reducers/session";
 
 const LoginForm = ({ authenticated, setAuthenticated }) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,6 +22,7 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
     } else {
       setErrors(user.errors);
     }
+    history.push("/profile")
   };
 
   const updateEmail = (e) => {
@@ -26,7 +34,7 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
   };
 
   if (authenticated) {
-    return <Redirect to="/budget" />;
+    return <Redirect to="/profile" />;
   }
 
   return (
