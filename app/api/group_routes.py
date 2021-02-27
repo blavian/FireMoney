@@ -92,12 +92,12 @@ def update_group(id):
 def delete_group(id):
     # 1. Find group by id
     group = BudgetGroup.query.get(id)
-
+    groupId = group.id
     # 2. if group exists, delete and commit, else return msg
     if group:
         db.session.delete(group)
         db.session.commit()
-        return {"message": " group was successfully deleted"}, 200
+        return {"message": " group was successfully deleted", "data": groupId}, 200
     else:
         return {"message": "group does not exist"}, 404
 

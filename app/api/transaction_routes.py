@@ -1,7 +1,8 @@
+from app.models.budget_item import BudgetItem
 from app.forms.transaction_form import TransactionForm
 from flask import Blueprint, request
 from flask_login import login_required, current_user
-from app.models import db, Transaction
+from app.models import db, Transaction, BudgetItem
 from app.forms.transaction_form import TransactionForm
 transaction_routes = Blueprint('transactions', __name__)
 
@@ -55,8 +56,13 @@ def new_transaction():
     db.session.add(transaction)
     db.session.commit()
 
+    item = BudgetItem.query.get(transaction.item_id)
+    groupId = item.group_id
+    data = transaction.to_dict()
+    data["groupId"] = groupId
+
     # 7. Send 201 response to the user
-    return {"message": "success", "data": transaction.to_dict()}, 201
+    return {"message": "success", "data": data}, 201
 
  # UPDATE BUDGET TRANSACTION BY ID
 
@@ -86,9 +92,14 @@ def update_transaction(id):
     transaction.amount = amount
     transaction.date = date
     db.session.commit()
+    
+    item = BudgetItem.query.get(transaction.item_id)
+    groupId = item.group_id
+    data = transaction.to_dict()
+    data["groupId"] = groupId
 
     # 6. Returns message with updated transaction and a 201 response
-    return {"message": "success", "data": transaction.to_dict()}, 201
+    return {"message": "success", "data": data}, 201
 
 
 # DELETE BUDGET TRANSACTION
@@ -97,12 +108,15 @@ def update_transaction(id):
 def delete_transaction(id):
     # 1. Find transaction by id
     transaction = Transaction.query.get(id)
-
+    item = BudgetItem.query.get(transaction.item_id)
+    groupId = item.group_id
+    data = transaction.to_dict()
+    data["groupId"] = groupId
     # 2. if transaction exists, delete and commit, else return msg
     if transaction:
         db.session.delete(transaction)
         db.session.commit()
-        return {"message": "successfully deleted"}, 200
+        return {"message": "successfully deleted", "data": data}, 200
     else:
         return {"message": "transaction does not exist"}, 404
 
@@ -114,17 +128,17 @@ def delete_transaction(id):
 # return all transactions in to_dict
 
 # READ TRANSACTIONS FOR SPECIFIED MONTH AND USER
-@transaction_routes.route('', methods=['GET'])
-@login_required
-def get_groups():
-    # 1. gets user from session
-    user = current_user
+# @transaction_routes.route('', methods=['GET'])
+# @login_required
+# def get_transactions():
+#     # 1. gets user from session
+#     user = current_user
 
-    # 2. finds groups based off of user.id
-    user_groups = BudgetGroup.query.filter(
-        BudgetGroup.user_id == user.id)
-    # for every item that has a transaction get the sum of the transaction totals
-    #
+#     # 2. finds groups based off of user.id
+#     user_groups = BudgetGroup.query.filter(
+#         BudgetGroup.user_id == user.id)
+#     # for every item that has a transaction get the sum of the transaction totals
+#     #
 
-    # 3. returns users groups
-    return {"message": "success", "user_groups": [group.to_dict() for group in user_groups]}, 200
+#     # 3. returns users groups
+#     return {"message": "success", "user_groups": [group.to_dict() for group in user_groups]}, 200

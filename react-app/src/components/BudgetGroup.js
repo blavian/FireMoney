@@ -15,14 +15,14 @@ function BudgetGroup({ groupId }) {
   const budgetGroup = useSelector((x) => x.budget.budgetMonth.groups[groupId]);
   const dispatch = useDispatch();
 
-  // Get a sum of all expected amounts from child items
-  const getItemsExpectedAmountTotal = () => {
-    let total = 0;
-    for (const key in budgetGroup.items) {
-      total += parseFloat(budgetGroup.items[key].expected_amount);
-    }
-    return total;
-  };
+    // Get a sum of all expected amounts from child items
+    const getItemsExpectedAmountTotal = () => {
+        let total = 0;
+        for (const key in budgetGroup.items) {
+            total += parseFloat(budgetGroup.items[key].expectedAmount);
+        }
+        return total;
+    };
 
   // Budget item create action
   const createBudgetItem = () => {

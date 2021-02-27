@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import LoginFormModal from "../components/LoginFormModal"
 import LogoutButton from './auth/LogoutButton';
 import icon from '../images/Icon.png';
 import hbmenu_icon from "../images/HBMenu.png"
@@ -8,10 +7,12 @@ import closeHB_icon from "../images/CloseHBMenu.png"
 import login_icon from "../images/login.png"
 import budget_icon from "../images/Budget.png"
 import transaction_icon from "../images/Transactions.png"
-import SignUpFormModal from '../components/SignUpFormModal';
+import { useSelector } from 'react-redux';
+import AuthModals from './AuthModals';
 
 
 const NavBar = ({ authenticated, setAuthenticated }) => {
+  const currUser = useSelector((x) => x.session.user.username)
 
   const [showhbmenu, setShowHBMenu] = useState(false);
 
@@ -27,7 +28,7 @@ const NavBar = ({ authenticated, setAuthenticated }) => {
           </NavLink>
         </div>
         { authenticated &&
-          <div className="welcome_text"><span >Welcome User</span></div>}
+          <div className="welcome_text"><span >{`Welcome ${currUser}`}</span></div>}
       
           <div className="hb_menu_button" >
             <Link to="#" className="hbmenu_link">
@@ -38,8 +39,7 @@ const NavBar = ({ authenticated, setAuthenticated }) => {
           { showhbmenu ?
           !authenticated ?
           (<div className="hb_menu">
-                <LoginFormModal authenticated={authenticated} setAuthenticated={setAuthenticated}/>
-                <SignUpFormModal authenticated={authenticated} setAuthenticated={setAuthenticated}/>
+                <AuthModals authenticated={authenticated} setAuthenticated={setAuthenticated}/>
           </div>):
           (
             <div className="hb_menu">
@@ -53,7 +53,7 @@ const NavBar = ({ authenticated, setAuthenticated }) => {
             </NavLink>
             <NavLink className="hb_link" to="/transactions" exact={true} activeClassName="active">
               <img src={transaction_icon} alt="signup" />
-              <span  className="hb_link_text" id="transaction_link_text">Transaction</span>
+              <span  className="hb_link_text" id="transaction_link_text">Transactions</span>
             </NavLink>
             <LogoutButton setAuthenticated={setAuthenticated} />    
           </div>
@@ -61,37 +61,9 @@ const NavBar = ({ authenticated, setAuthenticated }) => {
           ):
           <></>
         }
-        
       </nav>
     </div>
   );
 }
 
 export default NavBar;
-
-/* <ul>
-  <li className="logo_li">
-    <img id="firemoney_icon" src={icon} alt="mountain road" />
-    <NavLink class="home_link" to="/" exact={true} activeClassName="active">
-      firemoney
-          </NavLink>
-  </li>
-  <li>
-    <NavLink to="/login" exact={true} activeClassName="active">
-      Login
-          </NavLink>
-  </li>
-  <li>
-    <NavLink to="/sign-up" exact={true} activeClassName="active">
-      Sign Up
-          </NavLink>
-  </li>
-  <li>
-    <NavLink to="/users" exact={true} activeClassName="active">
-      Users
-          </NavLink>
-  </li>
-  <li>
-    <LogoutButton setAuthenticated={setAuthenticated} />
-  </li>
-</ul> */

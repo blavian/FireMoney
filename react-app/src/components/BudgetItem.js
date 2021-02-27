@@ -2,16 +2,14 @@ import React, { useState } from "react";
 import Transaction from "./Transaction";
 import { useDispatch, useSelector } from "react-redux";
 
-import * as budgetActions from "../store/reducers/budget";
+// import * as budgetActions from "../store/reducers/budget";
 
 function BudgetItem({ groupId, itemId }) {
   // Local state
   const [transactionsAreVisible, setTransactionsAreVisible] = useState(false);
 
   // Hooks
-  const budgetItem = useSelector(
-    (x) => x.budget.budgetMonth.groups[groupId].items[itemId]
-  );
+  const budgetItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId]);
   const dispatch = useDispatch();
 
   return (
@@ -58,6 +56,12 @@ function BudgetItem({ groupId, itemId }) {
           <div className="transaction_heading transaction_spent">
             <h4>Amount</h4>
           </div>
+          {Object.keys(budgetItem.transactions).map((key) => (
+            <Transaction
+              transaction={budgetItem.transactions[key]}
+              key={budgetItem.transactions[key].id}
+            />
+          ))}
         </div>
         <Transaction />
       </div>
