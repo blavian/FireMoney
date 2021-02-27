@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 function BudgetGroup({ id }) {
     const budgetGroup = useSelector((x) => x.budget.budgetMonth.groups[id]);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch();    
 
   // Get a sum of all expected amounts from child items
   const getItemsExpectedAmountTotal = () => {
     let total = 0;
     for (const key in budgetGroup.items) {
-      total += parseFloat(budgetGroup.items[key].expected_amount);
+      total += parseFloat(budgetGroup.items[key].expectedAmount);
     }
     return total;
   };
@@ -30,7 +30,11 @@ function BudgetGroup({ id }) {
                     <h3>Total Spent</h3>
                 </div>
             </div>
-            <BudgetItem />
+            { Object.keys(budgetGroup.items).map( key => (
+                <BudgetItem
+                    item={budgetGroup.items[key]}
+                    key={`${budgetGroup.items[key].id}`} />
+            ))}
             <div className="add_budget_item_container">
                 <button className="add_budget_item_button">ADD ITEM</button>
             </div>

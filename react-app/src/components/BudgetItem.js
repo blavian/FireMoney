@@ -1,24 +1,33 @@
 import React, { useState } from "react"
 import Transaction from "./Transaction"
 
-function BudgetItem() {
+function BudgetItem({item}) {
 
     const [transactionDisplay, setTransactionDisplay] = useState(true)
+
+    let transactionTotal = 0;
+    
+    if(Object.keys(item.transactions).length){
+        console.log("item********** Loop",item.transactions)
+        transactionTotal = Object.keys(item.transactions).reduce((acc,key) => {
+            return acc += parseFloat(item.transactions[key].amount)
+        },0)
+    }
 
     return (
         <div className="budget_group_items_container">
             <div className="budget_group_item">
                 <div className="budget_item_title">
-                    <span>Rent</span>
+                    <span>{item.title}</span>
                 </div>
                 <div className="budget_item_description">
                     <span>Due at the first of the month</span>
                 </div>
                 <div className="budget_item_amount_budgeted">
-                    <span>$1040.00</span>
+                    <span>{`$${parseInt(item.expectedAmount).toFixed(2)}`}</span>
                 </div>
                 <div className="budget_item_amount_spent">
-                    <span>$00.00</span>
+                    <span>{`$${transactionTotal.toFixed(2)}`}</span>
                 </div>
             </div>
             <div className="transaction_buttons">
