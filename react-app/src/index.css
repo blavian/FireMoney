@@ -271,15 +271,15 @@ nav a:visited{
 
 .budget_group_item{
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr 1fr .5fr;
     padding: 1em 0;
     justify-items: center;
 }
 
 .budget_group_item::after{
     content: ' ';
-    margin: .5em auto auto 1em;
-    width: 480%;
+    margin: .5em auto auto 2.5em;
+    width: 525%;
     display: block;
     border-bottom: .3em solid #12788B;
 }
@@ -287,6 +287,11 @@ nav a:visited{
 .budget_item_title{
     justify-self: flex-start;
     margin: 0 0 0 3em;
+}
+
+.budget_item_buttons button{
+    width: 5em;
+    margin-right: .2em;
 }
 
 .add_budget_item_container{

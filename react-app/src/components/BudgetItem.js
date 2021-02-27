@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Transaction from "./Transaction";
 import { useDispatch, useSelector } from "react-redux";
 
-// import * as budgetActions from "../store/reducers/budget";
+import * as budgetActions from "../store/reducers/budget";
 
 function BudgetItem({ groupId, itemId }) {
   // Local state
@@ -10,13 +10,22 @@ function BudgetItem({ groupId, itemId }) {
 
   // Hooks
   const budgetItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId]);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   let transactionTotal = 0;
   if (Object.keys(budgetItem.transactions).length) {
     transactionTotal = Object.keys(budgetItem.transactions).reduce((acc, key) => {
       return acc += parseFloat(budgetItem.transactions[key].amount)
     }, 0)
+  }
+
+  function updateItem(evt){
+    evt.preventDefault();
+  }
+
+  function deleteItem(evt){
+    evt.preventDefault();
+    dispatch(budgetActions.deleteBudgetItem(budgetItem.id));
   }
 
   return (
@@ -35,6 +44,10 @@ function BudgetItem({ groupId, itemId }) {
         </div>
         <div className="budget_item_amount_spent">
           <span>{transactionTotal.toFixed(2)}</span>
+        </div>
+        <div className="budget_item_buttons">
+            <button onClick={(evt) => updateItem(evt)} type="button">Update</button>
+            <button onClick={(evt) => deleteItem(evt)} type="button">Delete</button>
         </div>
       </div>
       <div className="transaction_buttons">
