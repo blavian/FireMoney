@@ -42,10 +42,10 @@ function BudgetGroup({ groupId }) {
     <div className="budget_group_container">
       <div className="budget_group_heading_container">
         <div className="budget_group_heading budget_group_title">
-          <h2>{budgetGroup.title}</h2>
+          <h2>{`${budgetGroup.title}`}</h2> <h3>{`Budget Total: $${getItemsExpectedAmountTotal()}`}</h3>
         </div>
         <div className="budget_group_heading budget_group_amount">
-          <h3>{getItemsExpectedAmountTotal()}</h3>
+          <h3>Amount Budgeted</h3>
         </div>
         <div className="budget_group_heading budget_group_spent">
           <h3>Total Spent</h3>

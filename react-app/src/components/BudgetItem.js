@@ -24,7 +24,7 @@ function BudgetItem({ groupId, itemId }) {
           </span>
         </div>
         <div className="budget_item_amount_budgeted">
-          <span>{budgetItem.expectedAmount}</span>
+          <span>{parseFloat(budgetItem.expectedAmount).toFixed(2)}</span>
         </div>
         <div className="budget_item_amount_spent">
           <span>Not Implemented</span>
@@ -56,18 +56,17 @@ function BudgetItem({ groupId, itemId }) {
           <div className="transaction_heading transaction_spent">
             <h4>Amount</h4>
           </div>
-          {budgetItem.transactions
-            ? Object.keys(budgetItem.transactions).map((key) => (
-                <Transaction
-                  groupId={groupId}
-                  itemId={itemId}
-                  transactionId={budgetItem.transactions[key].id}
-                  key={budgetItem.transactions[key].id}
-                />
-              ))
-            : ""}
         </div>
-        <Transaction />
+        {budgetItem.transactions
+          ? Object.keys(budgetItem.transactions).map((key) => (
+            <Transaction
+              groupId={groupId}
+              itemId={itemId}
+              transactionId={budgetItem.transactions[key].id}
+              key={budgetItem.transactions[key].id}
+            />
+          ))
+          : ""}
       </div>
     </div>
   );
