@@ -12,6 +12,13 @@ function BudgetItem({ groupId, itemId }) {
   const budgetItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId]);
   // const dispatch = useDispatch();
 
+  let transactionTotal = 0;
+  if (Object.keys(budgetItem.transactions).length) {
+    transactionTotal = Object.keys(budgetItem.transactions).reduce((acc, key) => {
+      return acc += parseFloat(budgetItem.transactions[key].amount)
+    }, 0)
+  }
+
   return (
     <div className="budget_group_items_container">
       <div className="budget_group_item">
@@ -27,7 +34,7 @@ function BudgetItem({ groupId, itemId }) {
           <span>{parseFloat(budgetItem.expectedAmount).toFixed(2)}</span>
         </div>
         <div className="budget_item_amount_spent">
-          <span>Not Implemented</span>
+          <span>{transactionTotal.toFixed(2)}</span>
         </div>
       </div>
       <div className="transaction_buttons">
