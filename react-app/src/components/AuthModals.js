@@ -32,8 +32,8 @@ function AuthModals({ authenticated, setAuthenticated }){
                     <LoginForm authenticated={authenticated} setAuthenticated={setAuthenticated}/>
                     <div>
                         <div className="redirect_modal_link">
-                            <p>Don't have an account?
-                            <span onClick={() => dispatch(modalActions.getSignUpModal())}> Sign Up</span>
+                            <p>Don't have an account? 
+                            <span onClick={() => dispatch(modalActions.getSignUpModal())}>Sign Up</span>
                             </p>
                         </div>
                     </div>
@@ -45,8 +45,8 @@ function AuthModals({ authenticated, setAuthenticated }){
                     <SignUpForm authenticated={authenticated} setAuthenticated={setAuthenticated} />
                     <div>
                         <div className="redirect_modal_link">
-                            <p>Already have an account?
-                            <span onClick={() => dispatch(modalActions.getLoginModal())}> Login</span>
+                            <p>Already have an account? 
+                            <span onClick={() => dispatch(modalActions.getLoginModal())}>Login</span>
                             </p>
                         </div>
                     </div>

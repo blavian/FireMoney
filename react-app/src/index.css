@@ -72,6 +72,10 @@ nav a:visited{
     color: #ffffff;
 }
 
+.hb_link_text:hover{
+    text-decoration: underline;
+}
+
 .hb_link{
     margin-left: 1.5em;
 }
@@ -119,6 +123,11 @@ nav a:visited{
     height: 2em;
     width: 9em;
     margin: 1em 0 0 7em;
+}
+
+.build_budget_button:hover{
+    background-color: #1286CE;
+    cursor: pointer;
 }
 
 .build_budget_button a, .build_budget_button a:visited{
@@ -199,20 +208,27 @@ nav a:visited{
 
 .modal_button{
     padding: .4em 1em;
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: .3em;
+}
+
+.modal_button:hover{
     background-color: #1286CE;
     color: #ffffff;
-    border-radius: .3em;
 }
 
 .redirect_modal_link{
     width: fit-content;
     margin: 0 auto;
 }
-.redirect_modal_link a{
-    margin-left: .5em ;
+.redirect_modal_link span{
+    margin-left: .5em;
+    text-decoration: underline;
 }
-.redirect_modal_link a:visited{
-    color: #ffffff;
+.redirect_modal_link span:hover{
+    cursor: pointer;
+    background-color: #1286CE;
 }
 
 /* Budget Month Page */
