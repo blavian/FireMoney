@@ -1,17 +1,16 @@
 import React, { useState } from "react"
 import Transaction from "./Transaction"
 
-function BudgetItem({item}) {
+function BudgetItem({ item }) {
 
     const [transactionDisplay, setTransactionDisplay] = useState(true)
 
     let transactionTotal = 0;
-    
-    if(Object.keys(item.transactions).length){
-        console.log("item********** Loop",item.transactions)
-        transactionTotal = Object.keys(item.transactions).reduce((acc,key) => {
+
+    if (Object.keys(item.transactions).length) {
+        transactionTotal = Object.keys(item.transactions).reduce((acc, key) => {
             return acc += parseFloat(item.transactions[key].amount)
-        },0)
+        }, 0)
     }
 
     return (
@@ -38,7 +37,7 @@ function BudgetItem({item}) {
                     </span>
                 </button>
             </div>
-            <div className="item_transactions_container" style={ transactionDisplay ? {display:"none"} : {display:"block"} }>
+            <div className="item_transactions_container" style={transactionDisplay ? { display: "none" } : { display: "block" }}>
                 <div className="transaction_heading_container">
                     <div className="transaction_heading transaction_title">
                         <h4>Transaction Title</h4>
@@ -50,7 +49,11 @@ function BudgetItem({item}) {
                         <h4>Amount</h4>
                     </div>
                 </div>
-                <Transaction />
+                {Object.keys(item.transactions).map(key => (
+                    <Transaction
+                        transaction={item.transactions[key]}
+                        key={item.transactions[key].id} />
+                ))}
             </div>
         </div>
     )

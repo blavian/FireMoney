@@ -1,16 +1,17 @@
 import React from "react"
 
-function Transaction() {
+function Transaction({transaction}) {
+    const date = transaction.date.slice(0,16)
     return (
         <div className="item_transaction">
             <div className="transaction_title">
-                <span>Transaction</span>
+                <span>{transaction.title}</span>
             </div>
             <div className="transaction_date">
-                <span>$1040.00</span>
+                <span>{date}</span>
             </div>
             <div className="transaction_amount">
-                <span>$00.00</span>
+                <span>{parseInt(transaction.amount).toFixed(2)}</span>
             </div>
         </div>
     )
