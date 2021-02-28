@@ -44,8 +44,11 @@ function BudgetGroup({ groupId }) {
         <div className="budget_group_heading budget_group_title">
           <h2>{`${budgetGroup.title}`}</h2> <h3>{`Budget Total: $${parseFloat(getItemsExpectedAmountTotal()).toFixed(2)}`}</h3>
         </div>
+        <div className="budget_group_heading budget_group_date">
+          <h3>Due Date</h3>
+        </div>
         <div className="budget_group_heading budget_group_amount">
-          <h3>Amount Budgeted</h3>
+          <h3>Amount</h3>
         </div>
         <div className="budget_group_heading budget_group_spent">
           <h3>Total Spent</h3>
@@ -53,7 +56,7 @@ function BudgetGroup({ groupId }) {
       </div>
       {budgetGroup.items
         ? Object.keys(budgetGroup.items).map((key) => (
-            <BudgetItem 
+            <BudgetItem
             groupId={groupId}
             itemId={budgetGroup.items[key].id}
             key={`budget-item-${budgetGroup.items[key].id}`} />
