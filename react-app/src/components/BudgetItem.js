@@ -1,61 +1,123 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import Transaction from "./Transaction";
 import { useDispatch, useSelector } from "react-redux";
-import {forceUpdate} from "react"
+import { forceUpdate } from "react"
 
 import * as budgetActions from "../store/reducers/budget";
 
 function BudgetItem({ groupId, itemId }) {
   // Local state
+
+  const budgetItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId]);
+  // const budgetMonth = useSelector((x) => x.budget.budgetMonth);
+  let transactionTotal = 0;
   const [transactionsAreVisible, setTransactionsAreVisible] = useState(false);
   const [itemChange, setItemChange] = useState(false);
+  const [updateItemView, setUpdateItemView] = useState(false);
+  const [updatedItemName, setUpdatedItemName] = useState(budgetItem? budgetItem.title : "");
+  const [updatedItemDescription, setUpdatedItemDescription] = useState(budgetItem ? budgetItem.description : "");
+  const [updatedItemAmount, setUpdatedItemAmount] = useState(budgetItem ?budgetItem.expectedAmount : "");
+  const [updatedItemDate, setUpdatedItemDate] = useState(budgetItem ?budgetItem.dueDate : "");
 
-  // Hooks
-  const budgetItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId]);
+  // const [updatedItemName, setUpdatedItemName] = useState("");
   const dispatch = useDispatch();
 
-  let transactionTotal = 0;
-  if(budgetItem){
+  if (budgetItem) {
     if (Object.keys(budgetItem.transactions).length) {
       transactionTotal = Object.keys(budgetItem.transactions).reduce((acc, key) => {
         return acc += parseFloat(budgetItem.transactions[key].amount)
       }, 0)
     }
   }
-  else{
+  else {
     return null
   }
+  // Hooks
 
-  function updateItem(evt){
+
+
+  function updateItem(evt) {
     evt.preventDefault();
+    // console.log({id: budgetItem.id,
+    //   title: updatedItemName,
+    //   description: updatedItemDescription,
+    //   expectedAmount: updatedItemAmount,
+    //   dueDate: updatedItemDate})
+    dispatch(budgetActions.updateBudgetItem({ id: budgetItem.id,
+                                              title: updatedItemName,
+                                              description: updatedItemDescription,
+                                              expectedAmount: updatedItemAmount,
+                                              dueDate: updatedItemDate
+                                            }));
+    setUpdateItemView(false)
   }
 
-  function deleteItem(evt){
+  function deleteItem(evt) {
     evt.preventDefault();
-    dispatch(budgetActions.deleteBudgetItem({id:budgetItem.id}));
-    dispatch(budgetActions.getBudgetMonth({}))
+    dispatch(budgetActions.deleteBudgetItem({ id: budgetItem.id }));
+    // dispatch(budgetActions.getBudgetMonth({}))
   }
 
   return (
     <div className="budget_group_items_container">
       <div className="budget_group_item">
         <div className="budget_item_title">
-          <span>{budgetItem.title}</span>
+          {!updateItemView ?
+            <span>{budgetItem.title}</span>
+            : <input
+              type="text"
+              defaultValue={budgetItem.title}
+              onChange={(e) => setUpdatedItemName(e.target.value)}
+            ></input>
+          }
         </div>
         <div className="budget_item_description">
-          <span>
-            {budgetItem.description ? budgetItem.description : "No description"}
-          </span>
+          {!updateItemView ?
+            <span>
+              {budgetItem.description ? budgetItem.description : "No description"}
+            </span>
+            : <input
+              type="text"
+              defaultValue={budgetItem.description}
+              onChange={(e) => setUpdatedItemDescription(e.target.value)}
+            ></input>
+          }
+        </div>
+        <div className="budget_item_Date">
+          {!updateItemView ?
+            <span>{budgetItem.dueDate}</span>
+            : <input
+              type="date"
+              defaultValue={budgetItem.dueDate}
+              onChange={(e) => setUpdatedItemDate(e.target.value)}
+            ></input>
+          }
         </div>
         <div className="budget_item_amount_budgeted">
-          <span>{parseFloat(budgetItem.expectedAmount).toFixed(2)}</span>
+          {!updateItemView ?
+            <span>{parseFloat(budgetItem.expectedAmount).toFixed(2)}</span>
+            : <input
+              type="text"
+              defaultValue={parseFloat(budgetItem.expectedAmount).toFixed(2)}
+              onChange={(e) => setUpdatedItemAmount(e.target.value)}
+            ></input>
+          }
         </div>
         <div className="budget_item_amount_spent">
           <span>{transactionTotal.toFixed(2)}</span>
         </div>
         <div className="budget_item_buttons">
-            <button onClick={(evt) => updateItem(evt)} type="button">Update</button>
-            <button onClick={(evt) => deleteItem(evt)} type="button">Delete</button>
+          {!updateItemView ?
+            <>
+              <button onClick={(evt) => setUpdateItemView(true)} type="button">Edit</button>
+              <button onClick={(evt) => deleteItem(evt)} type="button">Delete</button>
+            </>
+            :
+            <>
+              <button onClick={(evt) => updateItem(evt)} type="button">Update</button>
+              <button onClick={(evt) => setUpdateItemView(false)} type="button">Cancel</button>
+            </>
+          }
         </div>
       </div>
       <div className="transaction_buttons">
