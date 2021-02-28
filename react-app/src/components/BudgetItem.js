@@ -102,7 +102,7 @@ function BudgetItem({ groupId, itemId }) {
         </div>
         <div className="budget_item_amount_budgeted">
           {!updateItemView ?
-            <span>{parseFloat(budgetItem.expectedAmount).toFixed(2)}</span>
+            <span>${parseFloat(budgetItem.expectedAmount).toFixed(2)}</span>
             : <input
               type="text"
               defaultValue={parseFloat(budgetItem.expectedAmount).toFixed(2)}
@@ -111,7 +111,7 @@ function BudgetItem({ groupId, itemId }) {
           }
         </div>
         <div className="budget_item_amount_spent">
-          <span>{transactionTotal.toFixed(2)}</span>
+          <span>${transactionTotal.toFixed(2)}</span>
         </div>
         <div className="budget_item_buttons">
           {!updateItemView ?
@@ -155,10 +155,10 @@ function BudgetItem({ groupId, itemId }) {
           <div className="transaction_heading transaction_title">
             <h4>Transaction Title</h4>
           </div>
-          <div className="transaction_heading transaction_amount">
+          <div className="transaction_heading transaction_date">
             <h4>Transaction Date</h4>
           </div>
-          <div className="transaction_heading transaction_spent">
+          <div className="transaction_heading transaction_amount">
             <h4>Amount</h4>
           </div>
         </div>

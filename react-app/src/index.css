@@ -293,20 +293,17 @@ nav a:visited {
 
 .budget_group_item {
     display: grid;
+    margin: 1em auto;
     grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr .5fr;
     padding: 1em 0;
     justify-items: center;
 }
 
-/* .budget_group_item::after{
-    content: ' ';
-    margin: .5em auto auto 2.5em;
-    width: 525%;
-    display: block;
+.budget_group_items_container {
+    width: 95%;
+    margin: 1em auto;
     border-bottom: .3em solid #12788B;
-} */
-
-.add_budget_item_container {}
+}
 
 .add_budget_item_button, .add_group_button {
     font-size: 1em;
@@ -331,12 +328,26 @@ nav a:visited {
 
 .transaction_heading_container, .item_transaction {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     justify-items: center;
+    margin: 1em auto;
+}
+
+.transaction_heading_container *, .item_transaction * {
+    justify-self: flex-start;
+}
+
+.transaction_date{
+    width: 15em;
+}
+
+.transaction_amount {
+    margin-left: 2em;
 }
 
 .transaction_buttons {
     display: flex;
+    margin-bottom: 1em;
 }
 
 .transaction_buttons button {
