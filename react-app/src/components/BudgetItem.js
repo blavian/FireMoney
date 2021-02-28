@@ -15,10 +15,15 @@ function BudgetItem({ groupId, itemId }) {
   const dispatch = useDispatch();
 
   let transactionTotal = 0;
-  if (Object.keys(budgetItem.transactions).length) {
-    transactionTotal = Object.keys(budgetItem.transactions).reduce((acc, key) => {
-      return acc += parseFloat(budgetItem.transactions[key].amount)
-    }, 0)
+  if(budgetItem){
+    if (Object.keys(budgetItem.transactions).length) {
+      transactionTotal = Object.keys(budgetItem.transactions).reduce((acc, key) => {
+        return acc += parseFloat(budgetItem.transactions[key].amount)
+      }, 0)
+    }
+  }
+  else{
+    return null
   }
 
   function updateItem(evt){
@@ -28,7 +33,7 @@ function BudgetItem({ groupId, itemId }) {
   function deleteItem(evt){
     evt.preventDefault();
     dispatch(budgetActions.deleteBudgetItem({id:budgetItem.id}));
-    setItemChange(true)
+    dispatch(budgetActions.getBudgetMonth({}))
   }
 
   return (
