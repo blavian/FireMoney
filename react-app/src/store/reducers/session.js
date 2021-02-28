@@ -57,7 +57,7 @@ export const getUserMonths = () => async (dispatch) => {
   return data; };
 
 // Reducer configuration
-const reducer = (state={user: userTemplate}, {type, payload}) => {
+const reducer = (state={user: userTemplate, months: null}, {type, payload}) => {
   switch(type) {
     case SET_SESSION_USER:
       return {user: {...state.user, ...payload}};
@@ -68,21 +68,21 @@ const reducer = (state={user: userTemplate}, {type, payload}) => {
     case LOGOUT_SESSION_USER:
       return {user: {...state.user, ...payload}};
 
+    case GET_USER_MONTH:
+      return { user: { ...state.user, ...state.months, ...payload } }
+
     default:
       return state; }
 };
 
-// State template
-const monthTemplate = {
-  monthInt: null,
-  yearInt: null,
-};
-export const userMonthsReducer = (state={userMonth: monthTemplate}, {type, payload}) => {
-  switch(type) {
-    case GET_USER_MONTH:
-      return {userMonths: {...state.userMonth, ...payload}}
-    default:
-      return state;
-    }
-  }
+
+// export const userMonthsReducer = (state={userMonth: monthTemplate}, {type, payload}) => {
+//   switch(type) {
+//     case GET_USER_MONTH:
+//       return {userMonths: {...state.userMonth, ...payload}}
+//     default:
+//       return state;
+//     }
+//   }
+
 export default reducer;
