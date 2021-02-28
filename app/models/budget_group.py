@@ -40,3 +40,10 @@ class BudgetGroup(db.Model):
             "createdAt": self.created_at,
             "updatedAt": self.updated_at,
         }
+    def month_to_dict(self):
+        return {
+            "monthInt": self.month_int,
+            "yearInt": self.year_int,
+            
+        }
+

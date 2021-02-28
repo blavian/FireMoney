@@ -57,7 +57,6 @@ def new_month():
         BudgetGroup.month_int == current_month,
         BudgetGroup.year_int == current_year).all()
 
-
     # 6. Create new groups for current month and add/commit to database
     current_month_groups = []
     if copy_previous is True:
@@ -108,5 +107,34 @@ def months():
             "monthInt": month_int,
             "yearInt": year_int,
             "groups": current_groups
+        }
+    }, 200
+
+
+# get all months
+# return:
+# "data":
+# List: all the month int and year int combos
+# "monthInt": month int,
+# "yearInt": year int,
+
+@month_routes.route('/all', methods=['GET'])
+@login_required
+def all_months():
+
+    # 1. Get user from session
+    user = current_user
+    # 3. Get all the  distinct months and years for the current user
+    all_groups = BudgetGroup.query.filter(BudgetGroup.user_id == user.id).distinct(
+        BudgetGroup.month_int, BudgetGroup.year_int)
+    months = [group.month_to_dict() for group in all_groups]
+    # 4 loop through all the groups and find all occurrences of a month_int and year_int
+  
+    # #6. Return user's months and years
+
+    return {
+        "message": "success",
+        "data": {
+            "months":months
         }
     }, 200
