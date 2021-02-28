@@ -1,9 +1,10 @@
-import { fetch } from "../../services/fetch";
+import {fetch} from "../../services/fetch";
 
 // Action constants
 const SET_SESSION_USER = "session/setSessionUser";
 const LOGIN_SESSION_USER = "session/loginSessionUser";
 const LOGOUT_SESSION_USER = "session/logoutSessionUser";
+const GET_USER_MONTH = "session/getUserMonth"
 
 // State template
 const userTemplate = {
@@ -23,42 +24,65 @@ const logoutSessionUserActionCreator = (payload) => ({
   payload,
 });
 
-// Actions
+const getUserMonth = (payload) => ({
+  type: GET_USER_MONTH,
+  payload,
+});
+
+
 export const setSessionUser = (payload) => ({
   type: SET_SESSION_USER,
   payload,
 });
 
 // Thunks
-export const loginSessionUser = ({ email, password }) => async (dispatch) => {
+export const loginSessionUser = ({email, password}) => async (dispatch) => {
   const res = await fetch("/api/auth/login", {
     method: "POST",
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({email, password}),
   });
-  const { data } = res.data;
+  const {data} = res.data;
   dispatch(loginSessionUserActionCreator(data));
-  return data;
-};
+  return data; };
 export const logoutSessionUser = () => async (dispatch) => {
   dispatch(logoutSessionUserActionCreator(userTemplate));
-  return;
-};
+  return; };
+// -------------------------------------------------------- getAllUserMonths
+export const getUserMonths = () => async (dispatch) => {
+  const res = await fetch(
+    '/api/months/all');
+  const {data} = res.data;
+
+  dispatch(getUserMonth(data));
+  return data; };
 
 // Reducer configuration
-const reducer = (state = { user: userTemplate }, { type, payload }) => {
-  switch (type) {
+const reducer = (state={user: userTemplate}, {type, payload}) => {
+  switch(type) {
     case SET_SESSION_USER:
-      return { user: { ...state.user, ...payload } };
+      return {user: {...state.user, ...payload}};
 
     case LOGIN_SESSION_USER:
-      return { user: { ...state.user, ...payload } };
-    
+      return {user: {...state.user, ...payload}};
+
     case LOGOUT_SESSION_USER:
-      return { user: { ...state.user, ...payload } };
+      return {user: {...state.user, ...payload}};
 
     default:
-      return state;
-  }
+      return state; }
 };
 
+// State template
+const monthTemplate = {
+  monthInt: null,
+  yearInt: null,
+};
+export const userMonthsReducer = (state={userMonth: monthTemplate}, {type, payload}) => {
+  switch(type) {
+    case GET_USER_MONTH:
+      return {userMonths: {...state.userMonth, ...payload}}
+    default:
+      return state;
+    }
+  }
 export default reducer;
