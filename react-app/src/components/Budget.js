@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import BudgetGroup from "./BudgetGroup";
+import { Modal } from "../context/Modal"
+import TransactionForm from "../components/TransactionForm"
 
 import * as budgetActions from "../store/reducers/budget";
+import { getTransactionModal, hideTransactionModal } from "../store/reducers/modal"
 
 function Budget({ monthInt, yearInt }) {
   // Local state
   const [newGroupName, setNewGroupName] = useState("");
+  const transactionModal = useSelector((x) => x.transactionModal.transactionModalShow)
 
   // Hooks
   const dispatch = useDispatch();
@@ -92,6 +96,11 @@ function Budget({ monthInt, yearInt }) {
           onChange={(e) => setNewGroupName(e.target.value)}
         ></input>
       </div>
+      {transactionModal && (
+        <Modal onClose={() => dispatch(hideTransactionModal())} >
+          <TransactionForm />
+        </Modal>
+      )}
     </div>
   );
 }

@@ -328,6 +328,7 @@ nav a:visited{
 .transaction_buttons{
    display: flex;
 }
+
 .transaction_buttons button{
     height: fit-content;
     margin: .1em auto;

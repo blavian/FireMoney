@@ -1,17 +1,19 @@
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import Transaction from "./Transaction";
 import { useDispatch, useSelector } from "react-redux";
-import {forceUpdate} from "react"
+import { Modal } from "../context/Modal"
 
 import * as budgetActions from "../store/reducers/budget";
+import { getTransactionModal, hideTransactionModal } from "../store/reducers/modal"
 
 function BudgetItem({ groupId, itemId }) {
   // Local state
   const [transactionsAreVisible, setTransactionsAreVisible] = useState(false);
-  const [itemChange, setItemChange] = useState(false);
+  // const [showTransactionForm, setShowTransactionForm] = useState(false);
 
   // Hooks
   const budgetItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId]);
+  const transactionModal = useSelector((x) => x.transactionModal.transactionModalShow)
   const dispatch = useDispatch();
 
   let transactionTotal = 0;
@@ -37,6 +39,7 @@ function BudgetItem({ groupId, itemId }) {
   }
 
   return (
+    <>
     <div className="budget_group_items_container">
       <div className="budget_group_item">
         <div className="budget_item_title">
@@ -60,6 +63,7 @@ function BudgetItem({ groupId, itemId }) {
       </div>
       <div className="transaction_buttons">
         <button
+          type="button"
           onClick={() => setTransactionsAreVisible(!transactionsAreVisible)}
         >
           View Transactions
@@ -67,7 +71,14 @@ function BudgetItem({ groupId, itemId }) {
             {transactionsAreVisible ? " -" : " +"}
           </span>
         </button>
+        <button
+          type="button"
+            onClick={() => dispatch(getTransactionModal({ id: budgetItem.id }))}
+          >
+            Create Transaction
+        </button>
       </div>
+        
       <div
         className="item_transactions_container"
         style={
@@ -97,6 +108,7 @@ function BudgetItem({ groupId, itemId }) {
           : ""}
       </div>
     </div>
+    </>
   );
 }
 

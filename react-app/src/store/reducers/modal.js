@@ -2,8 +2,8 @@
 const SHOW_LOGIN_MODAL = "modal/login";
 const SHOW_SIGNUP_MODAL = "modal/signup";
 const HIDE_MODAL = "modal/hide";
-// const SHOW_HBMENU = "hbmenu/show";
-// const HIDE_HBMENU = "hbmenu/hide";
+const SHOW_TRANSACTION_MODAL = "transactionModal/show";
+const HIDE_TRANSACTION_MODAL = "transactionModal/hide";
 
 //Action Creators
 const showLoginModalAction = (payload) => ({
@@ -21,15 +21,15 @@ const hideModalAction = (payload) => ({
     payload,
 });
 
-// const showHBMenuAction = (payload) => ({
-//     type: SHOW_HBMENU,
-//     payload,
-// });
+const showTransactionModalAction = (payload) => ({
+    type: SHOW_TRANSACTION_MODAL,
+    payload,
+});
 
-// const hideHBMenuAction = (payload) => ({
-//     type: HIDE_HBMENU,
-//     payload,
-// });
+const hideTransactionModalAction = (payload) => ({
+    type: HIDE_TRANSACTION_MODAL,
+    payload,
+});
 
 //Thunks
 export const getLoginModal = () => async (dispatch) => {
@@ -44,13 +44,14 @@ export const hideModal = () => async (dispatch) => {
     dispatch(hideModalAction());
 };
 
-// export const getHBMenu = () => async (dispatch) => {
-//     dispatch(showHBMenuAction());
-// };
+export const getTransactionModal = ({id}) => async (dispatch) => {
+    const data = {id}
+    dispatch(showTransactionModalAction(data));
+};
 
-// export const hideHBMenu = () => async (dispatch) => {
-//     dispatch(hideHBMenuAction());
-// };
+export const hideTransactionModal = () => async (dispatch) => {
+    dispatch(hideTransactionModalAction());
+};
 
 //State Template
 const modalsTemplate = {
@@ -58,9 +59,10 @@ const modalsTemplate = {
     signUpModalShow: false
 }
 
-// const hbMenuTemplate = {
-//     hbMenuShow: false
-// }
+const transactionModalTemplate = {
+    transactionModalShow: false,
+    itemId: null
+}
 
 //Reducer
 export const modal = (
@@ -90,18 +92,18 @@ export const modal = (
     }
 }
 
-// export const hbMenu = (
-//     state = { ...hbMenuTemplate },
-//     { type, payload}
-// ) => {
-//     switch (type) {
-//         case SHOW_HBMENU:
-//             state = { hbMenuShow: true}
-//             return state
-//         case HIDE_HBMENU:
-//             state = { hbMenuShow: false }
-//             return state
-//         default:
-//             return state = { ...hbMenuTemplate}
-//     }
-// }
+export const transactionModal = (
+    state = { ...transactionModalTemplate },
+    { type, payload}
+) => {
+    switch (type) {
+        case SHOW_TRANSACTION_MODAL:
+            state = { transactionModalShow: true, ...payload}
+            return state
+        case HIDE_TRANSACTION_MODAL:
+            state = { ...transactionModalTemplate }
+            return state
+        default:
+            return state
+    }
+}
