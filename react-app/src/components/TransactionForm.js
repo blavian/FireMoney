@@ -20,8 +20,7 @@ function TransactionForm() {
             itemId: itemId,
             date
         }
-        dispatch(createTransaction(newTransaction));
-        dispatch(hideTransactionModal())
+        dispatch(createTransaction(newTransaction)).then(() => dispatch(hideTransactionModal()))   
     };
 
     return (

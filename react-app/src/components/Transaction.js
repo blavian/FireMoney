@@ -8,10 +8,18 @@ function Transaction({ groupId, itemId, transactionId }) {
 
   const transactionItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId].transactions[transactionId])
 
+  let transactionItemDate = transactionItem ? new Date(transactionItem.date) : "";
+  let transactionItemDateInput;
+  if (transactionItemDate){
+    const transactionItemMonth = transactionItemDate.getMonth() < 10 ? `0${transactionItemDate.getMonth()}` : transactionItemDate.getMonth();
+    const transactionItemDay = transactionItemDate.getDay() < 10 ? `0${transactionItemDate.getDay()}` : transactionItemDate.getDay();
+    transactionItemDateInput = `${transactionItemDate.getFullYear()}-${transactionItemMonth}-${transactionItemDay}`;
+  }
+
   const [updateItemView, setUpdateItemView] = useState(false);
   const [updatedTitle, setUpdatedTitle] = useState(transactionItem ? transactionItem.title : "");
   const [updatedAmount, setUpdatedAmount] = useState(transactionItem ? transactionItem.amount : "");
-  const [updatedDate, setUpdatedDate] = useState(transactionItem ? transactionItem.date : "");
+  const [updatedDate, setUpdatedDate] = useState(transactionItemDate);
   // Hooks
   const transaction = useSelector((x) => {
     return groupId && itemId && transactionId
@@ -32,6 +40,7 @@ function Transaction({ groupId, itemId, transactionId }) {
     }
     // console.log(data);
     dispatch(updateTransaction(data));
+    setUpdateItemView(false)
   }
 
   function deleteTrans(evt) {
@@ -65,12 +74,12 @@ function Transaction({ groupId, itemId, transactionId }) {
               (
                 <input
                   type="date"
-                  defaultValue={transactionItem.date}
+                  defaultValue={transactionItemDateInput}
                   onChange={(e) => setUpdatedDate(e.target.value)}
                 ></input>
               ) :
               (
-                <span>{transaction.date}</span>
+                <span>{transactionItemDate.toDateString()}</span>
               )
             }
           </div>
@@ -79,7 +88,7 @@ function Transaction({ groupId, itemId, transactionId }) {
               (
                 <input
                   type="text"
-                  defaultValue={transactionItem.amount}
+                  defaultValue={parseFloat(transactionItem.amount).toFixed(2)}
                   onChange={(e) => setUpdatedAmount(e.target.value)}
                 ></input>
               ) :

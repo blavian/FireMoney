@@ -10,20 +10,24 @@ import { getTransactionModal, hideTransactionModal } from "../store/reducers/mod
 function BudgetItem({ groupId, itemId }) {
   // Local state
 
-  // const budgetMonth = useSelector((x) => x.budget.budgetMonth);
   let transactionTotal = 0;
   const [transactionsAreVisible, setTransactionsAreVisible] = useState(false);
-  // const [showTransactionForm, setShowTransactionForm] = useState(false);
 
   // Hooks
   const budgetItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId]);
-  const transactionModal = useSelector((x) => x.transactionModal.transactionModalShow)
-  const [itemChange, setItemChange] = useState(false);
+  let budgetItemDueDate = budgetItem ? new Date(budgetItem.dueDate) : "";
+  let budgetItemDueDateInput;
+
+  if (budgetItemDueDate) {
+    const budgetItemMonth = budgetItemDueDate.getMonth() < 10 ? `0${budgetItemDueDate.getMonth()}` : budgetItemDueDate.getMonth();
+    const budgetItemDay = budgetItemDueDate.getDay() < 10 ? `0${budgetItemDueDate.getDay()}` : budgetItemDueDate.getDay();
+    budgetItemDueDateInput = `${budgetItemDueDate.getFullYear()}-${budgetItemMonth}-${budgetItemDay}`;
+  }
   const [updateItemView, setUpdateItemView] = useState(false);
   const [updatedItemName, setUpdatedItemName] = useState(budgetItem? budgetItem.title : "");
   const [updatedItemDescription, setUpdatedItemDescription] = useState(budgetItem ? budgetItem.description : "");
   const [updatedItemAmount, setUpdatedItemAmount] = useState(budgetItem ?budgetItem.expectedAmount : "");
-  const [updatedItemDate, setUpdatedItemDate] = useState(budgetItem ?budgetItem.dueDate : "");
+  const [updatedItemDate, setUpdatedItemDate] = useState(budgetItemDueDate);
 
   // const [updatedItemName, setUpdatedItemName] = useState("");
   const dispatch = useDispatch();
@@ -39,16 +43,8 @@ function BudgetItem({ groupId, itemId }) {
     return null
   }
   // Hooks
-
-
-
   function updateItem(evt) {
     evt.preventDefault();
-    // console.log({id: budgetItem.id,
-    //   title: updatedItemName,
-    //   description: updatedItemDescription,
-    //   expectedAmount: updatedItemAmount,
-    //   dueDate: updatedItemDate})
     dispatch(budgetActions.updateBudgetItem({ id: budgetItem.id,
                                               title: updatedItemName,
                                               description: updatedItemDescription,
@@ -61,7 +57,6 @@ function BudgetItem({ groupId, itemId }) {
   function deleteItem(evt) {
     evt.preventDefault();
     dispatch(budgetActions.deleteBudgetItem({ id: budgetItem.id }));
-    // dispatch(budgetActions.getBudgetMonth({}))
   }
 
   return (
@@ -92,10 +87,10 @@ function BudgetItem({ groupId, itemId }) {
         </div>
         <div className="budget_item_Date">
           {!updateItemView ?
-            <span>{budgetItem.dueDate}</span>
+            <span>{budgetItemDueDate.toDateString()}</span>
             : <input
               type="date"
-              defaultValue={budgetItem.dueDate}
+              defaultValue={budgetItemDueDateInput}
               onChange={(e) => setUpdatedItemDate(e.target.value)}
             ></input>
           }
