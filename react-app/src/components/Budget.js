@@ -27,11 +27,10 @@ function Budget({ monthInt, yearInt }) {
 
   // Run ONLY on first render--gets requested budget month
 
-  useEffect(()=>{
-    dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
-    dispatch(sessionActions.getUserMonths()).then(()=>{
-    })
-  },[history])
+  // useEffect(()=>{
+  //   dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
+  //   dispatch(sessionActions.getUserMonths())
+  // },[history])
 
 
   useEffect(() => {
@@ -50,9 +49,9 @@ function Budget({ monthInt, yearInt }) {
       }
     }
 
-    dispatch(sessionActions.getUserMonths())
-    dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt })).then(() => {
-    })
+    // dispatch(sessionActions.getUserMonths())
+    // dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt })).then(() => {
+    // })
     // history.push(`/budget?monthInt=${nextMonth}&yearInt=${nextYear}`);
 
   },[]);

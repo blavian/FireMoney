@@ -29,6 +29,7 @@ function App() {
       if (!user.errors) {
         setAuthenticated(true);
         dispatch(sessionActions.setSessionUser(user));
+        dispatch(sessionActions.getUserMonths());
       }
       setLoaded(true);
     })();
