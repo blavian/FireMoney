@@ -86,3 +86,12 @@ const reducer = (state={user: userTemplate, months: null}, {type, payload}) => {
 //   }
 
 export default reducer;
+
+
+
+
+
+//have date in order from newest to latest
+//go to current month based off of current date
+//forward button --> find current date index and subtract one (if exists)
+//back button --> find current date index and add one (if exists)

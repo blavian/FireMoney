@@ -111,12 +111,6 @@ def months():
     }, 200
 
 
-# get all months
-# return:
-# "data":
-# List: all the month int and year int combos
-# "monthInt": month int,
-# "yearInt": year int,
 
 @month_routes.route('/all', methods=['GET'])
 @login_required
@@ -129,12 +123,12 @@ def all_months():
         BudgetGroup.month_int, BudgetGroup.year_int)
     months = [group.month_to_dict() for group in all_groups]
     # 4 loop through all the groups and find all occurrences of a month_int and year_int
-  
+
     # #6. Return user's months and years
 
     return {
         "message": "success",
         "data": {
-            "months":months
+            "months": months
         }
     }, 200
