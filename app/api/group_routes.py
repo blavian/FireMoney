@@ -9,7 +9,7 @@ group_routes = Blueprint('budget_groups', __name__)
 
 
 # CREATE NEW BUDGET GROUP
-@group_routes.route('/', methods=['POST'])
+@group_routes.route('', methods=['POST'])
 @login_required
 def new_group():
     # 1. Get user from session
@@ -37,11 +37,11 @@ def new_group():
     db.session.commit()
 
     # 7. Send 201 response to the user
-    return {"message": "success", "data": group.to_group_created_dict()}, 201
+    return {"message": "success", "data": group.to_dict()}, 201
 
 
 # READ GROUPS FOR CURRENT USER
-@group_routes.route('/', methods=['GET'])
+@group_routes.route('', methods=['GET'])
 @login_required
 def get_groups():
     # 1. gets user from session
@@ -50,9 +50,11 @@ def get_groups():
     # 2. finds groups based off of user.id
     user_groups = BudgetGroup.query.filter(
         BudgetGroup.user_id == user.id)
+    # for every item that has a transaction get the sum of the transaction totals
+    #
 
     # 3. returns users groups
-    return {"message": "success", "user_groups": [group.to_dict() for group in user_groups]}, 200
+    return {"message": "success", "data": [group.to_dict() for group in user_groups]}, 200
 
 
 # UPDATE GROUP TITLE
@@ -81,7 +83,7 @@ def update_group(id):
     db.session.commit()
 
     # 6. Return message with updated group and a 201 response
-    return {"message": "success", "data": group.to_group_created_dict()}, 201
+    return {"message": "success", "data": group.to_dict()}, 201
 
 
 # DELETE SPECIFIED GROUP
@@ -90,16 +92,14 @@ def update_group(id):
 def delete_group(id):
     # 1. Find group by id
     group = BudgetGroup.query.get(id)
-
+    groupId = group.id
     # 2. if group exists, delete and commit, else return msg
     if group:
         db.session.delete(group)
         db.session.commit()
-        return "group was successfully deleted"
+        return {"message": " group was successfully deleted", "data": groupId}, 200
     else:
-        return "no such group exists"
-
-
+        return {"message": "group does not exist"}, 404
 
 
 # create default groups

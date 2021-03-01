@@ -18,15 +18,15 @@ function LandingPage(){
             <div className="tiles_container">
                 <div className="landing_page_tile" >
                     <p className="tiles_text" >Plan for your Future!</p>
-                    <img className="landing_page_tile_images" src={list_icon} />
+                    <img className="landing_page_tile_images" src={list_icon} alt="Plan" />
                 </div>
                 <div className="landing_page_tile" >
                     <p className="tiles_text" >Save for unexpected expenses!</p>
-                    <img className="landing_page_tile_images" src={savings_icon}/>
+                    <img className="landing_page_tile_images" src={savings_icon} alt="Savings"/>
                 </div>
                 <div className="landing_page_tile " >
                     <p className="tiles_text control_tile_text" >Take control of your money!</p>
-                    <img className="landing_page_tile_images" src={control_icon}/>
+                    <img className="landing_page_tile_images" src={control_icon} alt="Control"/>
                 </div>
             </div>
             <div className="budget_button_container">

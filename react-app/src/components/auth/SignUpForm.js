@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Redirect } from 'react-router-dom';
 import { signUp } from '../../services/auth';
-import LoginFormModal from "../LoginFormModal";
 
 const SignUpForm = ({authenticated, setAuthenticated}) => {
   const [username, setUsername] = useState("");
@@ -49,6 +48,7 @@ const SignUpForm = ({authenticated, setAuthenticated}) => {
         <input
           type="text"
           name="username"
+          placeholder="Username"
           onChange={updateUsername}
           value={username}
         ></input>
@@ -58,6 +58,7 @@ const SignUpForm = ({authenticated, setAuthenticated}) => {
         <input
           type="text"
           name="email"
+          placeholder="Email"
           onChange={updateEmail}
           value={email}
         ></input>
@@ -67,6 +68,7 @@ const SignUpForm = ({authenticated, setAuthenticated}) => {
         <input
           type="password"
           name="password"
+          placeholder="Password"
           onChange={updatePassword}
           value={password}
         ></input>
@@ -76,6 +78,7 @@ const SignUpForm = ({authenticated, setAuthenticated}) => {
         <input
           type="password"
           name="repeat_password"
+          placeholder="Password"
           onChange={updateRepeatPassword}
           value={repeatPassword}
           required={true}

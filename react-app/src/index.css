@@ -1,44 +1,46 @@
 /* TODO Add site wide styles */
+
 /* Navbar */
-body{
+
+body {
     font-size: 16px;
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-nav{
+nav {
     background-color: #0E3541;
     height: 6em;
     display: flex;
     justify-content: space-between;
 }
 
-nav a{
+nav a {
     text-decoration: none;
 }
 
-nav a:visited{
+nav a:visited {
     color: #ffffff;
 }
 
-#firemoney_icon{
+#firemoney_icon {
     width: 4.5em;
     margin-top: .8em;
     margin-left: 2em;
 }
 
-.home_link{
+.home_link {
     margin-left: .5em;
     height: 100%;
     font-size: 2.5em;
     position: relative;
     top: -.5em;
-    font-weight:bold;
+    font-weight: bold;
     letter-spacing: 0.01em;
 }
 
-.welcome_text{
+.welcome_text {
     font-size: 2em;
     color: #ffffff;
     padding-top: 1em;
@@ -46,7 +48,7 @@ nav a:visited{
     right: 10em;
 }
 
-.hb_menu{
+.hb_menu {
     background-color: #0E3541;
     width: 15em;
     height: fit-content;
@@ -60,40 +62,44 @@ nav a:visited{
     width: 3em;
 }
 
-.hb_menu *{
+.hb_menu * {
     margin: .5em 0 .25em 0;
     display: flex;
 }
 
-.hb_link_text{
+.hb_link_text {
     font-size: 2em;
     text-align: left;
     margin-left: 1em;
     color: #ffffff;
 }
 
-.hb_link{
+.hb_link_text:hover {
+    text-decoration: underline;
+}
+
+.hb_link {
     margin-left: 1.5em;
 }
 
-.hb_menu_button{
+.hb_menu_button {
     position: absolute;
     right: 2em;
     top: 2em;
 }
 
-.hb_menu_button img{
+.hb_menu_button img {
     width: 3em;
 }
 
-#transaction_link_text{
+#transaction_link_text {
     font-size: 1.5em;
     margin-top: .8em;
 }
 
-
 /* Landing Page */
-.landing_page_image{
+
+.landing_page_image {
     background-image: url("./images/mountain_road.png");
     background-size: cover;
     height: 60em;
@@ -102,7 +108,7 @@ nav a:visited{
     margin: 0;
 }
 
-.landing_page_text{
+.landing_page_text {
     margin: 0;
     font-size: 4em;
     width: 13em;
@@ -110,7 +116,7 @@ nav a:visited{
     padding-left: .5em;
 }
 
-.build_budget_button{
+.build_budget_button {
     font-size: 2em;
     border-radius: .25em;
     text-align: center;
@@ -121,23 +127,28 @@ nav a:visited{
     margin: 1em 0 0 7em;
 }
 
-.build_budget_button a, .build_budget_button a:visited{
+.build_budget_button:hover {
+    background-color: #1286CE;
+    cursor: pointer;
+}
+
+.build_budget_button a, .build_budget_button a:visited {
     text-decoration: none;
     color: #ffffff;
 }
 
-.tiles_heading_text{
+.tiles_heading_text {
     text-align: center;
     font-size: 3em;
 }
 
-.tiles_container{
+.tiles_container {
     display: flex;
     justify-content: center;
     /* margin: 0 auto; */
 }
 
-.landing_page_tile{
+.landing_page_tile {
     background-color: #095461;
     color: #ffffff;
     font-size: 3em;
@@ -147,71 +158,220 @@ nav a:visited{
     margin: 0 1em;
 }
 
-.tiles_text{
+.tiles_text {
     margin: 1em auto .5em;
     width: 5em;
     text-align: center;
 }
 
-.control_tile_text{
+.control_tile_text {
     width: 6em;
 }
 
-.landing_page_tile_images{
+.landing_page_tile_images {
     width: 4.5em;
     margin: 0 auto;
     display: flex;
 }
 
-.budget_button_container{
+.budget_button_container {
     display: flex;
 }
 
-.lower_button{
+.lower_button {
     margin: 1em auto;
 }
 
 /* Form Modals */
-.form_modal{
+
+.form_modal {
     width: 20em;
 }
 
-.signup_modal{
+.signup_modal {
     width: 24em;
 }
-.form_modal *{
+
+.form_modal * {
     display: block;
 }
 
-.form_modal h2{
+.form_modal h2 {
     font-size: 2.5em;
 }
 
-.form_modal_div *{
+.form_modal_div * {
     width: fit-content;
     margin: .5em auto;
     font-size: 1.5em;
 }
 
-.form_modal_div input{
+.form_modal_div input {
     width: 10em;
 }
 
-.modal_button{
+.modal_button {
     padding: .4em 1em;
-    background-color: #1286CE;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: #000000;
     border-radius: .3em;
 }
 
-.redirect_modal_link{
+.modal_button:hover {
+    background-color: #1286CE;
+    color: #ffffff;
+}
+
+.redirect_modal_link {
     width: fit-content;
     margin: 0 auto;
 }
-.redirect_modal_link a{
-    margin-left: .5em ;
+
+.redirect_modal_link span {
+    margin-left: .5em;
+    text-decoration: underline;
 }
-.redirect_modal_link a:visited{
-    color: #ffffff;
+
+.redirect_modal_link span:hover {
+    cursor: pointer;
+    background-color: #1286CE;
 }
-    
+
+/* Budget Month Page */
+
+.budget_group_container, .add_group_container {
+    margin: 1em auto;
+    width: 90%;
+    border: #707070 solid .2em;
+    border-radius: .5em;
+    padding-bottom: 1em;
+}
+
+.add_group_container {
+    border-style: dashed;
+}
+
+.budget_group_heading_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 0.4fr;
+    grid-template-areas: "budgetTitle . budgetDate budgetAmount budgetSpent .";
+    justify-items: center;
+}
+
+.budget_group_title {
+    grid-area: budgetTitle;
+    justify-self: flex-start;
+    margin: 0 0 0 3em;
+}
+
+.budget_group_amount {
+    grid-area: budgetAmount;
+}
+
+.budget_group_spent {
+    grid-area: budgetSpent;
+}
+
+.budget_group_date {
+    grid-area: budgetDate;
+}
+
+.budget_item_title {
+    justify-self: flex-start;
+    margin: 0 0 0 3em;
+    width: 80%;
+    /* grid-area: budgetTitle; */
+}
+
+
+ .budget_item_buttons button {
+    width: 5em;
+    margin-right: 1em;
+}
+
+/* Budget Item */
+
+.budget_group_item {
+    display: grid;
+    margin: 1em auto;
+    grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr .5fr;
+    padding: 1em 0;
+    justify-items: center;
+}
+
+.budget_group_items_container, .profile_container {
+    width: 95%;
+    margin: 1em auto;
+    border-bottom: .3em solid #12788B;
+}
+
+.add_budget_item_button, .add_group_button {
+    font-size: 1em;
+    color: #5B90D4;
+    background-color: #ffffff;
+    border: none;
+    margin: 1em 0 0 2em;
+}
+
+.add_group_button span {
+    font-size: 1.2em;
+    margin-right: .2em;
+}
+
+/* Transaction */
+
+.item_transactions_container {
+    /* display: none; */
+    width: 80%;
+    margin: 0 auto;
+}
+
+.transaction_heading_container, .item_transaction {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-items: center;
+    margin: 1em auto;
+}
+
+.transaction_heading_container *, .item_transaction * {
+    justify-self: flex-start;
+}
+
+.transaction_date{
+    width: 15em;
+}
+
+.transaction_amount {
+    margin-left: 2em;
+}
+
+.transaction_buttons {
+    display: flex;
+    margin-bottom: 1em;
+}
+
+.transaction_buttons button {
+    height: fit-content;
+    margin: .1em auto;
+}
+
+/* Profile Page */
+.profile_months_container{
+    width: 95%;
+    margin: 1em auto;
+}
+
+.profile_months_card_container{
+    display: flex;
+}
+
+.profile_month_card{
+    width: 15em;
+    margin: 1em auto;
+    text-align: center;
+}
+
+.profile_month_card li{
+    list-style-type: none;
+    text-align: left;
+}

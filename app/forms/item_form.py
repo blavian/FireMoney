@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, DateField, FloatField
 from wtforms.validators import DataRequired, ValidationError
-from app.models import Budget_Item
+from app.models import BudgetItem
 
 
 class ItemForm(FlaskForm):
