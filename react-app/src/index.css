@@ -299,7 +299,7 @@ nav a:visited {
     justify-items: center;
 }
 
-.budget_group_items_container {
+.budget_group_items_container, .profile_container {
     width: 95%;
     margin: 1em auto;
     border-bottom: .3em solid #12788B;
@@ -353,4 +353,25 @@ nav a:visited {
 .transaction_buttons button {
     height: fit-content;
     margin: .1em auto;
+}
+
+/* Profile Page */
+.profile_months_container{
+    width: 95%;
+    margin: 1em auto;
+}
+
+.profile_months_card_container{
+    display: flex;
+}
+
+.profile_month_card{
+    width: 15em;
+    margin: 1em auto;
+    text-align: center;
+}
+
+.profile_month_card li{
+    list-style-type: none;
+    text-align: left;
 }

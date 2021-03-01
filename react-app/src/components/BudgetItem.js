@@ -16,13 +16,21 @@ function BudgetItem({ groupId, itemId }) {
   // Hooks
   const budgetItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId]);
   let budgetItemDueDate = budgetItem ? new Date(budgetItem.dueDate) : "";
-  let budgetItemDueDateInput;
 
-  if (budgetItemDueDate) {
-    const budgetItemMonth = budgetItemDueDate.getMonth() < 10 ? `0${budgetItemDueDate.getMonth()}` : budgetItemDueDate.getMonth();
-    const budgetItemDay = budgetItemDueDate.getDay() < 10 ? `0${budgetItemDueDate.getDay()}` : budgetItemDueDate.getDay();
-    budgetItemDueDateInput = `${budgetItemDueDate.getFullYear()}-${budgetItemMonth}-${budgetItemDay}`;
+  //Working on default date value for input
+  function dateFormat(){
+    let budgetItemDueDateInput = budgetItemDueDate.toDateString().split(" ");
+    budgetItemDueDateInput[2] = parseInt(budgetItemDueDateInput[2])+1;
+    console.log(budgetItemDueDateInput)
+    if (budgetItemDueDate) {
+      const budgetItemMonth = budgetItemDueDate.getMonth() < 10 ? `0${budgetItemDueDate.getMonth()}` : budgetItemDueDate.getMonth();
+      const budgetItemDay = budgetItemDueDate.getDay() < 10 ? `0${budgetItemDueDate.getDay()}` : budgetItemDueDate.getDay();
+      budgetItemDueDateInput = `${budgetItemDueDate.getFullYear()}-${budgetItemMonth}-${budgetItemDay}`;
+    }
+    return budgetItemDueDateInput;
   }
+  console.log(dateFormat())
+  
   const [updateItemView, setUpdateItemView] = useState(false);
   const [updatedItemName, setUpdatedItemName] = useState(budgetItem? budgetItem.title : "");
   const [updatedItemDescription, setUpdatedItemDescription] = useState(budgetItem ? budgetItem.description : "");
@@ -90,7 +98,7 @@ function BudgetItem({ groupId, itemId }) {
             <span>{budgetItemDueDate.toDateString()}</span>
             : <input
               type="date"
-              defaultValue={budgetItemDueDateInput}
+              defaultValue={dateFormat()}
               onChange={(e) => setUpdatedItemDate(e.target.value)}
             ></input>
           }
