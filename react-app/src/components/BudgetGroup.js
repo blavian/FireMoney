@@ -34,8 +34,12 @@ function BudgetGroup({ groupId }) {
         dueDate: newItemDueDate,
         groupId,
       })
-    );
-    setNewItemName("");
+    ).then(() => {
+      setNewItemName("");
+      setNewItemDescription("");
+      setNewItemExpectedAmount("");
+      setNewItemDueDate("");
+    })
   };
 
   return (
