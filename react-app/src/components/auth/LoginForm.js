@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Redirect, useHistory } from "react-router-dom";
-import { login } from "../../services/auth";
+import { login,demoLogin } from "../../services/auth";
 import { useDispatch } from "react-redux"
 
 // Redux actions imports
@@ -24,6 +24,18 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
     }
     history.push("/profile")
   };
+
+  const onDemoLogin = async (e) => {
+    e.preventDefault();
+    const user = await demoLogin(email, password);
+    if (!user.errors) {
+      setAuthenticated(true);
+    } else {
+      setErrors(user.errors);
+    }
+    history.push("/profile");
+  };
+
 
   const updateEmail = (e) => {
     setEmail(e.target.value);
