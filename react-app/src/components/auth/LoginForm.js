@@ -8,7 +8,6 @@ import * as sessionActions from "../../store/reducers/session";
 
 const LoginForm = ({ authenticated, setAuthenticated }) => {
   const history = useHistory();
-  const dispatch = useDispatch();
 
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState("");
