@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Redirect, useHistory } from "react-router-dom";
-import { login } from "../../services/auth";
+import { login,demoLogin } from "../../services/auth";
 import { useDispatch } from "react-redux"
 
 // Redux actions imports
@@ -8,7 +8,6 @@ import * as sessionActions from "../../store/reducers/session";
 
 const LoginForm = ({ authenticated, setAuthenticated }) => {
   const history = useHistory();
-  const dispatch = useDispatch();
 
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState("");
@@ -25,6 +24,18 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
     history.push("/profile")
   };
 
+  const onDemoLogin = async (e) => {
+    e.preventDefault();
+    const user = await demoLogin(email, password);
+    if (!user.errors) {
+      setAuthenticated(true);
+    } else {
+      setErrors(user.errors);
+    }
+    history.push("/profile");
+  };
+
+
   const updateEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -39,7 +50,7 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
 
   return (
     <form className="form_modal login_modal" onSubmit={onLogin}>
-      <div className="form_modal_div" >
+      <div className="form_modal_div">
         <h2>Login</h2>
       </div>
       <div>
@@ -47,7 +58,7 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
           <div>{error}</div>
         ))}
       </div>
-      <div className="form_modal_div" >
+      <div className="form_modal_div">
         <label htmlFor="email">Email</label>
         <input
           name="email"
@@ -57,7 +68,7 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
           onChange={updateEmail}
         />
       </div>
-      <div className="form_modal_div" >
+      <div className="form_modal_div">
         <label htmlFor="password">Password</label>
         <input
           name="password"
@@ -66,7 +77,12 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
           value={password}
           onChange={updatePassword}
         />
-        <button className="modal_button" type="submit">Login</button>
+        <button className="modal_button" type="submit">
+          Login
+        </button>
+        <button className="modal_button" type="submit" onClick={onDemoLogin}>
+          Demo User
+        </button>
       </div>
     </form>
   );
