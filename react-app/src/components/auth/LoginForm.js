@@ -53,7 +53,7 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
       <div className="form_modal_div">
         <h2>Login</h2>
       </div>
-      <div>
+      <div className="errors">
         {errors.map((error) => (
           <div>{error}</div>
         ))}
