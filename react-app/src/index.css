@@ -236,6 +236,9 @@ nav a:visited {
     cursor: pointer;
     background-color: #1286CE;
 }
+.errors{
+    text-align: center;
+}
 
 /* Budget Month Page */
 
