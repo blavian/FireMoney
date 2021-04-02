@@ -60,6 +60,10 @@ function BudgetItem({ groupId, itemId }) {
                                               dueDate: updatedItemDate
                                             }));
     setUpdateItemView(false)
+    setUpdatedItemName("");
+    setUpdatedItemDescription("");
+    setUpdatedItemAmount("");
+    setUpdatedItemDate("");
   }
 
   function deleteItem(evt) {

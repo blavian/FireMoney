@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { authenticate } from "./services/auth";
@@ -17,6 +17,8 @@ import Profile from "./components/Profile"
 import * as sessionActions from "./store/reducers/session";
 
 import "./index.css";
+import NotFoundPage from "./components/NotFoundPage";
+import TransactionsPage from "./components/TransactionsPage";
 
 function App() {
   const query = useQuery();
@@ -80,6 +82,17 @@ function App() {
         >
           <Profile />
         </ProtectedRoute>
+        <ProtectedRoute
+          path="/transactions"
+          exact={true}
+          authenticated={authenticated}
+        >
+          <TransactionsPage />
+        </ProtectedRoute>
+        <Route path="/404" exact={true}>
+          <NotFoundPage />
+        </Route>
+        <Redirect to ="/404" />
       </Switch>
     </>
   );

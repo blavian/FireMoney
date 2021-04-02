@@ -96,3 +96,67 @@ This is the backend for the Flask React project.
 10. Under Settings find "Config Vars" and add any additional/secret .env variables.
 
 11. profit
+
+DELETE FROM transactions;
+DELETE FROM budget_items;
+DELETE FROM budget_groups;
+ALTER SEQUENCE budget_items_id_seq RESTART WITH 9;
+ALTER SEQUENCE budget_groups_id_seq RESTART WITH 6;
+ALTER SEQUENCE transactions_id_seq RESTART WITH 10;
+INSERT INTO budget_groups (id, title, month_int, year_int, user_id) VALUES
+	(1, 'Groceries', 2, 2021, 1),
+    (2, 'Automotive', 2, 2021, 1),
+    (3, 'Homegoods', 2, 2021, 1),
+    (4, 'Eating Out', 2, 2021, 1),
+    (5, 'Travel', 2, 2021, 1);
+INSERT INTO budget_items (id, group_id, title, description, expected_amount, due_date) VALUES
+	(1, 1, 'Shopping Trip', 'carrots, ribeye', 110.00, '2-28-2021'),
+    (2, 4, 'Valentines Day', 'dominos', 500.00, '2-14-2021'),
+    (3, 5, 'Mexico', 'family vacation', 3000.00, '2-1-2021'),
+    (4, 2, 'Brake Change', 'changed brakes', 250.00, '2-26-2021'),
+	(5, 1, 'More Groceries', 'ice cream, bacon', 210.00, '2-28-2021'),
+    (6, 3, 'Plasma TV', 'dominos', 100.00, '2-7-2021'),
+    (7, 3, 'TV stand', 'transparent and solid', 3000.00, '2-6-2021'),
+    (8, 2, 'oil change', 'full synthetic', 40.00, '2-26-2021');
+INSERT INTO transactions (id, item_id, title, amount, date) VALUES
+	(1, 1, 'Kroger Grocery Store', 110.00, '2-28-2021'),
+    (2, 2, 'dominos', 500.00, '2-14-2021'),
+    (3, 6, 'Wal-Mart Marketplace', 100.00, '2-7-2021'),
+    (4, 5, 'Whole Foods', 210.00, '2-28-2021'),
+	(5, 3, 'resort', 2500.00, '2-1-2021'),
+    (6, 3, 'plane tickets', 500.00, '2-1-2021'),
+	(7, 7, 'Pottery Barn', 3000.00, '2-6-2021'),
+    (8, 8, 'jiffy lube', 40.00, '2-26-2021'),
+    (9, 4, 'ford', 250.00, '2-26-2021');
+    
+DELETE FROM transactions;
+DELETE FROM budget_items;
+DELETE FROM budget_groups;
+ALTER SEQUENCE budget_items_id_seq RESTART WITH 9;
+ALTER SEQUENCE budget_groups_id_seq RESTART WITH 6;
+ALTER SEQUENCE transactions_id_seq RESTART WITH 10;
+INSERT INTO budget_groups (id, title, month_int, year_int, user_id) VALUES
+	(1, 'Groceries', 2, 2021, 1),
+    (2, 'Automotive', 2, 2021, 1),
+    (3, 'Homegoods', 2, 2021, 1),
+    (4, 'Eating Out', 2, 2021, 1),
+    (5, 'Travel', 2, 2021, 1);
+INSERT INTO budget_items (id, group_id, title, description, expected_amount, due_date) VALUES
+	(1, 1, 'Shopping Trip', 'carrots, ribeye', 110.00, '2-28-2021'),
+    (2, 4, 'Valentines Day', 'dominos', 500.00, '2-14-2021'),
+    (3, 5, 'Mexico', 'family vacation', 3000.00, '2-1-2021'),
+    (4, 2, 'Brake Change', 'changed brakes', 250.00, '2-26-2021'),
+	(5, 1, 'More Groceries', 'ice cream, bacon', 210.00, '2-28-2021'),
+    (6, 3, 'Plasma TV', 'dominos', 100.00, '2-7-2021'),
+    (7, 3, 'TV stand', 'transparent and solid', 3000.00, '2-6-2021'),
+    (8, 2, 'oil change', 'full synthetic', 40.00, '2-26-2021');
+INSERT INTO transactions (id, item_id, title, amount, date) VALUES
+	(1, 1, 'Kroger Grocery Store', 110.00, '2-28-2021'),
+    (2, 2, 'dominos', 500.00, '2-14-2021'),
+    (3, 6, 'Wal-Mart Marketplace', 100.00, '2-7-2021'),
+    (4, 5, 'Whole Foods', 210.00, '2-28-2021'),
+	(5, 3, 'resort', 2500.00, '2-1-2021'),
+    (6, 3, 'plane tickets', 500.00, '2-1-2021'),
+	(7, 7, 'Pottery Barn', 3000.00, '2-6-2021'),
+    (8, 8, 'jiffy lube', 40.00, '2-26-2021'),
+    (9, 4, 'ford', 250.00, '2-26-2021');

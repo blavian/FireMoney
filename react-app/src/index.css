@@ -372,9 +372,58 @@ nav a:visited {
     width: 15em;
     margin: 1em auto;
     text-align: center;
+    border: solid 1px;
 }
 
 .profile_month_card li{
     list-style-type: none;
     text-align: left;
+    display: flex;
+    margin-left: 1em;
+}
+.profile_month_card p{
+    margin-right: .5em;
+    font-weight: bold;
+}
+
+.profile_month_card img{
+    width: 10em;
+}
+
+.home_details{
+    color: #622A71
+}
+
+.auto_bills_details{
+    color: #53B6B1;
+}
+
+.entertainment_details{
+    color: #EB1779;
+}
+
+.dog_supplies_details{
+    color: #F9AB0C;
+}
+
+/* 404 Page */
+
+.not_found_image{
+    background-image: url(./images/404_image.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 60em;
+    color: #ffffff;
+    margin: 0 auto;
+}
+
+.not_found_image a{
+    text-decoration: none;
+}
+.not_found_image p{
+    margin: 0;
+}
+
+.not_found_image a:visited{
+    color: #ffffff;
 }
