@@ -36,23 +36,30 @@ function Budget({ monthInt, yearInt }) {
 
 
   useEffect(() => {
+    // 1) find current date
     dispatch(sessionActions.getUserMonths())
     var today = new Date();
     var monthToday = Number(today.getMonth() + 1)
     var yearToday = Number(today.getFullYear());
-    for (let key in userMonths) {
-      let month = userMonths[key]
-      // if we have a month for today, go to that month
-      if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) == Number(monthToday))) {
-        console.log("monthToday:", monthToday)
-        history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
-        dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
-        return
-      } else {
-        // find highest month
+    let highestMonth = 0
+    // 2) find current month or else newest month
+    if (userMonths){
+      for (let key in userMonths) {
+        let month = userMonths[key]
+        // if we have a month for today, go to that month
+        if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) == Number(monthToday))) {
+          highestMonth = Number(month.monthInt)
+          break
+          // else lets find the newest month we have
+        } else if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) > highestMonth)) {
+          highestMonth = Number(month.monthInt)
+        }
       }
+    // 3) set month to be shown
+      history.push(`/budget?monthInt=${highestMonth}&yearInt=${yearToday}`)
+      dispatch(budgetActions.getBudgetMonth({ monthInt: highestMonth, yearInt: yearToday }))
     }
-
+    return
   },[]);
 
   const nextBudgetMonth = () => {
