@@ -27,10 +27,12 @@ function Budget({ monthInt, yearInt }) {
 
   // Run ONLY on first render--gets requested budget month
 
-  // useEffect(()=>{
-    // dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
-  //   dispatch(sessionActions.getUserMonths())
-  // },[history])
+  useEffect(()=>{
+    if (monthInt & yearInt){
+      dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
+      dispatch(sessionActions.getUserMonths())
+    }
+  },[history])
 
 
   useEffect(() => {
@@ -45,18 +47,11 @@ function Budget({ monthInt, yearInt }) {
         console.log("monthToday:", monthToday)
         history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
         dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
-        // dispatch(sessionActions.getUserMonths())
         return
       } else {
-        // find highest month 
+        // find highest month
       }
     }
-    // console.log(monthInt, yearInt);
-    // console.log(monthToday, yearToday);
-    // dispatch(sessionActions.getUserMonths())
-    // dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
-    // })
-    // history.push(`/budget?monthInt=${nextMonth}&yearInt=${nextYear}`);
 
   },[]);
 
