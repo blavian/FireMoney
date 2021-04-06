@@ -27,31 +27,34 @@ function Budget({ monthInt, yearInt }) {
 
   // Run ONLY on first render--gets requested budget month
 
-  useEffect(()=>{
-    dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
-    dispatch(sessionActions.getUserMonths())
-  },[history])
+  // useEffect(()=>{
+    // dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
+  //   dispatch(sessionActions.getUserMonths())
+  // },[history])
 
 
   useEffect(() => {
+    dispatch(sessionActions.getUserMonths())
     var today = new Date();
     var monthToday = Number(today.getMonth() + 1)
     var yearToday = Number(today.getFullYear());
     for (let key in userMonths) {
       let month = userMonths[key]
+      // if we have a month for today, go to that month
       if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) == Number(monthToday))) {
-        // console.log("yearToday:", yearToday)
-        // console.log("monthToday", monthToday)
+        console.log("monthToday:", monthToday)
         history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
         dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
-        dispatch(sessionActions.getUserMonths())
+        // dispatch(sessionActions.getUserMonths())
         return
+      } else {
+        // find highest month 
       }
     }
-    console.log(monthInt, yearInt);
-
+    // console.log(monthInt, yearInt);
+    // console.log(monthToday, yearToday);
     // dispatch(sessionActions.getUserMonths())
-    dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
+    // dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
     // })
     // history.push(`/budget?monthInt=${nextMonth}&yearInt=${nextYear}`);
 
