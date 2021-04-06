@@ -1,8 +1,10 @@
 from flask import Blueprint, jsonify, session, request
-from app.models import User, db
+from app.models import User, db, BudgetGroup
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
+
+from datetime import date
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -69,6 +71,33 @@ def sign_up():
             password=form.data['password']
         )
         db.session.add(user)
+        db.session.commit()
+
+        # find todays date
+        today = date.today()
+        # find month
+        month_int = today.month
+        # find year
+        year_int = today.year
+
+    #   create budget groups with user.id, month, year
+    #       'Groceries'
+        group1 = BudgetGroup(user_id=user.id, title='Groceries',
+                        month_int=month_int, year_int=year_int)
+    #       'Automotive'
+        group2 = BudgetGroup(user_id=user.id, title='Automotive',
+                        month_int=month_int, year_int=year_int)
+    #       'Homegoods'
+        group3 = BudgetGroup(user_id=user.id, title='Homegoods',
+                        month_int=month_int, year_int=year_int)
+    #       'Eating Out'
+        group4 = BudgetGroup(user_id=user.id, title='Eating Out',
+                        month_int=month_int, year_int=year_int)
+    #       'Travel'
+        group5 = BudgetGroup(user_id=user.id, title='Travel',
+                        month_int=month_int, year_int=year_int)
+
+        db.session.add_all([group1, group2, group3, group3, group4, group5])
         db.session.commit()
         login_user(user)
         return user.to_dict()

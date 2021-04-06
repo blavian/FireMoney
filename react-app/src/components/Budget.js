@@ -40,8 +40,8 @@ function Budget({ monthInt, yearInt }) {
     for (let key in userMonths) {
       let month = userMonths[key]
       if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) == Number(monthToday))) {
-        console.log("yearToday:", yearToday)
-        console.log("monthToday", monthToday)
+        // console.log("yearToday:", yearToday)
+        // console.log("monthToday", monthToday)
         history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
         dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
         dispatch(sessionActions.getUserMonths())
