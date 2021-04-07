@@ -3,6 +3,8 @@ import Transaction from "./Transaction";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "../context/Modal"
 import { forceUpdate } from "react"
+import moment from 'moment';
+// moment().format();
 
 import * as budgetActions from "../store/reducers/budget";
 import { getTransactionModal, hideTransactionModal } from "../store/reducers/modal"
@@ -18,18 +20,26 @@ function BudgetItem({ groupId, itemId }) {
   let budgetItemDueDate = budgetItem ? new Date(budgetItem.dueDate) : "";
 
   //Working on default date value for input
-  function dateFormat(){
-    let budgetItemDueDateInput = budgetItemDueDate.toDateString()
-    // let budgetItemDueDateInput = budgetItemDueDate.toDateString().split(" ");
-    // budgetItemDueDateInput[2] = parseInt(budgetItemDueDateInput[2])+1;
-    // console.log(budgetItemDueDateInput)
-    // if (budgetItemDueDate) {
-    //   const budgetItemMonth = budgetItemDueDate.getMonth() < 10 ? `0${budgetItemDueDate.getMonth()}` : budgetItemDueDate.getMonth();
-    //   const budgetItemDay = budgetItemDueDate.getDay() < 10 ? `0${budgetItemDueDate.getDay()}` : budgetItemDueDate.getDay();
-    //   budgetItemDueDateInput = `${budgetItemDueDate.getFullYear()}-${budgetItemMonth}-${budgetItemDay}`;
-    // }
-    return budgetItemDueDateInput;
+  // function dateFormat(){
+  //   // let budgetItemDueDateInput = budgetItemDueDate.toDateString()
+  //   // let budgetItemDueDateInput = budgetItemDueDate.getDate() + 1
+  //   // let budgetItemDueDateInput = budgetItemDueDate.toDateString().split(" ");
+  //   // budgetItemDueDateInput[2] = parseInt(budgetItemDueDateInput[2])+1;
+  //   // console.log(budgetItemDueDateInput)
+  //   // if (budgetItemDueDate) {
+  //   //   const budgetItemMonth = budgetItemDueDate.getMonth() < 10 ? `0${budgetItemDueDate.getMonth()}` : budgetItemDueDate.getMonth();
+  //   //   const budgetItemDay = budgetItemDueDate.getDay() < 10 ? `0${budgetItemDueDate.getDay()}` : budgetItemDueDate.getDay();
+  //   //   budgetItemDueDateInput = `${budgetItemDueDate.getFullYear()}-${budgetItemMonth}-${budgetItemDay}`;
+  //   // }
+  //   return budgetItemDueDateInput;
+  // }
+  moment().format();
+
+  function dateFormat(date){
+    let newDate = moment(date).format("MM/DD/YYYY")
+    return newDate
   }
+
 
   const [updateItemView, setUpdateItemView] = useState(false);
   const [updatedItemName, setUpdatedItemName] = useState(budgetItem? budgetItem.title : "");
@@ -100,7 +110,7 @@ function BudgetItem({ groupId, itemId }) {
         </div>
         <div className="budget_item_Date">
           {!updateItemView ?
-              <span>{budgetItem.dueDate}</span>
+              <span>{dateFormat(budgetItem.dueDate)}</span>
             : <input
               type="date"
               defaultValue={budgetItem.dueDate}
