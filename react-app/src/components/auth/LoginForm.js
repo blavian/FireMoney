@@ -26,18 +26,18 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
       var monthToday = Number(today.getMonth() + 1)
       var yearToday = Number(today.getFullYear());
       let currentMonth = false
-      // 2) find current month or else newest month
+      // 2) find if current month exists
         for (let key in userMonths) {
           let month = userMonths[key]
-          // if we have a month for today, go to that month
           if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) == Number(monthToday))) {
             currentMonth = true
           }
         }
+        //  if not create new current month
         if (currentMonth == false) {
           dispatch(budgetActions.createCurrentBudgetMonth())
-          history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
-          dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
+          // history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
+          // dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
         }
     } else {
       setErrors(user.errors);
@@ -50,6 +50,24 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
     const user = await demoLogin(email, password);
     if (!user.errors) {
       setAuthenticated(true);
+      dispatch(sessionActions.getUserMonths())
+      var today = new Date();
+      var monthToday = Number(today.getMonth() + 1)
+      var yearToday = Number(today.getFullYear());
+      let currentMonth = false
+      // 2) find if current month exists
+      for (let key in userMonths) {
+        let month = userMonths[key]
+        if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) == Number(monthToday))) {
+          currentMonth = true
+        }
+      }
+      //  if not create new current month
+      if (currentMonth == false) {
+        dispatch(budgetActions.createCurrentBudgetMonth())
+        // history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
+        // dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
+      }
     } else {
       setErrors(user.errors);
     }
