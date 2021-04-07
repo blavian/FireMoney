@@ -41,26 +41,24 @@ function Budget({ monthInt, yearInt }) {
     var today = new Date();
     var monthToday = Number(today.getMonth() + 1)
     var yearToday = Number(today.getFullYear());
-    let highestMonth = 0
+    // let currentMonth = false
     // 2) find current month or else newest month
-    if (userMonths){
-      for (let key in userMonths) {
-        let month = userMonths[key]
-        // if we have a month for today, go to that month
-        if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) == Number(monthToday))) {
-          highestMonth = Number(month.monthInt)
-          break
-          // else create current month
-
-          // dispatch create current month
-        } else if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) > highestMonth)) {
-          highestMonth = Number(month.monthInt)
-        }
-      }
-    // 3) set month to be shown
-      history.push(`/budget?monthInt=${highestMonth}&yearInt=${yearToday}`)
-      dispatch(budgetActions.getBudgetMonth({ monthInt: highestMonth, yearInt: yearToday }))
-    }
+    // if (userMonths){
+    //   for (let key in userMonths) {
+    //     let month = userMonths[key]
+    //     // if we have a month for today, go to that month
+    //     if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) == Number(monthToday))) {
+    //       currentMonth = true
+    //     }
+    //   }
+    //   if (currentMonth == false){
+    //     dispatch(budgetActions.createCurrentBudgetMonth())
+    //     // history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
+    //     // dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
+    //   }
+      history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
+      dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
+    // }
     return
   },[]);
 

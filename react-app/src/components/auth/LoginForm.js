@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { login,demoLogin } from "../../services/auth";
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import * as budgetActions from "../../store/reducers/budget";
 
 // Redux actions imports
 import * as sessionActions from "../../store/reducers/session";
@@ -12,12 +13,32 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const userMonths = useSelector((x) => x.session.user.months)
+  const dispatch = useDispatch()
 
   const onLogin = async (e) => {
     e.preventDefault();
     const user = await login(email, password);
     if (!user.errors) {
       setAuthenticated(true);
+      dispatch(sessionActions.getUserMonths())
+      var today = new Date();
+      var monthToday = Number(today.getMonth() + 1)
+      var yearToday = Number(today.getFullYear());
+      let currentMonth = false
+      // 2) find current month or else newest month
+        for (let key in userMonths) {
+          let month = userMonths[key]
+          // if we have a month for today, go to that month
+          if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) == Number(monthToday))) {
+            currentMonth = true
+          }
+        }
+        if (currentMonth == false) {
+          dispatch(budgetActions.createCurrentBudgetMonth())
+          history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
+          dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
+        }
     } else {
       setErrors(user.errors);
     }
