@@ -1,8 +1,8 @@
-import React, { Component, useState } from "react";
-import BudgetItem from "./BudgetItem";
+import React, { useState } from "react";
+import BudgetItem from "../BudgetItem/BudgetItem";
 import { useDispatch, useSelector } from "react-redux";
 
-import * as budgetActions from "../store/reducers/budget";
+import * as budgetActions from "../../store/reducers/budget";
 
 function BudgetGroup({ groupId }) {
   // Local state

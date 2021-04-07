@@ -1,0 +1,49 @@
+/* Profile Page */
+
+.profile_months_container{
+    width: 95%;
+    margin: 1em auto;
+}
+
+.profile_months_card_container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.profile_month_card{
+    width: 15em;
+    margin: 1em auto;
+    text-align: center;
+    border: solid 1px;
+}
+
+.profile_month_card li{
+    list-style-type: none;
+    text-align: left;
+    display: flex;
+    margin-left: 1em;
+}
+.profile_month_card p{
+    margin-right: .5em;
+    font-weight: bold;
+}
+
+.profile_month_card img{
+    width: 10em;
+}
+
+.home_details{
+    color: #622A71
+}
+
+.auto_bills_details{
+    color: #53B6B1;
+}
+
+.entertainment_details{
+    color: #EB1779;
+}
+
+.dog_supplies_details{
+    color: #F9AB0C;
+}

@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
-import LogoutButton from './auth/LogoutButton';
-import icon from '../images/Icon.png';
-import hbmenu_icon from "../images/HBMenu.png"
-import closeHB_icon from "../images/CloseHBMenu.png"
-import login_icon from "../images/login.png"
-import budget_icon from "../images/Budget.png"
-import transaction_icon from "../images/Transactions.png"
+import LogoutButton from '../AuthForms/LogoutButton';
+import icon from '../../images/Icon.png';
+import hbmenu_icon from "../../images/HBMenu.png"
+import closeHB_icon from "../../images/CloseHBMenu.png"
+import login_icon from "../../images/login.png"
+import budget_icon from "../../images/Budget.png"
+import transaction_icon from "../../images/Transactions.png"
 import { useSelector, useDispatch } from 'react-redux';
-import AuthModals from './AuthModals';
-import * as budgetActions from "../store/reducers/budget";
-import * as sessionActions from "../store/reducers/session"
+import AuthModals from '../AuthModals/AuthModals.js';
+import * as budgetActions from "../../store/reducers/budget";
+import * as sessionActions from "../../store/reducers/session"
+import "./NavBar.css"
 
 
-const NavBar = ({ authenticated, setAuthenticated }) => {
+const NavBar = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated }) => {
   const currUser = useSelector((x) => x.session.user.username)
-
-  const [showhbmenu, setShowHBMenu] = useState(false);
 
   const hbtrigger = () => setShowHBMenu(!showhbmenu);
   const dispatch = useDispatch();

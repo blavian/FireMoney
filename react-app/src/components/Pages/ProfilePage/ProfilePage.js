@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector } from "react-redux";
-import circleGraph from "../images/Circle_Graph.png"
+import circleGraph from "../../../images/Circle_Graph.png"
+import "./ProfilePage.css"
 
-function Profile(){
+function ProfilePage(){
     const currUser = useSelector((x) => x.session.user.username)
     const userMonths = useSelector((x) => x.session.user.months)
 
@@ -36,7 +37,7 @@ function Profile(){
                     ( userMonths.map(month => 
                         <div className="profile_month_card" key={month.monthInt}>
                             <h2>{calendar[month.monthInt]}</h2>
-                            <img src={circleGraph}></img>
+                            <img src={circleGraph} alt="graph"></img>
                             <div className="card_percentages">
                                 <ul>
                                     <li className="home_details">
@@ -69,4 +70,4 @@ function Profile(){
     )
 }
 
-export default Profile;
+export default ProfilePage;

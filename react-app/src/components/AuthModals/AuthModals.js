@@ -1,12 +1,13 @@
-import React, {useState} from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
-import { Modal } from "../context/Modal"
-import LoginForm from "./auth/LoginForm"
-import login_icon from "../images/login.png"
-import SignUpForm from "./auth/SignUpForm";
-import signup_icon from "../images/signup.png";
+import { Modal } from "../../context/Modal"
+import LoginForm from "../AuthForms/LoginForm"
+import login_icon from "../../images/login.png"
+import SignUpForm from "../AuthForms/SignUpForm";
+import signup_icon from "../../images/signup.png";
 import { useDispatch, useSelector } from "react-redux";
-import * as modalActions from "../store/reducers/modal";
+import * as modalActions from "../../store/reducers/modal";
+import "./AuthModals.css"
 
 function AuthModals({ authenticated, setAuthenticated }){
     const dispatch = useDispatch();

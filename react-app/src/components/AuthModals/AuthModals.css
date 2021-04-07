@@ -1,0 +1,57 @@
+/* Form Modals */
+
+.form_modal {
+    width: 20em;
+}
+
+.signup_modal {
+    width: 24em;
+}
+
+.form_modal * {
+    display: block;
+}
+
+.form_modal h2 {
+    font-size: 2.5em;
+}
+
+.form_modal_div * {
+    width: fit-content;
+    margin: .5em auto;
+    font-size: 1.5em;
+}
+
+.form_modal_div input {
+    width: 10em;
+}
+
+.modal_button {
+    padding: .4em 1em;
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: .3em;
+}
+
+.modal_button:hover {
+    background-color: #1286CE;
+    color: #ffffff;
+}
+
+.redirect_modal_link {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.redirect_modal_link span {
+    margin-left: .5em;
+    text-decoration: underline;
+}
+
+.redirect_modal_link span:hover {
+    cursor: pointer;
+    background-color: #1286CE;
+}
+.errors{
+    text-align: center;
+}

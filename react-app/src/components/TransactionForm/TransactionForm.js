@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createTransaction } from "../store/reducers/budget"
-import { hideTransactionModal } from "../store/reducers/modal"
+import { createTransaction } from "../../store/reducers/budget"
+import { hideTransactionModal } from "../../store/reducers/modal"
 import moment from 'moment';
 
 function TransactionForm() {

@@ -1,13 +1,10 @@
-import React, { Component, useEffect, useState } from "react";
-import Transaction from "./Transaction";
+import React, { useState } from "react";
+import Transaction from "../Transaction/Transaction";
 import { useDispatch, useSelector } from "react-redux";
-import { Modal } from "../context/Modal"
-import { forceUpdate } from "react"
 import moment from 'moment';
-// moment().format();
-
-import * as budgetActions from "../store/reducers/budget";
-import { getTransactionModal, hideTransactionModal } from "../store/reducers/modal"
+import * as budgetActions from "../../store/reducers/budget";
+import { getTransactionModal } from "../../store/reducers/modal"
+import "./BudgetItem.css"
 
 function BudgetItem({ groupId, itemId }) {
   // Local state
