@@ -17,7 +17,7 @@ function Budget({ monthInt, yearInt }) {
   const [noPreviousMonth, setNoPreviousMonth] = useState(false)
   const transactionModal = useSelector((x) => x.transactionModal.transactionModalShow)
   const userMonths = useSelector((x)=> x.session.user.months)
-  // console.log("useonths",userMonths)
+
   // Hooks
   const dispatch = useDispatch();
   const budgetMonth = useSelector((x) => x.budget.budgetMonth);
@@ -25,36 +25,19 @@ function Budget({ monthInt, yearInt }) {
   const currentMonth = budgetMonth.monthInt
   const history = useHistory();
 
-  // Run ONLY on first render--gets requested budget month
-
   useEffect(()=>{
-    dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
-    dispatch(sessionActions.getUserMonths())
+    // if (monthInt & yearInt){
+    //   dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
+    //   dispatch(sessionActions.getUserMonths())
+    // }
   },[history])
 
 
   useEffect(() => {
-    var today = new Date();
-    var monthToday = Number(today.getMonth() + 1)
-    var yearToday = Number(today.getFullYear());
-    for (let key in userMonths) {
-      let month = userMonths[key]
-      if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) == Number(monthToday))) {
-        console.log("yearToday:", yearToday)
-        console.log("monthToday", monthToday)
-        history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
-        dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
-        dispatch(sessionActions.getUserMonths())
-        return
-      }
-    }
-    console.log(monthInt, yearInt);
-
-    // dispatch(sessionActions.getUserMonths())
-    dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
-    // })
-    // history.push(`/budget?monthInt=${nextMonth}&yearInt=${nextYear}`);
-
+    // uses query string to keep current month page on re-render
+    dispatch(sessionActions.getUserMonths())
+    dispatch(budgetActions.getBudgetMonth({ monthInt: monthInt, yearInt: yearInt }))
+    history.push(`/budget?monthInt=${monthInt}&yearInt=${yearInt}`)
   },[]);
 
   const nextBudgetMonth = () => {

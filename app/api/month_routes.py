@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 
 
 from app.models import db, BudgetGroup, User
-
+from datetime import date
 
 month_routes = Blueprint('months', __name__)
 
@@ -74,6 +74,54 @@ def new_month():
             "monthInt": month_int,
             "yearInt": year_int,
             "groups": [group.to_dict() for group in current_month_groups]
+        }
+    }, 201
+
+
+# CREATES CURRENT MONTH
+@month_routes.route('/current', methods=['POST'])
+@login_required
+def new_current_month():
+
+    # TODO: Read CSRF token...needed for POST requests
+
+    # 1. Get user from session and data from request
+    user = current_user
+
+    # find todays date
+    today = date.today()
+    # find month
+    month_int = today.month
+    # find year
+    year_int = today.year
+
+    #   create budget groups with user.id, month, year
+    #       'Groceries'
+    group1 = BudgetGroup(user_id=user.id, title='Groceries',
+                        month_int=month_int, year_int=year_int)
+    #       'Automotive'
+    group2 = BudgetGroup(user_id=user.id, title='Automotive',
+                        month_int=month_int, year_int=year_int)
+    #       'Homegoods'
+    group3 = BudgetGroup(user_id=user.id, title='Homegoods',
+                        month_int=month_int, year_int=year_int)
+    #       'Eating Out'
+    group4 = BudgetGroup(user_id=user.id, title='Eating Out',
+                        month_int=month_int, year_int=year_int)
+    #       'Travel'
+    group5 = BudgetGroup(user_id=user.id, title='Travel',
+                        month_int=month_int, year_int=year_int)
+
+    db.session.add_all([group1, group2, group3, group3, group4, group5])
+    db.session.commit()
+
+    # 7. Send new month(groups) and 201 (successful creation) response
+    return {
+        "message": "success",
+        "data": {
+            "monthInt": month_int,
+            "yearInt": year_int,
+            # "groups": [group.to_dict() for group in current_month_groups]
         }
     }, 201
 
