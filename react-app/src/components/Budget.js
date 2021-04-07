@@ -50,7 +50,9 @@ function Budget({ monthInt, yearInt }) {
         if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) == Number(monthToday))) {
           highestMonth = Number(month.monthInt)
           break
-          // else lets find the newest month we have
+          // else create current month
+
+          // dispatch create current month
         } else if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) > highestMonth)) {
           highestMonth = Number(month.monthInt)
         }

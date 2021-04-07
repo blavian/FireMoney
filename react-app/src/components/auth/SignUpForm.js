@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import {useDispatch} from 'react-redux'
 import { Redirect } from 'react-router-dom';
 import { signUp } from '../../services/auth';
+import * as budgetActions from "../../store/reducers/budget"
 
 const SignUpForm = ({authenticated, setAuthenticated}) => {
   const [username, setUsername] = useState("");
@@ -8,10 +10,13 @@ const SignUpForm = ({authenticated, setAuthenticated}) => {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
 
+  const dispatch = useDispatch()
+
   const onSignUp = async (e) => {
     e.preventDefault();
     if (password === repeatPassword) {
       const user = await signUp(username, email, password);
+      await dispatch(budgetActions.createCurrentBudgetMonth())
       if (!user.errors) {
         setAuthenticated(true);
       }
@@ -87,7 +92,7 @@ const SignUpForm = ({authenticated, setAuthenticated}) => {
       <div className="form_modal_div" >
         <button className="modal_button" type="submit">Sign Up</button>
       </div>
-      
+
     </form>
   );
 };
