@@ -1,0 +1,89 @@
+nav {
+    background-color: #0E3541;
+    height: 6em;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav a {
+    text-decoration: none;
+}
+
+nav a:visited {
+    color: #ffffff;
+}
+
+#firemoney_icon {
+    width: 4.5em;
+    margin-top: .8em;
+    margin-left: 2em;
+}
+
+.home_link {
+    margin-left: .5em;
+    height: 100%;
+    font-size: 2.5em;
+    position: relative;
+    top: -.5em;
+    font-weight: bold;
+    letter-spacing: 0.01em;
+}
+
+.welcome_text {
+    font-size: 2em;
+    color: #ffffff;
+    padding-top: 1em;
+    position: absolute;
+    right: 10em;
+}
+
+.hb_menu {
+    background-color: #0E3541;
+    width: 15em;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 6em;
+}
+
+.hb_menu img {
+    width: 3em;
+}
+
+.hb_menu * {
+    margin: .5em 0 .25em 0;
+    display: flex;
+}
+
+.hb_link_text {
+    font-size: 2em;
+    text-align: left;
+    margin-left: 1em;
+    color: #ffffff;
+}
+
+.hb_link_text:hover {
+    text-decoration: underline;
+}
+
+.hb_link {
+    margin-left: 1.5em;
+}
+
+.hb_menu_button {
+    position: absolute;
+    right: 2em;
+    top: 2em;
+}
+
+.hb_menu_button img {
+    width: 3em;
+}
+
+#transaction_link_text {
+    font-size: 1.5em;
+    margin-top: .8em;
+}
+
+/* Landing Page */

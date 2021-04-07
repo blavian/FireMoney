@@ -3,21 +3,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import BudgetGroup from "./BudgetGroup";
 import { Modal } from "../context/Modal"
-import TransactionForm from "../components/TransactionForm"
+import TransactionForm from "./TransactionForm"
 
 import * as budgetActions from "../store/reducers/budget";
 import * as sessionActions from "../store/reducers/session"
-import { getTransactionModal, hideTransactionModal } from "../store/reducers/modal"
+import { hideTransactionModal } from "../store/reducers/modal"
+import "./BudgetPage.css"
 
-function Budget({ monthInt, yearInt }) {
+function BudgetPage({ monthInt, yearInt }) {
 
   // Local state
   const [newGroupName, setNewGroupName] = useState("");
   const [noNextMonth, setNoNextMonth] = useState(false)
   const [noPreviousMonth, setNoPreviousMonth] = useState(false)
   const transactionModal = useSelector((x) => x.transactionModal.transactionModalShow)
-  const userMonths = useSelector((x)=> x.session.user.months)
-  // console.log("useonths",userMonths)
+  const userMonths = useSelector((x) => x.session.user.months)
+  
   // Hooks
   const dispatch = useDispatch();
   const budgetMonth = useSelector((x) => x.budget.budgetMonth);
@@ -27,10 +28,10 @@ function Budget({ monthInt, yearInt }) {
 
   // Run ONLY on first render--gets requested budget month
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
     dispatch(sessionActions.getUserMonths())
-  },[history])
+  }, [history, dispatch, monthInt, yearInt])
 
 
   useEffect(() => {
@@ -39,68 +40,64 @@ function Budget({ monthInt, yearInt }) {
     var yearToday = Number(today.getFullYear());
     for (let key in userMonths) {
       let month = userMonths[key]
-      if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) == Number(monthToday))) {
-        console.log("yearToday:", yearToday)
-        console.log("monthToday", monthToday)
+      if ((Number(month.yearInt) === Number(yearToday)) && (Number(month.monthInt) === Number(monthToday))) {
         history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
         dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
         dispatch(sessionActions.getUserMonths())
         return
       }
     }
-    console.log(monthInt, yearInt);
-
+    
     // dispatch(sessionActions.getUserMonths())
     dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
     // })
-    // history.push(`/budget?monthInt=${nextMonth}&yearInt=${nextYear}`);
 
-  },[]);
+  }, [dispatch, history]);
 
   const nextBudgetMonth = () => {
-    setNoPreviousMonth(()=>false)
+    setNoPreviousMonth(() => false)
     dispatch(sessionActions.getUserMonths())
     let nextMonth;
     let nextYear;
-    if (currentMonth == 12){
+    if (currentMonth === 12) {
       nextMonth = 1
-      nextYear = currentYear*1 + 1
+      nextYear = currentYear * 1 + 1
     } else {
-      nextMonth = currentMonth*1 + 1
+      nextMonth = currentMonth * 1 + 1
       nextYear = currentYear
     }
-    for (let key in userMonths){
+    for (let key in userMonths) {
       let month = userMonths[key]
-      if ((Number(month.yearInt) == Number(nextYear)) && (Number(month.monthInt) == Number(nextMonth))){
-        setNoNextMonth(()=>false)
+      if ((Number(month.yearInt) === Number(nextYear)) && (Number(month.monthInt) === Number(nextMonth))) {
+        setNoNextMonth(() => false)
         history.push(`/budget?monthInt=${nextMonth}&yearInt=${nextYear}`)
         dispatch(budgetActions.getBudgetMonth({ monthInt: nextMonth, yearInt: nextYear }))
         return
       }
     }
     setNoNextMonth(true)
-    setTimeout(()=>{
+    setTimeout(() => {
       setNoNextMonth(false)
     }, 3000)
   }
 
 
   const previousBudgetMonth = () => {
-    setNoNextMonth(()=>false)
+    setNoNextMonth(() => false)
     dispatch(sessionActions.getUserMonths())
     let previousMonth;
     let previousYear;
-    if (currentMonth == 1){
+    if (currentMonth === 1) {
       previousMonth = 12
-      previousYear = currentYear*1 - 1
+      previousYear = currentYear * 1 - 1
     } else {
-      previousMonth = currentMonth*1 - 1
+      previousMonth = currentMonth * 1 - 1
       previousYear = currentYear
     }
-    for (let key in userMonths){
+    for (let key in userMonths) {
       let month = userMonths[key]
-      if ((Number(month.yearInt) == Number(previousYear)) && (Number(month.monthInt) == Number(previousMonth))){
-        setNoPreviousMonth(()=>false)
+      if ((Number(month.yearInt) === Number(previousYear)) && (Number(month.monthInt) === Number(previousMonth))) {
+        setNoPreviousMonth(() => false)
         history.push(`/budget?monthInt=${previousMonth}&yearInt=${previousYear}`)
         dispatch(budgetActions.getBudgetMonth({ monthInt: previousMonth, yearInt: previousYear }))
         return
@@ -115,7 +112,7 @@ function Budget({ monthInt, yearInt }) {
 
   // Budget month create action
   const createNextBudgetMonth = (evt, copyPrevious) => {
-    setNoNextMonth(()=>false)
+    setNoNextMonth(() => false)
     evt.preventDefault();
     const nextMonth =
       parseInt(budgetMonth.monthInt) === 12
@@ -131,7 +128,7 @@ function Budget({ monthInt, yearInt }) {
         yearInt: budgetMonth.yearInt,
         copyPrevious,
       })
-    ).then(()=>{
+    ).then(() => {
       dispatch(sessionActions.getUserMonths())
       dispatch(budgetActions.getBudgetMonth({ monthInt: nextMonth, yearInt: nextYear }))
 
@@ -156,55 +153,55 @@ function Budget({ monthInt, yearInt }) {
 
   return (
 
-    <div className="budget_page_container">
+    <div className="budget_page_container" >
       {budgetMonth.month &&
-      <>
-      <div>
-      <h1 className="budget_page_heading__month_title">{`Budget for ${budgetMonth.month}, ${budgetMonth.yearInt}`}</h1>
-        <button type="button" onClick={previousBudgetMonth}>previous month</button>
-        <button type="button" onClick={nextBudgetMonth}>next month</button>
-        {noPreviousMonth && <p>you don't have a previous months budget created</p>}
-        {noNextMonth && <p>you don't have next months budget created</p>}
-      </div>
+        <>
+          <div>
+            <h1 className="budget_page_heading__month_title">{`Budget for ${budgetMonth.month}, ${budgetMonth.yearInt}`}</h1>
+            <button type="button" onClick={previousBudgetMonth}>previous month</button>
+            <button type="button" onClick={nextBudgetMonth}>next month</button>
+            {noPreviousMonth && <p>you don't have a previous months budget created</p>}
+            {noNextMonth && <p>you don't have next months budget created</p>}
+          </div>
 
-      <button type="button" onClick={(evt) => createNextBudgetMonth(evt, true)}>Create a new budget month</button>
-  {
-    budgetMonth.groups
-    ? Object.keys(budgetMonth.groups).map((key) => (
-      <BudgetGroup
-        groupId={budgetMonth.groups[key].id}
-        key={`budget-group-${budgetMonth.groups[key].id}`}
-      />
-    ))
-    : ""
-  }
-  <div className="add_group_container">
-    <button
-      className="add_group_button"
-      type="button"
-      onClick={createBudgetGroup}
-    >
-      <span>+</span>Add Group
+          <button type="button" onClick={(evt) => createNextBudgetMonth(evt, true)}>Create a new budget month</button>
+          {
+            budgetMonth.groups
+              ? Object.keys(budgetMonth.groups).map((key) => (
+                <BudgetGroup
+                  groupId={budgetMonth.groups[key].id}
+                  key={`budget-group-${budgetMonth.groups[key].id}`}
+                />
+              ))
+              : ""
+          }
+          <div className="add_group_container">
+            <button
+              className="add_group_button"
+              type="button"
+              onClick={createBudgetGroup}
+            >
+              <span>+</span>Add Group
         </button>
-    <input
-      type="text"
-      placeholder="Group name"
-      onChange={(e) => setNewGroupName(e.target.value)}
-    ></input>
-  </div>
-  {
-    transactionModal && (
-      <Modal onClose={() => dispatch(hideTransactionModal())} >
-        <TransactionForm />
-      </Modal>
-    )
-  }
-  </>
-}
+            <input
+              type="text"
+              placeholder="Group name"
+              onChange={(e) => setNewGroupName(e.target.value)}
+            ></input>
+          </div>
+          {
+            transactionModal && (
+              <Modal onClose={() => dispatch(hideTransactionModal())} >
+                <TransactionForm />
+              </Modal>
+            )
+          }
+        </>
+      }
     </div >
 
   );
 
 }
 
-export default Budget;
+export default BudgetPage;

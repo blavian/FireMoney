@@ -69,7 +69,6 @@ export const modal = (
     state = {...modalsTemplate },
     { type, payload }
 ) => {
-    let stateCopy;
     switch (type) {
         case SHOW_LOGIN_MODAL:
             state = {

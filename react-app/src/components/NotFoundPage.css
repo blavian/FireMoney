@@ -1,0 +1,21 @@
+/* 404 Page */
+
+.not_found_image{
+    background-image: url(../images/404_image.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 60em;
+    color: #ffffff;
+    margin: 0 auto;
+}
+
+.not_found_image a{
+    text-decoration: none;
+}
+.not_found_image p{
+    margin: 0;
+}
+
+.not_found_image a:visited{
+    color: #ffffff;
+}

@@ -1,0 +1,51 @@
+/* Budget Month Page */
+
+.budget_group_container, .add_group_container {
+    margin: 1em auto;
+    width: 90%;
+    border: #707070 solid .2em;
+    border-radius: .5em;
+    padding-bottom: 1em;
+}
+
+.add_group_container {
+    border-style: dashed;
+}
+
+.budget_group_heading_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 0.4fr;
+    grid-template-areas: "budgetTitle . budgetDate budgetAmount budgetSpent .";
+    justify-items: center;
+}
+
+.budget_group_title {
+    grid-area: budgetTitle;
+    justify-self: flex-start;
+    margin: 0 0 0 3em;
+}
+
+.budget_group_amount {
+    grid-area: budgetAmount;
+}
+
+.budget_group_spent {
+    grid-area: budgetSpent;
+}
+
+.budget_group_date {
+    grid-area: budgetDate;
+}
+
+.budget_item_title {
+    justify-self: flex-start;
+    margin: 0 0 0 3em;
+    width: 80%;
+    /* grid-area: budgetTitle; */
+}
+
+
+ .budget_item_buttons button {
+    width: 5em;
+    margin-right: 1em;
+}

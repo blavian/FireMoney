@@ -5,13 +5,11 @@ import { useDispatch } from "react-redux";
 import { authenticate } from "./services/auth";
 import { useQuery } from "./services/useQuery";
 
-import Budget from "./components/Budget";
+import BudgetPage from "./components/BudgetPage";
 import LandingPage from "./components/LandingPage";
 import NavBar from "./components/NavBar";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
-import User from "./components/User";
-import UsersList from "./components/UsersList";
-import Profile from "./components/Profile"
+import ProtectedRoute from "./components/AuthForms/ProtectedRoute";
+import ProfilePage from "./components/ProfilePage"
 
 // Redux actions imports
 import * as sessionActions from "./store/reducers/session";
@@ -23,6 +21,7 @@ import TransactionsPage from "./components/TransactionsPage";
 function App() {
   const query = useQuery();
   const [authenticated, setAuthenticated] = useState(false);
+  const [showhbmenu, setShowHBMenu] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -35,7 +34,9 @@ function App() {
       }
       setLoaded(true);
     })();
-  }, [authenticated]);
+  }, [dispatch, authenticated]);
+
+  // const hbtrigger = () => setShowHBMenu(!showhbmenu);
 
   if (!loaded) {
     return null;
@@ -44,56 +45,44 @@ function App() {
   return (
     <>
       <NavBar
+        showhbmenu={showhbmenu}
+        setShowHBMenu={setShowHBMenu}
         authenticated={authenticated}
-        setAuthenticated={setAuthenticated}
-      />
-      <Switch>
-        <Route path="/" exact={true}>
-          <LandingPage />
-        </Route>
-        <ProtectedRoute
-          path="/users"
-          exact={true}
-          authenticated={authenticated}
-        >
-          <UsersList />
-        </ProtectedRoute>
-        <ProtectedRoute
-          path="/users/:userId"
-          exact={true}
-          authenticated={authenticated}
-        >
-          <User />
-        </ProtectedRoute>
-        <ProtectedRoute
-          path="/budget"
-          exact={true}
-          authenticated={authenticated}
-        >
-          <Budget
-            monthInt={query.get("monthInt")}
-            yearInt={query.get("yearInt")}
-          />
-        </ProtectedRoute>
-        <ProtectedRoute
-          path="/profile"
-          exact={true}
-          authenticated={authenticated}
-        >
-          <Profile />
-        </ProtectedRoute>
-        <ProtectedRoute
-          path="/transactions"
-          exact={true}
-          authenticated={authenticated}
-        >
-          <TransactionsPage />
-        </ProtectedRoute>
-        <Route path="/404" exact={true}>
-          <NotFoundPage />
-        </Route>
-        <Redirect to ="/404" />
-      </Switch>
+        setAuthenticated={setAuthenticated} />
+      <div className="page_container" onClick={() => setShowHBMenu(false)}>
+        <Switch>
+          <Route path="/" exact={true} >
+            <LandingPage showhbmenu={showhbmenu}
+              setShowHBMenu={setShowHBMenu} />
+          </Route>
+          <ProtectedRoute
+            path="/budget"
+            exact={true}
+            authenticated={authenticated} >
+            <BudgetPage
+              setShowHBMenu={setShowHBMenu}
+              monthInt={query.get("monthInt")}
+              yearInt={query.get("yearInt")} />
+          </ProtectedRoute>
+          <ProtectedRoute
+            path="/profile"
+            exact={true}
+            authenticated={authenticated} >
+            <ProfilePage setShowHBMenu={setShowHBMenu} />
+          </ProtectedRoute>
+          <ProtectedRoute
+            path="/transactions"
+            exact={true}
+            authenticated={authenticated} >
+            <TransactionsPage />
+          </ProtectedRoute>
+          <Route path="/404" exact={true} >
+            <NotFoundPage />
+          </Route>
+          <Redirect to="/404" />
+        </Switch>
+      </div>
+
     </>
   );
 }

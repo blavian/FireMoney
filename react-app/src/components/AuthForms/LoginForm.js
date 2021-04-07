@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { login,demoLogin } from "../../services/auth";
-import { useDispatch } from "react-redux"
-
-// Redux actions imports
-import * as sessionActions from "../../store/reducers/session";
 
 const LoginForm = ({ authenticated, setAuthenticated }) => {
   const history = useHistory();

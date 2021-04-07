@@ -1,0 +1,84 @@
+/* Landing Page */
+
+.landing_page_image {
+    background-image: url("../images/mountain_road.png");
+    background-size: cover;
+    height: 60em;
+    color: #ffffff;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.landing_page_text {
+    margin: 0;
+    font-size: 4em;
+    width: 13em;
+    padding-top: 4.5em;
+    padding-left: .5em;
+}
+
+.build_budget_button {
+    font-size: 2em;
+    border-radius: .25em;
+    text-align: center;
+    background-color: #FC6100;
+    color: #ffffff;
+    height: 2em;
+    width: 9em;
+    margin: 1em 0 0 7em;
+}
+
+.build_budget_button:hover {
+    background-color: #1286CE;
+    cursor: pointer;
+}
+
+.build_budget_button a, .build_budget_button a:visited {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.tiles_heading_text {
+    text-align: center;
+    font-size: 3em;
+}
+
+.tiles_container {
+    display: flex;
+    justify-content: center;
+    /* margin: 0 auto; */
+}
+
+.landing_page_tile {
+    background-color: #095461;
+    color: #ffffff;
+    font-size: 3em;
+    width: 10em;
+    height: 10em;
+    border-radius: 1em;
+    margin: 0 1em;
+}
+
+.tiles_text {
+    margin: 1em auto .5em;
+    width: 5em;
+    text-align: center;
+}
+
+.control_tile_text {
+    width: 6em;
+}
+
+.landing_page_tile_images {
+    width: 4.5em;
+    margin: 0 auto;
+    display: flex;
+}
+
+.budget_button_container {
+    display: flex;
+}
+
+.lower_button {
+    margin: 1em auto;
+}
