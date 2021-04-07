@@ -5,18 +5,21 @@ import { useDispatch } from "react-redux";
 import { authenticate } from "./services/auth";
 import { useQuery } from "./services/useQuery";
 
-import BudgetPage from "./components/BudgetPage";
-import LandingPage from "./components/LandingPage";
-import NavBar from "./components/NavBar";
+// React Components
 import ProtectedRoute from "./components/AuthForms/ProtectedRoute";
-import ProfilePage from "./components/ProfilePage"
+import NavBar from "./components/NavBar/NavBar";
+import LandingPage from "./components/Pages/LandingPage/LandingPage";
+import BudgetPage from "./components/Pages/BudgetPage/BudgetPage";
+import ProfilePage from "./components/Pages/ProfilePage/ProfilePage"
+import NotFoundPage from "./components/Pages/NotFoundPage/NotFoundPage";
+import TransactionsPage from "./components/Pages/TransactionsPage/TransactionsPage";
+
 
 // Redux actions imports
 import * as sessionActions from "./store/reducers/session";
 
+// Style
 import "./index.css";
-import NotFoundPage from "./components/NotFoundPage";
-import TransactionsPage from "./components/TransactionsPage";
 
 function App() {
   const query = useQuery();

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import BudgetGroup from "./BudgetGroup";
-import { Modal } from "../context/Modal"
-import TransactionForm from "./TransactionForm"
+import BudgetGroup from "../../BudgetGroup/BudgetGroup";
+import { Modal } from "../../../context/Modal"
+import TransactionForm from "../../TransactionForm/TransactionForm"
 
-import * as budgetActions from "../store/reducers/budget";
-import * as sessionActions from "../store/reducers/session"
-import { hideTransactionModal } from "../store/reducers/modal"
+import * as budgetActions from "../../../store/reducers/budget";
+import * as sessionActions from "../../../store/reducers/session"
+import { hideTransactionModal } from "../../../store/reducers/modal"
 import "./BudgetPage.css"
 
 function BudgetPage({ monthInt, yearInt }) {
@@ -26,33 +26,20 @@ function BudgetPage({ monthInt, yearInt }) {
   const currentMonth = budgetMonth.monthInt
   const history = useHistory();
 
-  // Run ONLY on first render--gets requested budget month
+  useEffect(()=>{
+    // if (monthInt & yearInt){
+    //   dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
+    //   dispatch(sessionActions.getUserMonths())
+    // }
+  },[history])
+
 
   useEffect(() => {
-    dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
+    // uses query string to keep current month page on re-render
     dispatch(sessionActions.getUserMonths())
-  }, [history, dispatch, monthInt, yearInt])
-
-
-  useEffect(() => {
-    var today = new Date();
-    var monthToday = Number(today.getMonth() + 1)
-    var yearToday = Number(today.getFullYear());
-    for (let key in userMonths) {
-      let month = userMonths[key]
-      if ((Number(month.yearInt) === Number(yearToday)) && (Number(month.monthInt) === Number(monthToday))) {
-        history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
-        dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
-        dispatch(sessionActions.getUserMonths())
-        return
-      }
-    }
-    
-    // dispatch(sessionActions.getUserMonths())
-    dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
-    // })
-
-  }, [dispatch, history]);
+    dispatch(budgetActions.getBudgetMonth({ monthInt: monthInt, yearInt: yearInt }))
+    history.push(`/budget?monthInt=${monthInt}&yearInt=${yearInt}`)
+  },[dispatch, history]);
 
   const nextBudgetMonth = () => {
     setNoPreviousMonth(() => false)

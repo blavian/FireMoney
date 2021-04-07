@@ -1,7 +1,7 @@
 /* Landing Page */
 
 .landing_page_image {
-    background-image: url("../images/mountain_road.png");
+    background-image: url("../../../images/mountain_road.png");
     background-size: cover;
     height: 60em;
     color: #ffffff;

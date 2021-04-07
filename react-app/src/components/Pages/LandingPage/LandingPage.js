@@ -1,17 +1,32 @@
 import React from "react";
-import list_icon from "../images/List.png"
-import savings_icon from "../images/Savings.png"
-import control_icon from "../images/control.png"
-import { NavLink } from "react-router-dom";
+import list_icon from "../../../images/List.png"
+import savings_icon from "../../../images/Savings.png"
+import control_icon from "../../../images/control.png"
+import { NavLink, useHistory } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import * as budgetActions from "../../../store/reducers/budget";
+import * as sessionActions from "../../../store/reducers/session"
 import "./LandingPage.css"
 
-function LandingPage({ showhbmenu, setShowHBMenu }) {
+function LandingPage() {
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const goToBudget = (e) => {
+        e.preventDefault();
+        // when budget is clicked on dropdown, user is sent to current month
+        dispatch(sessionActions.getUserMonths())
+        var today = new Date();
+        var monthToday = Number(today.getMonth() + 1)
+        var yearToday = Number(today.getFullYear());
+        dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
+        history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
+    }
     return (
         <div className="landing_page_container" >
             <div className="landing_page_image">
                 <p className="landing_page_text">Get Started On The Road To Financial Freedom</p>
-                <button className="build_budget_button">
-                    <NavLink to="/budget" >Build your budget </NavLink>
+                <button className="build_budget_button" onClick={(e) => goToBudget(e)}>
+                    Build your budget
                 </button>
             </div>
             <div className="landing_page_secondary_content">
@@ -31,8 +46,8 @@ function LandingPage({ showhbmenu, setShowHBMenu }) {
                     </div>
                 </div>
                 <div className="budget_button_container">
-                    <button className="build_budget_button lower_button">
-                        <NavLink to="/budget" >Build your budget </NavLink>
+                    <button className="build_budget_button lower_button" onClick={(e) => goToBudget(e)}>
+                        Build your budget
                     </button>
                 </div>
             </div>

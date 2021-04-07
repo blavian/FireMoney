@@ -1,7 +1,7 @@
 /* 404 Page */
 
 .not_found_image{
-    background-image: url(../images/404_image.jpg);
+    background-image: url(../../../images/404_image.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     height: 60em;

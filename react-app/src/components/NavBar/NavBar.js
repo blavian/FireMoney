@@ -1,14 +1,16 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import LogoutButton from './AuthForms/LogoutButton';
-import icon from '../images/Icon.png';
-import hbmenu_icon from "../images/HBMenu.png"
-import closeHB_icon from "../images/CloseHBMenu.png"
-import login_icon from "../images/login.png"
-import budget_icon from "../images/Budget.png"
-import transaction_icon from "../images/Transactions.png"
-import { useSelector } from 'react-redux';
-import AuthModals from './AuthModals/AuthModals.js';
+import { Link, NavLink, useHistory } from 'react-router-dom';
+import LogoutButton from '../AuthForms/LogoutButton';
+import icon from '../../images/Icon.png';
+import hbmenu_icon from "../../images/HBMenu.png"
+import closeHB_icon from "../../images/CloseHBMenu.png"
+import login_icon from "../../images/login.png"
+import budget_icon from "../../images/Budget.png"
+import transaction_icon from "../../images/Transactions.png"
+import { useSelector, useDispatch } from 'react-redux';
+import AuthModals from '../AuthModals/AuthModals.js';
+import * as budgetActions from "../../store/reducers/budget";
+import * as sessionActions from "../../store/reducers/session"
 import "./NavBar.css"
 
 
@@ -16,6 +18,18 @@ const NavBar = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated }) 
   const currUser = useSelector((x) => x.session.user.username)
 
   const hbtrigger = () => setShowHBMenu(!showhbmenu);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const goToBudget = () => {
+    // when budget is clicked on dropdown, user is sent to current month
+    dispatch(sessionActions.getUserMonths())
+    var today = new Date();
+    var monthToday = Number(today.getMonth() + 1)
+    var yearToday = Number(today.getFullYear());
+    dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
+    history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
+  }
 
   return (
     <div className="navbar_container">
@@ -46,10 +60,10 @@ const NavBar = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated }) 
               <img src={login_icon} alt="login" />
               <span className="hb_link_text" >Profile</span>
             </NavLink>
-            <NavLink className="hb_link" to="/budget" exact={true} activeClassName="active">
+            <span className="hb_link"  onClick={goToBudget}>
               <img src={budget_icon} alt="budget" />
               <span className="hb_link_text" >Budget</span>
-            </NavLink>
+            </span>
             <NavLink className="hb_link" to="/transactions" exact={true} activeClassName="active">
               <img src={transaction_icon} alt="signup" />
               <span  className="hb_link_text" id="transaction_link_text">Transactions</span>

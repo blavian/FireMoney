@@ -72,6 +72,20 @@ export const createBudgetMonth = ({
   return data;
 };
 
+export const createCurrentBudgetMonth = () => async (dispatch) => {
+  const res = await fetch(`/api/months/current`, {
+    method: "POST",
+    body: JSON.stringify({
+      // month_int: monthInt,
+      // year_int: yearInt,
+      // copy_previous: copyPrevious,
+    }),
+  });
+  const { data } = res.data;
+  dispatch(createBudgetMonthActionCreator(data));
+  return data;
+};
+
 // -------------------------------------------------------- getBudgetMonth
 export const getBudgetMonth = ({ monthInt, yearInt }) => async (dispatch) => {
   const res = await fetch(

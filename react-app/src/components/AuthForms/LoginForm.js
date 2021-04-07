@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { login,demoLogin } from "../../services/auth";
+import { useDispatch, useSelector } from "react-redux"
+import * as budgetActions from "../../store/reducers/budget";
+
+// Redux actions imports
+import * as sessionActions from "../../store/reducers/session";
 
 const LoginForm = ({ authenticated, setAuthenticated }) => {
   const history = useHistory();
@@ -8,12 +13,31 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const userMonths = useSelector((x) => x.session.user.months)
+  const dispatch = useDispatch()
 
   const onLogin = async (e) => {
     e.preventDefault();
     const user = await login(email, password);
     if (!user.errors) {
       setAuthenticated(true);
+      dispatch(sessionActions.getUserMonths())
+      // 1) We want to check if the user has a current budget month
+      var today = new Date();
+      var monthToday = Number(today.getMonth() + 1)
+      var yearToday = Number(today.getFullYear());
+      let currentMonth = false
+      // 2) find if current month exists
+        for (let key in userMonths) {
+          let month = userMonths[key]
+          if ((Number(month.yearInt) === Number(yearToday)) && (Number(month.monthInt) === Number(monthToday))) {
+            currentMonth = true
+          }
+        }
+        //  if not create new current month
+        if (currentMonth === false) {
+          dispatch(budgetActions.createCurrentBudgetMonth())
+        }
     } else {
       setErrors(user.errors);
     }
@@ -25,6 +49,23 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
     const user = await demoLogin(email, password);
     if (!user.errors) {
       setAuthenticated(true);
+      dispatch(sessionActions.getUserMonths())
+      // 1) We want to check if the user has a current budget month
+      var today = new Date();
+      var monthToday = Number(today.getMonth() + 1)
+      var yearToday = Number(today.getFullYear());
+      let currentMonth = false
+      // 2) find if current month exists
+      for (let key in userMonths) {
+        let month = userMonths[key]
+        if ((Number(month.yearInt) === Number(yearToday)) && (Number(month.monthInt) === Number(monthToday))) {
+          currentMonth = true
+        }
+      }
+      //  if not create new current month
+      if (currentMonth === false) {
+        dispatch(budgetActions.createCurrentBudgetMonth())
+      }
     } else {
       setErrors(user.errors);
     }

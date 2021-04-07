@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Transaction from "./Transaction";
+import Transaction from "../Transaction/Transaction";
 import { useDispatch, useSelector } from "react-redux";
 
-import * as budgetActions from "../store/reducers/budget";
-import { getTransactionModal } from "../store/reducers/modal"
+import * as budgetActions from "../../store/reducers/budget";
+import { getTransactionModal } from "../../store/reducers/modal"
 import "./BudgetItem.css"
 
 function BudgetItem({ groupId, itemId }) {

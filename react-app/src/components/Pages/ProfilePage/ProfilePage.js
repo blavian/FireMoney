@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from "react-redux";
-import circleGraph from "../images/Circle_Graph.png"
-import "./Profile.css"
+import circleGraph from "../../../images/Circle_Graph.png"
+import "./ProfilePage.css"
 
 function ProfilePage(){
     const currUser = useSelector((x) => x.session.user.username)
