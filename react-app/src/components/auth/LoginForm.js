@@ -22,6 +22,7 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
     if (!user.errors) {
       setAuthenticated(true);
       dispatch(sessionActions.getUserMonths())
+      // 1) We want to check if the user has a current budget month
       var today = new Date();
       var monthToday = Number(today.getMonth() + 1)
       var yearToday = Number(today.getFullYear());
@@ -36,8 +37,6 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
         //  if not create new current month
         if (currentMonth == false) {
           dispatch(budgetActions.createCurrentBudgetMonth())
-          // history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
-          // dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
         }
     } else {
       setErrors(user.errors);
@@ -51,6 +50,7 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
     if (!user.errors) {
       setAuthenticated(true);
       dispatch(sessionActions.getUserMonths())
+      // 1) We want to check if the user has a current budget month
       var today = new Date();
       var monthToday = Number(today.getMonth() + 1)
       var yearToday = Number(today.getFullYear());
@@ -65,8 +65,6 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
       //  if not create new current month
       if (currentMonth == false) {
         dispatch(budgetActions.createCurrentBudgetMonth())
-        // history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
-        // dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
       }
     } else {
       setErrors(user.errors);

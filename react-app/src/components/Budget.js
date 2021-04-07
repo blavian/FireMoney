@@ -28,38 +28,20 @@ function Budget({ monthInt, yearInt }) {
   // Run ONLY on first render--gets requested budget month
 
   useEffect(()=>{
-    if (monthInt & yearInt){
-      dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
-      dispatch(sessionActions.getUserMonths())
-    }
+    // if (monthInt & yearInt){
+    //   dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
+    //   dispatch(sessionActions.getUserMonths())
+    // }
   },[history])
 
 
   useEffect(() => {
-    // 1) find current date
     dispatch(sessionActions.getUserMonths())
-    var today = new Date();
-    var monthToday = Number(today.getMonth() + 1)
-    var yearToday = Number(today.getFullYear());
-    // let currentMonth = false
-    // 2) find current month or else newest month
-    // if (userMonths){
-    //   for (let key in userMonths) {
-    //     let month = userMonths[key]
-    //     // if we have a month for today, go to that month
-    //     if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) == Number(monthToday))) {
-    //       currentMonth = true
-    //     }
-    //   }
-    //   if (currentMonth == false){
-    //     dispatch(budgetActions.createCurrentBudgetMonth())
-    //     // history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
-    //     // dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
-    //   }
-      history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
-      dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
-    // }
-    return
+    // var today = new Date();
+    // var monthToday = Number(today.getMonth() + 1)
+    // var yearToday = Number(today.getFullYear());
+    dispatch(budgetActions.getBudgetMonth({ monthInt: monthInt, yearInt: yearInt }))
+    history.push(`/budget?monthInt=${monthInt}&yearInt=${yearInt}`)
   },[]);
 
   const nextBudgetMonth = () => {
