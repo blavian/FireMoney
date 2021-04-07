@@ -25,7 +25,6 @@ class BudgetItem(db.Model):
 
     @property
     def date(self):
-        # return self.due_date.strftime("%m/%d/%Y")
         return self.due_date.isoformat()
 
     # Scope

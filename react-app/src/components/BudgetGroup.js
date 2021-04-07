@@ -9,7 +9,7 @@ function BudgetGroup({ groupId }) {
   const [newItemName, setNewItemName] = useState("");
   const [newItemDescription, setNewItemDescription] = useState("");
   const [newItemExpectedAmount, setNewItemExpectedAmount] = useState(0);
-  const [newItemDueDate, setNewItemDueDate] = useState(0);
+  const [newItemDueDate, setNewItemDueDate] = useState(new Date());
   const [errors, setErrors] = useState([]);
 
   // Hooks
@@ -26,25 +26,34 @@ function BudgetGroup({ groupId }) {
     };
 
   // Budget item create action
-  const createBudgetItem = () => {
-    const item = dispatch(
-      budgetActions.createBudgetItem({
-        title: newItemName,
-        description: newItemDescription,
-        expectedAmount: newItemExpectedAmount,
-        dueDate: newItemDueDate,
-        groupId,
-      }))
-    if (!item.errors) {
-    // ).then(() => {
+  const createBudgetItem = async() => {
+    try{
+      dispatch(
+        budgetActions.createBudgetItem({
+          title: newItemName,
+          description: newItemDescription,
+          expectedAmount: newItemExpectedAmount,
+          dueDate: newItemDueDate,
+          groupId,
+        }))
       setNewItemName("");
       setNewItemDescription("");
       setNewItemExpectedAmount("");
-      setNewItemDueDate("");
-    } else {
-      setErrors(item.errors);
-      console.log(errors)
+      setNewItemDueDate(new Date());
+    } catch(err) {
+      setErrors(err);
+      console.log(err)
     }
+    // if (!item.errors) {
+    // // ).then(() => {
+    //   setNewItemName("");
+    //   setNewItemDescription("");
+    //   setNewItemExpectedAmount("");
+    //   setNewItemDueDate("");
+    // } else {
+    //   setErrors(item.errors);
+    //   console.log(errors)
+    // }
     // })
   };
 
@@ -89,21 +98,25 @@ function BudgetGroup({ groupId }) {
         <input
           type="text"
           placeholder="Item name"
+          value={newItemName}
           onChange={(e) => setNewItemName(e.target.value)}
         ></input>
         <input
           type="text"
           placeholder="Item description"
+          value={newItemDescription}
           onChange={(e) => setNewItemDescription(e.target.value)}
         ></input>
         <input
           type="number"
           placeholder="Expected amount"
+          value={newItemExpectedAmount}
           onChange={(e) => setNewItemExpectedAmount(e.target.value)}
         ></input>
         <input
           type="date"
           placeholder="Due date"
+          value={newItemDueDate}
           onChange={(e) => setNewItemDueDate(e.target.value)}
         ></input>
       </div>

@@ -334,7 +334,6 @@ const reducer = (
 
     case CREATE_BUDGET_ITEM:
       stateCopy = { budgetMonth: { ...state.budgetMonth } };
-      console.log("payload----------------", payload)
       stateCopy.budgetMonth.groups[payload.groupId].items[payload.id] = payload;
       return stateCopy;
 
