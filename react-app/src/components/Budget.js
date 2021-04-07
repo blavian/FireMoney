@@ -17,15 +17,13 @@ function Budget({ monthInt, yearInt }) {
   const [noPreviousMonth, setNoPreviousMonth] = useState(false)
   const transactionModal = useSelector((x) => x.transactionModal.transactionModalShow)
   const userMonths = useSelector((x)=> x.session.user.months)
-  // console.log("useonths",userMonths)
+
   // Hooks
   const dispatch = useDispatch();
   const budgetMonth = useSelector((x) => x.budget.budgetMonth);
   const currentYear = budgetMonth.yearInt
   const currentMonth = budgetMonth.monthInt
   const history = useHistory();
-
-  // Run ONLY on first render--gets requested budget month
 
   useEffect(()=>{
     // if (monthInt & yearInt){
@@ -36,10 +34,8 @@ function Budget({ monthInt, yearInt }) {
 
 
   useEffect(() => {
+    // uses query string to keep current month page on re-render
     dispatch(sessionActions.getUserMonths())
-    // var today = new Date();
-    // var monthToday = Number(today.getMonth() + 1)
-    // var yearToday = Number(today.getFullYear());
     dispatch(budgetActions.getBudgetMonth({ monthInt: monthInt, yearInt: yearInt }))
     history.push(`/budget?monthInt=${monthInt}&yearInt=${yearInt}`)
   },[]);

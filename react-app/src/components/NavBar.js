@@ -23,6 +23,7 @@ const NavBar = ({ authenticated, setAuthenticated }) => {
   const history = useHistory();
 
   const goToBudget = () => {
+    // when budget is clicked on dropdown, user is sent to current month
     dispatch(sessionActions.getUserMonths())
     var today = new Date();
     var monthToday = Number(today.getMonth() + 1)
