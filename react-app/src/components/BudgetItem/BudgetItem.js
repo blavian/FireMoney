@@ -1,11 +1,10 @@
-import React, { Component, useEffect, useState } from "react";
-import Transaction from "./Transaction";
+import React, { useState } from "react";
+import Transaction from "../Transaction/Transaction";
 import { useDispatch, useSelector } from "react-redux";
-import { Modal } from "../context/Modal"
-import { forceUpdate } from "react"
 
-import * as budgetActions from "../store/reducers/budget";
-import { getTransactionModal, hideTransactionModal } from "../store/reducers/modal"
+import * as budgetActions from "../../store/reducers/budget";
+import { getTransactionModal } from "../../store/reducers/modal"
+import "./BudgetItem.css"
 
 function BudgetItem({ groupId, itemId }) {
   // Local state
@@ -21,7 +20,7 @@ function BudgetItem({ groupId, itemId }) {
   function dateFormat(){
     let budgetItemDueDateInput = budgetItemDueDate.toDateString().split(" ");
     budgetItemDueDateInput[2] = parseInt(budgetItemDueDateInput[2])+1;
-    console.log(budgetItemDueDateInput)
+    
     if (budgetItemDueDate) {
       const budgetItemMonth = budgetItemDueDate.getMonth() < 10 ? `0${budgetItemDueDate.getMonth()}` : budgetItemDueDate.getMonth();
       const budgetItemDay = budgetItemDueDate.getDay() < 10 ? `0${budgetItemDueDate.getDay()}` : budgetItemDueDate.getDay();
@@ -29,7 +28,7 @@ function BudgetItem({ groupId, itemId }) {
     }
     return budgetItemDueDateInput;
   }
-  console.log(dateFormat())
+  
   
   const [updateItemView, setUpdateItemView] = useState(false);
   const [updatedItemName, setUpdatedItemName] = useState(budgetItem? budgetItem.title : "");

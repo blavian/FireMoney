@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { login,demoLogin } from "../../services/auth";
 import { useDispatch, useSelector } from "react-redux"
@@ -30,12 +30,12 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
       // 2) find if current month exists
         for (let key in userMonths) {
           let month = userMonths[key]
-          if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) == Number(monthToday))) {
+          if ((Number(month.yearInt) === Number(yearToday)) && (Number(month.monthInt) === Number(monthToday))) {
             currentMonth = true
           }
         }
         //  if not create new current month
-        if (currentMonth == false) {
+        if (currentMonth === false) {
           dispatch(budgetActions.createCurrentBudgetMonth())
         }
     } else {
@@ -58,12 +58,12 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
       // 2) find if current month exists
       for (let key in userMonths) {
         let month = userMonths[key]
-        if ((Number(month.yearInt) == Number(yearToday)) && (Number(month.monthInt) == Number(monthToday))) {
+        if ((Number(month.yearInt) === Number(yearToday)) && (Number(month.monthInt) === Number(monthToday))) {
           currentMonth = true
         }
       }
       //  if not create new current month
-      if (currentMonth == false) {
+      if (currentMonth === false) {
         dispatch(budgetActions.createCurrentBudgetMonth())
       }
     } else {

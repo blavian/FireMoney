@@ -1,0 +1,36 @@
+/* Transaction */
+
+.item_transactions_container {
+    /* display: none; */
+    width: 80%;
+    margin: 0 auto;
+}
+
+.transaction_heading_container, .item_transaction {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-items: center;
+    margin: 1em auto;
+}
+
+.transaction_heading_container *, .item_transaction * {
+    justify-self: flex-start;
+}
+
+.transaction_date{
+    width: 15em;
+}
+
+.transaction_amount {
+    margin-left: 2em;
+}
+
+.transaction_buttons {
+    display: flex;
+    margin-bottom: 1em;
+}
+
+.transaction_buttons button {
+    height: fit-content;
+    margin: .1em auto;
+}

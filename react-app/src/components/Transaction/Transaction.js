@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTransaction, updateTransaction } from "../store/reducers/budget";
+import { deleteTransaction, updateTransaction } from "../../store/reducers/budget";
+import "./Transaction.css"
 
 function Transaction({ groupId, itemId, transactionId }) {
 
@@ -38,7 +39,7 @@ function Transaction({ groupId, itemId, transactionId }) {
       amount: updatedAmount,
       date: updatedDate
     }
-    // console.log(data);
+   
     dispatch(updateTransaction(data));
     setUpdateItemView(false)
   }
