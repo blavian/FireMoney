@@ -12,10 +12,6 @@ class Transaction(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now())
 
-    @property
-    def format_date(self):
-        return self.date.isoformat()
-
     # Scope
     def to_dict(self):
         return {
@@ -23,7 +19,7 @@ class Transaction(db.Model):
             "itemId": self.item_id,
             "title": self.title,
             "amount": str(self.amount),
-            "date": self.format_date,
+            "date": self.date,
             "createdAt": self.created_at,
             "updatedAt": self.updated_at,
         }

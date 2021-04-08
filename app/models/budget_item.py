@@ -23,10 +23,6 @@ class BudgetItem(db.Model):
     def transactions(self):
         return [x.to_dict() for x in self._transactions]
 
-    @property
-    def date(self):
-        return self.due_date.isoformat()
-
     # Scope
     def to_dict(self):
         return {
@@ -35,7 +31,7 @@ class BudgetItem(db.Model):
             "title": self.title,
             "description": self.description,
             "expectedAmount": str(self.expected_amount),
-            "dueDate": self.date,
+            "dueDate": self.due_date,
             "transactions": self.transactions,
             "createdAt": self.created_at,
             "updatedAt": self.updated_at,
