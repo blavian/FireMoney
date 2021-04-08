@@ -153,15 +153,15 @@ export const deleteBudgetGroup = ({ id }) => async (dispatch) => {
   return data;
 };
 
-const budgetItemTemplate = {
-  id: null,
-  description: null,
-  due_date: null,
-  expected_amount: null,
-  group_id: null,
-  title: null,
-  transactions: [],
-};
+// const budgetItemTemplate = {
+//   id: null,
+//   description: null,
+//   due_date: null,
+//   expected_amount: null,
+//   group_id: null,
+//   title: null,
+//   transactions: [],
+// };
 
 // -----------------------------------BUDGET ITEM ----------------------------------
 const createBudgetItemActionCreator = (payload) => ({

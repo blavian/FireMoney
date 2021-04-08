@@ -9,7 +9,8 @@ function BudgetGroup({ groupId }) {
   const [newItemName, setNewItemName] = useState("");
   const [newItemDescription, setNewItemDescription] = useState("");
   const [newItemExpectedAmount, setNewItemExpectedAmount] = useState(0);
-  const [newItemDueDate, setNewItemDueDate] = useState(0);
+  const [newItemDueDate, setNewItemDueDate] = useState(new Date());
+  const [errors, setErrors] = useState([]);
 
   // Hooks
   const budgetGroup = useSelector((x) => x.budget.budgetMonth.groups[groupId]);
@@ -25,25 +26,44 @@ function BudgetGroup({ groupId }) {
     };
 
   // Budget item create action
-  const createBudgetItem = () => {
-    dispatch(
-      budgetActions.createBudgetItem({
-        title: newItemName,
-        description: newItemDescription,
-        expectedAmount: newItemExpectedAmount,
-        dueDate: newItemDueDate,
-        groupId,
-      })
-    ).then(() => {
+  const createBudgetItem = async() => {
+    try{
+      dispatch(
+        budgetActions.createBudgetItem({
+          title: newItemName,
+          description: newItemDescription,
+          expectedAmount: newItemExpectedAmount,
+          dueDate: newItemDueDate,
+          groupId,
+        }))
       setNewItemName("");
       setNewItemDescription("");
       setNewItemExpectedAmount("");
-      setNewItemDueDate("");
-    })
+      setNewItemDueDate(new Date());
+    } catch(err) {
+      setErrors(err);
+      console.log(err)
+    }
+    // if (!item.errors) {
+    // // ).then(() => {
+    //   setNewItemName("");
+    //   setNewItemDescription("");
+    //   setNewItemExpectedAmount("");
+    //   setNewItemDueDate("");
+    // } else {
+    //   setErrors(item.errors);
+    //   console.log(errors)
+    // }
+    // })
   };
 
   return (
     <div className="budget_group_container">
+      <div className="errors">
+        {errors.map((error) => (
+          <div>{error}</div>
+        ))}
+      </div>
       <div className="budget_group_heading_container">
         <div className="budget_group_heading budget_group_title">
           <h2>{`${budgetGroup.title}`}</h2> <h3>{`Budget Total: $${parseFloat(getItemsExpectedAmountTotal()).toFixed(2)}`}</h3>
@@ -77,21 +97,25 @@ function BudgetGroup({ groupId }) {
         <input
           type="text"
           placeholder="Item name"
+          value={newItemName}
           onChange={(e) => setNewItemName(e.target.value)}
         ></input>
         <input
           type="text"
           placeholder="Item description"
+          value={newItemDescription}
           onChange={(e) => setNewItemDescription(e.target.value)}
         ></input>
         <input
           type="number"
           placeholder="Expected amount"
+          value={newItemExpectedAmount}
           onChange={(e) => setNewItemExpectedAmount(e.target.value)}
         ></input>
         <input
           type="date"
           placeholder="Due date"
+          value={newItemDueDate}
           onChange={(e) => setNewItemDueDate(e.target.value)}
         ></input>
       </div>
