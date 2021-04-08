@@ -2,20 +2,15 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createTransaction } from "../../store/reducers/budget"
 import { hideTransactionModal } from "../../store/reducers/modal"
-import moment from 'moment';
 
 function TransactionForm() {
 
     const dispatch = useDispatch();
     const itemId = useSelector((x) => x.transactionModal.id)
 
-    let newDate = Date.now()
-    newDate = moment(newDate).format("YYYY-MM-DD")
-
-
     const [title, setTitle] = useState("");
-    const [amount, setAmount] = useState(0);
-    const [date, setDate] = useState(newDate);
+    const [amount, setAmount] = useState("");
+    const [date, setDate] = useState("");
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -25,7 +20,7 @@ function TransactionForm() {
             itemId: itemId,
             date
         }
-        dispatch(createTransaction(newTransaction)).then(() => dispatch(hideTransactionModal()))
+        dispatch(createTransaction(newTransaction)).then(() => dispatch(hideTransactionModal()))   
     };
 
     return (
@@ -38,6 +33,7 @@ function TransactionForm() {
                 <input
                     type="text"
                     name="title"
+                    placeholder="Walmart"
                     onChange={(e) => setTitle(e.target.value)}
                     value={title}
                 ></input>
@@ -47,6 +43,7 @@ function TransactionForm() {
                 <input
                     type="text"
                     name="amount"
+                    placeholder="$32.32"
                     onChange={(e) => setAmount(e.target.value)}
                     value={amount}
                 ></input>
