@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Transaction from "../Transaction/Transaction";
 import { useDispatch, useSelector } from "react-redux";
-
+import moment from 'moment';
 import * as budgetActions from "../../store/reducers/budget";
 import { getTransactionModal } from "../../store/reducers/modal"
 import "./BudgetItem.css"
@@ -14,27 +14,20 @@ function BudgetItem({ groupId, itemId }) {
 
   // Hooks
   const budgetItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId]);
-  let budgetItemDueDate = budgetItem ? new Date(budgetItem.dueDate) : "";
 
-  //Working on default date value for input
-  function dateFormat(){
-    let budgetItemDueDateInput = budgetItemDueDate.toDateString().split(" ");
-    budgetItemDueDateInput[2] = parseInt(budgetItemDueDateInput[2])+1;
-    
-    if (budgetItemDueDate) {
-      const budgetItemMonth = budgetItemDueDate.getMonth() < 10 ? `0${budgetItemDueDate.getMonth()}` : budgetItemDueDate.getMonth();
-      const budgetItemDay = budgetItemDueDate.getDay() < 10 ? `0${budgetItemDueDate.getDay()}` : budgetItemDueDate.getDay();
-      budgetItemDueDateInput = `${budgetItemDueDate.getFullYear()}-${budgetItemMonth}-${budgetItemDay}`;
-    }
-    return budgetItemDueDateInput;
+  // format for shown date
+  function dateFormat(date){
+    let newDate = moment(date).format("MMMM DD YYYY")
+    return newDate
   }
-  
-  
+
+
   const [updateItemView, setUpdateItemView] = useState(false);
   const [updatedItemName, setUpdatedItemName] = useState(budgetItem? budgetItem.title : "");
   const [updatedItemDescription, setUpdatedItemDescription] = useState(budgetItem ? budgetItem.description : "");
   const [updatedItemAmount, setUpdatedItemAmount] = useState(budgetItem ?budgetItem.expectedAmount : "");
-  const [updatedItemDate, setUpdatedItemDate] = useState(budgetItemDueDate);
+  const [updatedItemDate, setUpdatedItemDate] = useState(budgetItem ? budgetItem.dueDate : "" );
+
 
   // const [updatedItemName, setUpdatedItemName] = useState("");
   const dispatch = useDispatch();
@@ -50,19 +43,19 @@ function BudgetItem({ groupId, itemId }) {
     return null
   }
   // Hooks
-  function updateItem(evt) {
+  async function updateItem(evt) {
     evt.preventDefault();
-    dispatch(budgetActions.updateBudgetItem({ id: budgetItem.id,
+    await dispatch(budgetActions.updateBudgetItem({ id: budgetItem.id,
                                               title: updatedItemName,
                                               description: updatedItemDescription,
                                               expectedAmount: updatedItemAmount,
                                               dueDate: updatedItemDate
                                             }));
-    setUpdateItemView(false)
-    setUpdatedItemName("");
-    setUpdatedItemDescription("");
-    setUpdatedItemAmount("");
-    setUpdatedItemDate("");
+    await setUpdateItemView(false)
+    // await setUpdatedItemName("");
+    // await setUpdatedItemDescription("");
+    // await setUpdatedItemAmount("");
+    // await setUpdatedItemDate("");
   }
 
   function deleteItem(evt) {
@@ -98,10 +91,10 @@ function BudgetItem({ groupId, itemId }) {
         </div>
         <div className="budget_item_Date">
           {!updateItemView ?
-            <span>{budgetItemDueDate.toDateString()}</span>
+              <span>{dateFormat(budgetItem.dueDate)}</span>
             : <input
               type="date"
-              defaultValue={dateFormat()}
+              defaultValue={budgetItem.dueDate}
               onChange={(e) => setUpdatedItemDate(e.target.value)}
             ></input>
           }
@@ -150,7 +143,7 @@ function BudgetItem({ groupId, itemId }) {
             Create Transaction
         </button>
       </div>
-        
+
       <div
         className="item_transactions_container"
         style={
