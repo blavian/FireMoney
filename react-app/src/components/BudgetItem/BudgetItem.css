@@ -1,0 +1,28 @@
+/* Budget Item */
+
+.budget_group_item {
+    display: grid;
+    margin: 1em auto;
+    grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr .5fr;
+    padding: 1em 0;
+    justify-items: center;
+}
+
+.budget_group_items_container, .profile_container {
+    width: 95%;
+    margin: 1em auto;
+    border-bottom: .3em solid #12788B;
+}
+
+.add_budget_item_button, .add_group_button {
+    font-size: 1em;
+    color: #5B90D4;
+    background-color: #ffffff;
+    border: none;
+    margin: 1em 0 0 2em;
+}
+
+.add_group_button span {
+    font-size: 1.2em;
+    margin-right: .2em;
+}
