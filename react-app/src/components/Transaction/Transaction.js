@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTransaction, updateTransaction } from "../../store/reducers/budget";
 import "./Transaction.css"
-import moment from 'moment';
 
 function Transaction({ groupId, itemId, transactionId }) {
 
@@ -10,16 +9,18 @@ function Transaction({ groupId, itemId, transactionId }) {
 
   const transactionItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId].transactions[transactionId])
 
-    // format for shown date
-  function dateFormat(date) {
-    let newDate = moment(date).format("MMMM DD YYYY")
-    return newDate
+  let transactionItemDate = transactionItem ? new Date(transactionItem.date) : "";
+  let transactionItemDateInput;
+  if (transactionItemDate){
+    const transactionItemMonth = transactionItemDate.getMonth() < 10 ? `0${transactionItemDate.getMonth()}` : transactionItemDate.getMonth();
+    const transactionItemDay = transactionItemDate.getDay() < 10 ? `0${transactionItemDate.getDay()}` : transactionItemDate.getDay();
+    transactionItemDateInput = `${transactionItemDate.getFullYear()}-${transactionItemMonth}-${transactionItemDay}`;
   }
 
   const [updateItemView, setUpdateItemView] = useState(false);
   const [updatedTitle, setUpdatedTitle] = useState(transactionItem ? transactionItem.title : "");
   const [updatedAmount, setUpdatedAmount] = useState(transactionItem ? transactionItem.amount : "");
-  const [updatedDate, setUpdatedDate] = useState(transactionItem ? transactionItem.date : new Date());
+  const [updatedDate, setUpdatedDate] = useState(transactionItemDate);
   // Hooks
   const transaction = useSelector((x) => {
     return groupId && itemId && transactionId
@@ -38,7 +39,7 @@ function Transaction({ groupId, itemId, transactionId }) {
       amount: updatedAmount,
       date: updatedDate
     }
-
+   
     dispatch(updateTransaction(data));
     setUpdateItemView(false)
   }
@@ -74,12 +75,12 @@ function Transaction({ groupId, itemId, transactionId }) {
               (
                 <input
                   type="date"
-                  defaultValue={transactionItem.date}
+                  defaultValue={transactionItemDateInput}
                   onChange={(e) => setUpdatedDate(e.target.value)}
                 ></input>
               ) :
               (
-                <span>{dateFormat(transactionItem.date)}</span>
+                <span>{transactionItemDate.toDateString()}</span>
               )
             }
           </div>
