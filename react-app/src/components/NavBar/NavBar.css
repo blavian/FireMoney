@@ -61,6 +61,7 @@ nav a:visited {
     text-align: left;
     margin-left: 1em;
     color: #ffffff;
+    cursor: pointer;
 }
 
 .hb_link_text:hover {
@@ -69,6 +70,7 @@ nav a:visited {
 
 .hb_link {
     margin-left: 1.5em;
+    cursor: pointer;
 }
 
 .hb_menu_button {
