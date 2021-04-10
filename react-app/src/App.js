@@ -39,7 +39,7 @@ function App() {
     })();
   }, [dispatch, authenticated]);
 
-  // const hbtrigger = () => setShowHBMenu(!showhbmenu);
+  const hbtrigger = () => setShowHBMenu(!showhbmenu);
 
   if (!loaded) {
     return null;
@@ -55,15 +55,17 @@ function App() {
       <div className="page_container" onClick={() => setShowHBMenu(false)}>
         <Switch>
           <Route path="/" exact={true} >
-            <LandingPage showhbmenu={showhbmenu}
-              setShowHBMenu={setShowHBMenu} />
+            <LandingPage
+              showhbmenu={showhbmenu}
+              setShowHBMenu={setShowHBMenu}
+              authenticated={authenticated}
+              setAuthenticated={setAuthenticated}/>
           </Route>
           <ProtectedRoute
             path="/budget"
             exact={true}
             authenticated={authenticated} >
             <BudgetPage
-              setShowHBMenu={setShowHBMenu}
               monthInt={query.get("monthInt")}
               yearInt={query.get("yearInt")} />
           </ProtectedRoute>
@@ -71,7 +73,7 @@ function App() {
             path="/profile"
             exact={true}
             authenticated={authenticated} >
-            <ProfilePage setShowHBMenu={setShowHBMenu} />
+            <ProfilePage />
           </ProtectedRoute>
           <ProtectedRoute
             path="/transactions"

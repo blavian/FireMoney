@@ -29,6 +29,7 @@ const NavBar = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated }) 
     var yearToday = Number(today.getFullYear());
     dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
     history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
+    setShowHBMenu(false);
   }
 
   return (
@@ -36,7 +37,7 @@ const NavBar = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated }) 
       <nav className="navbar">
         <div className="firemoney_logo_container">
           <img id="firemoney_icon" src={icon} alt="mountain road" />
-          <NavLink className="home_link" to="/" exact={true} activeClassName="active">
+          <NavLink className="home_link" to="/" exact={true} activeClassName="active" onClick={() => setShowHBMenu(false)}>
             firemoney
           </NavLink>
         </div>
@@ -52,11 +53,11 @@ const NavBar = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated }) 
           { showhbmenu ?
           !authenticated ?
           (<div className="hb_menu">
-                <AuthModals authenticated={authenticated} setAuthenticated={setAuthenticated}/>
+              <AuthModals showhbmenu={showhbmenu} setShowHBMenu={setShowHBMenu} authenticated={authenticated} setAuthenticated={setAuthenticated}/>
           </div>):
           (
             <div className="hb_menu">
-            <NavLink className="hb_link" to="/profile" exact={true} activeClassName="active">
+            <NavLink className="hb_link" to="/profile" exact={true} activeClassName="active" onClick={() => setShowHBMenu(false)}>
               <img src={login_icon} alt="login" />
               <span className="hb_link_text" >Profile</span>
             </NavLink>
@@ -64,11 +65,11 @@ const NavBar = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated }) 
               <img src={budget_icon} alt="budget" />
               <span className="hb_link_text" >Budget</span>
             </span>
-            <NavLink className="hb_link" to="/transactions" exact={true} activeClassName="active">
+            <NavLink className="hb_link" to="/transactions" exact={true} activeClassName="active" onClick={() => setShowHBMenu(false)}>
               <img src={transaction_icon} alt="signup" />
               <span  className="hb_link_text" id="transaction_link_text">Transactions</span>
             </NavLink>
-            <LogoutButton setAuthenticated={setAuthenticated} />
+                <LogoutButton setAuthenticated={setAuthenticated} onClick={() => setShowHBMenu(false)}/>
           </div>
 
           ):
