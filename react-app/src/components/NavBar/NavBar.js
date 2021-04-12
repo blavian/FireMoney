@@ -52,7 +52,7 @@ const NavBar = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated }) 
           { showhbmenu ?
           !authenticated ?
           (<div className="hb_menu">
-                <AuthModals authenticated={authenticated} setAuthenticated={setAuthenticated}/>
+              <AuthModals showhbmenu={showhbmenu} setShowHBMenu={setShowHBMenu} authenticated={authenticated} setAuthenticated={setAuthenticated}/>
           </div>):
           (
             <div className="hb_menu">
@@ -68,7 +68,7 @@ const NavBar = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated }) 
               <img src={transaction_icon} alt="signup" />
               <span  className="hb_link_text" id="transaction_link_text">Transactions</span>
             </NavLink>
-            <LogoutButton setAuthenticated={setAuthenticated} />
+                <LogoutButton showhbmenu={showhbmenu} setShowHBMenu={setShowHBMenu} setAuthenticated={setAuthenticated} />
           </div>
 
           ):

@@ -9,9 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import * as modalActions from "../../store/reducers/modal";
 import "./AuthModals.css"
 
-function AuthModals({ authenticated, setAuthenticated }){
+function AuthModals({showhbmenu, setShowHBMenu, authenticated, setAuthenticated }){
     const dispatch = useDispatch();
     const showModals = useSelector( x => x.modal);
+    const hbtrigger = () => setShowHBMenu(!showhbmenu);
 
     return (
         <>
@@ -19,7 +20,7 @@ function AuthModals({ authenticated, setAuthenticated }){
                     <>
                         <img src={login_icon} alt="login" />
                         <span className="hb_link_text" >Login</span>
-                    </> 
+                    </>
             </NavLink>
             <NavLink to="/" className="hb_link" onClick={() => dispatch(modalActions.getSignUpModal())} >
                     <>
@@ -33,20 +34,20 @@ function AuthModals({ authenticated, setAuthenticated }){
                     <LoginForm authenticated={authenticated} setAuthenticated={setAuthenticated}/>
                     <div>
                         <div className="redirect_modal_link">
-                            <p>Don't have an account? 
+                            <p>Don't have an account?
                             <span onClick={() => dispatch(modalActions.getSignUpModal())}>Sign Up</span>
                             </p>
                         </div>
                     </div>
                 </Modal>
             )}
-            
+
             {showModals.signUpModalShow && (
                 <Modal onClose={() => dispatch(modalActions.hideModal())}>
                     <SignUpForm authenticated={authenticated} setAuthenticated={setAuthenticated} />
                     <div>
                         <div className="redirect_modal_link">
-                            <p>Already have an account? 
+                            <p>Already have an account?
                             <span onClick={() => dispatch(modalActions.getLoginModal())}>Login</span>
                             </p>
                         </div>
