@@ -4,14 +4,17 @@ import { logout } from "../../services/auth";
 import logout_icon from "../../images/logout.png"
 import { useDispatch } from "react-redux";
 import { logoutSessionUser } from "../../store/reducers/session"
+import * as modalActions from "../../store/reducers/modal";
 
-const LogoutButton = ({setAuthenticated}) => {
+const LogoutButton = ({setShowHBMenu, showhbmenu, setAuthenticated}) => {
   const dispatch = useDispatch();
-
+  const hbtrigger = () => setShowHBMenu(!showhbmenu);
   const onLogout = async (e) => {
     await logout();
     setAuthenticated(false);
     dispatch(logoutSessionUser());
+    setShowHBMenu(!showhbmenu)
+    dispatch(modalActions.hideModal())
     return <Redirect to="/" />
   };
 

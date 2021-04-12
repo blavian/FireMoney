@@ -27,10 +27,14 @@
 }
 
 .modal_button {
-    padding: .4em 1em;
+    /* padding: .4em 1em; */
     background-color: #ffffff;
     color: #000000;
     border-radius: .3em;
+    width: 120px;
+    height: 60px;
+    font-size: 25px;
+    cursor: pointer;
 }
 
 .modal_button:hover {
@@ -54,4 +58,11 @@
 }
 .errors{
     text-align: center;
+}
+
+.modal-buttons{
+    display: flex;
+    width: 255px;
+    height: 70px;
+    /* justify-content: space-between; */
 }

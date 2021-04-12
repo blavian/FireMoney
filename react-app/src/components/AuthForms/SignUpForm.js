@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { signUp } from '../../services/auth';
 import * as budgetActions from "../../store/reducers/budget"
 
-const SignUpForm = ({authenticated, setAuthenticated}) => {
+const SignUpForm = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated}) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,7 +40,8 @@ const SignUpForm = ({authenticated, setAuthenticated}) => {
   };
 
   if (authenticated) {
-    return <Redirect to="/budget" />;
+    setShowHBMenu(false)
+    return <Redirect to="/profile" />;
   }
 
   return (
