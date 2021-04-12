@@ -141,14 +141,15 @@ function BudgetPage({ setShowHBMenu, showhbmenu, monthInt, yearInt }) {
     <div className="budget_page_container" >
       {budgetMonth.month &&
         <>
-          <div>
-            <h1 className="budget_page_heading__month_title">{`Budget for ${budgetMonth.month}, ${budgetMonth.yearInt}`}</h1>
-          </div>
-          <div className="month_travelors">
-          <Tippy content={"no previous budget month"} visible={visiblePrevious}>
+
+          <div className="month_bar">
+          <Tippy content={"no previous budget month"} placement={'bottom'} visible={visiblePrevious}>
             <button className="previous_month_button" type="button" onClick={previousBudgetMonth}><img className="arrow" alt="previous month" src={left_arrow} /></button>
             </Tippy>
-          <Tippy content={"no next budget month"} visible={visibleNext}>
+          <div>
+            <h1 className="budget_page_heading__month_title">{`${budgetMonth.month}, ${budgetMonth.yearInt}`}</h1>
+          </div>
+          <Tippy content={"no next budget month"} placement={'bottom'} visible={visibleNext}>
             <button className="next_month_button" type="button" onClick={nextBudgetMonth}><img className="arrow" alt="next month" src={right_arrow}/></button>
           </Tippy>
         </div>

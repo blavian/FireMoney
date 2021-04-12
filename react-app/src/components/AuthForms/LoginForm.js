@@ -66,7 +66,10 @@ const LoginForm = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated 
       }
       //  if not create new current month
       if (currentMonth === false) {
+        console.log("----created more months")
         dispatch(budgetActions.createCurrentBudgetMonth())
+      } else {
+        console.log("has current months")
       }
       setShowHBMenu(false)
       history.push("/profile");

@@ -71,7 +71,9 @@
     border-radius: .5em;
 }
 
-.create_month_button {}
+.create_month_button {
+
+}
 
 .arrow {
     width: 50px;
@@ -79,8 +81,9 @@
     ;
 }
 
-.month_travelors {
+.month_bar {
     display: flex;
     width: 90%;
     justify-content: space-between;
+    align-items: center;
 }
