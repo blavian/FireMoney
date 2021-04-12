@@ -21,6 +21,10 @@
     border: none;
     margin: 1em 0 0 2em;
 }
+.add_budget_item_button:hover {
+    cursor: pointer;
+    border: 2px solid #5B90D4;
+}
 
 .add_group_button span {
     font-size: 1.2em;
