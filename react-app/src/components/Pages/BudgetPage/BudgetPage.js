@@ -26,19 +26,6 @@ function BudgetPage({ setShowHBMenu, showhbmenu, monthInt, yearInt }) {
   const currentMonth = budgetMonth.monthInt
   const history = useHistory();
 
-  // useEffect(()=>{
-  //   // if (monthInt & yearInt){
-  //   //   dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
-  //   //   dispatch(sessionActions.getUserMonths())
-  //   // }
-  //   setShowHBMenu(false)
-  // },[history])
-
-
-  // useEffect(()=>{
-  //   setShowHBMenu(false)
-  // },[])
-
 
   useEffect(() => {
     // uses query string to keep current month page on re-render
@@ -151,13 +138,14 @@ function BudgetPage({ setShowHBMenu, showhbmenu, monthInt, yearInt }) {
         <>
           <div>
             <h1 className="budget_page_heading__month_title">{`Budget for ${budgetMonth.month}, ${budgetMonth.yearInt}`}</h1>
-            <button type="button" onClick={previousBudgetMonth}>previous month</button>
-            <button type="button" onClick={nextBudgetMonth}>next month</button>
+          </div>
+          <div className="month_travelors">
+            <button className="previous_month_button" type="button" onClick={previousBudgetMonth}>previous month</button>
+            <button className="next_month_button" type="button" onClick={nextBudgetMonth}>next month</button>
             {noPreviousMonth && <p>you don't have a previous months budget created</p>}
             {noNextMonth && <p>you don't have next months budget created</p>}
-          </div>
-
-          <button type="button" onClick={(evt) => createNextBudgetMonth(evt, true)}>Create a new budget month</button>
+        </div>
+        <button className="create_month_button" type="button" onClick={(evt) => createNextBudgetMonth(evt, true)}>Create next month</button>
           {
             budgetMonth.groups
               ? Object.keys(budgetMonth.groups).map((key) => (
