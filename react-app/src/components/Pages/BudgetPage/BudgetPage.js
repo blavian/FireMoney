@@ -4,7 +4,8 @@ import { useHistory } from "react-router-dom";
 import BudgetGroup from "../../BudgetGroup/BudgetGroup";
 import { Modal } from "../../../context/Modal"
 import TransactionForm from "../../TransactionForm/TransactionForm"
-
+import right_arrow from "../../../images/right-arrow.png"
+import left_arrow from "../../../images/left-arrow.png"
 import * as budgetActions from "../../../store/reducers/budget";
 import * as sessionActions from "../../../store/reducers/session"
 import { hideTransactionModal } from "../../../store/reducers/modal"
@@ -145,10 +146,10 @@ function BudgetPage({ setShowHBMenu, showhbmenu, monthInt, yearInt }) {
           </div>
           <div className="month_travelors">
           <Tippy content={"no previous budget month"} visible={visiblePrevious}>
-              <button className="previous_month_button" type="button" onClick={previousBudgetMonth}>previous month</button>
+            <button className="previous_month_button" type="button" onClick={previousBudgetMonth}><img className="arrow" alt="previous month" src={left_arrow} /></button>
             </Tippy>
           <Tippy content={"no next budget month"} visible={visibleNext}>
-            <button className="next_month_button" type="button" onClick={nextBudgetMonth}>next month</button>
+            <button className="next_month_button" type="button" onClick={nextBudgetMonth}><img className="arrow" alt="next month" src={right_arrow}/></button>
           </Tippy>
         </div>
         <button className="create_month_button" type="button" onClick={(evt) => createNextBudgetMonth(evt, true)}>Create next month</button>

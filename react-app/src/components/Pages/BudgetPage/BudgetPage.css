@@ -55,11 +55,29 @@
     margin-right: 1em;
 }
 
-.previous_month_button {}
+.previous_month_button {
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: .5em;
+}
 
-.next_month_button {}
+.next_month_button {
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: .5em;
+}
 
 .create_month_button {}
+
+.arrow {
+    width: 50px;
+    height: 40px;
+    ;
+}
 
 .month_travelors {
     display: flex;
