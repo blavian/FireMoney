@@ -114,12 +114,14 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
           value={password}
           onChange={updatePassword}
         />
+        <div className="modal-buttons">
         <button className="modal_button" type="submit">
           Login
         </button>
         <button className="modal_button" type="submit" onClick={onDemoLogin}>
-          Demo User
+          Demo
         </button>
+        </div>
       </div>
     </form>
   );
