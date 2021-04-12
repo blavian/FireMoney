@@ -38,10 +38,11 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
         if (currentMonth === false) {
           dispatch(budgetActions.createCurrentBudgetMonth())
         }
+      history.push("/profile")
     } else {
       setErrors(user.errors);
     }
-    history.push("/profile")
+
   };
 
   const onDemoLogin = async (e) => {
