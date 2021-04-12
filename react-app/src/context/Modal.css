@@ -1,9 +1,4 @@
 #modal {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,11 +10,15 @@
   right: 0;
   left: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 #modal-content {
-  position: absolute;
+  position: fixed;
+  top: 25%;
   background-color: #000000;
   color: #ffffff;
+  border-radius: 20px;
+  border: 2px solid white;
 }
