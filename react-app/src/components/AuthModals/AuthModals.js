@@ -31,7 +31,8 @@ function AuthModals({showhbmenu, setShowHBMenu, authenticated, setAuthenticated 
 
             {showModals.loginModalShow && (
                 <Modal onClose={() => dispatch(modalActions.hideModal())}>
-                    <LoginForm authenticated={authenticated} setAuthenticated={setAuthenticated}/>
+                    <LoginForm showhbmenu={showhbmenu}
+                        setShowHBMenu={setShowHBMenu} authenticated={authenticated} setAuthenticated={setAuthenticated}/>
                     <div>
                         <div className="redirect_modal_link">
                             <p>Don't have an account?
@@ -44,7 +45,8 @@ function AuthModals({showhbmenu, setShowHBMenu, authenticated, setAuthenticated 
 
             {showModals.signUpModalShow && (
                 <Modal onClose={() => dispatch(modalActions.hideModal())}>
-                    <SignUpForm authenticated={authenticated} setAuthenticated={setAuthenticated} />
+                    <SignUpForm showhbmenu={showhbmenu}
+                        setShowHBMenu={setShowHBMenu} authenticated={authenticated} setAuthenticated={setAuthenticated} />
                     <div>
                         <div className="redirect_modal_link">
                             <p>Already have an account?

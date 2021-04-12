@@ -10,7 +10,7 @@ import * as sessionActions from "../../../store/reducers/session"
 import { hideTransactionModal } from "../../../store/reducers/modal"
 import "./BudgetPage.css"
 
-function BudgetPage({ monthInt, yearInt }) {
+function BudgetPage({ setShowHBMenu, showhbmenu, monthInt, yearInt }) {
 
   // Local state
   const [newGroupName, setNewGroupName] = useState("");
@@ -18,7 +18,7 @@ function BudgetPage({ monthInt, yearInt }) {
   const [noPreviousMonth, setNoPreviousMonth] = useState(false)
   const transactionModal = useSelector((x) => x.transactionModal.transactionModalShow)
   const userMonths = useSelector((x) => x.session.user.months)
-  
+
   // Hooks
   const dispatch = useDispatch();
   const budgetMonth = useSelector((x) => x.budget.budgetMonth);
@@ -26,12 +26,18 @@ function BudgetPage({ monthInt, yearInt }) {
   const currentMonth = budgetMonth.monthInt
   const history = useHistory();
 
-  useEffect(()=>{
-    // if (monthInt & yearInt){
-    //   dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
-    //   dispatch(sessionActions.getUserMonths())
-    // }
-  },[history])
+  // useEffect(()=>{
+  //   // if (monthInt & yearInt){
+  //   //   dispatch(budgetActions.getBudgetMonth({ monthInt, yearInt }));
+  //   //   dispatch(sessionActions.getUserMonths())
+  //   // }
+  //   setShowHBMenu(false)
+  // },[history])
+
+
+  // useEffect(()=>{
+  //   setShowHBMenu(false)
+  // },[])
 
 
   useEffect(() => {

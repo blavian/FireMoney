@@ -7,7 +7,7 @@ import * as budgetActions from "../../store/reducers/budget";
 // Redux actions imports
 import * as sessionActions from "../../store/reducers/session";
 
-const LoginForm = ({ authenticated, setAuthenticated }) => {
+const LoginForm = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated }) => {
   const history = useHistory();
 
   const [errors, setErrors] = useState([]);
@@ -38,6 +38,7 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
         if (currentMonth === false) {
           dispatch(budgetActions.createCurrentBudgetMonth())
         }
+      setShowHBMenu(false)
       history.push("/profile")
     } else {
       setErrors(user.errors);
@@ -67,10 +68,11 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
       if (currentMonth === false) {
         dispatch(budgetActions.createCurrentBudgetMonth())
       }
+      setShowHBMenu(false)
+      history.push("/profile");
     } else {
       setErrors(user.errors);
     }
-    history.push("/profile");
   };
 
 
