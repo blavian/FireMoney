@@ -9,13 +9,17 @@ import * as budgetActions from "../../../store/reducers/budget";
 import * as sessionActions from "../../../store/reducers/session"
 import { hideTransactionModal } from "../../../store/reducers/modal"
 import "./BudgetPage.css"
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 
 function BudgetPage({ setShowHBMenu, showhbmenu, monthInt, yearInt }) {
 
   // Local state
   const [newGroupName, setNewGroupName] = useState("");
-  const [noNextMonth, setNoNextMonth] = useState(false)
-  const [noPreviousMonth, setNoPreviousMonth] = useState(false)
+  // const [noNextMonth, setNoNextMonth] = useState(false)
+  // const [noPreviousMonth, setNoPreviousMonth] = useState(false)
+  const [visiblePrevious, setVisiblePrevious] = useState(false);
+  const [visibleNext, setVisibleNext] = useState(false);
   const transactionModal = useSelector((x) => x.transactionModal.transactionModalShow)
   const userMonths = useSelector((x) => x.session.user.months)
 
@@ -35,7 +39,7 @@ function BudgetPage({ setShowHBMenu, showhbmenu, monthInt, yearInt }) {
   },[dispatch, history]);
 
   const nextBudgetMonth = () => {
-    setNoPreviousMonth(() => false)
+    setVisiblePrevious(() => false)
     dispatch(sessionActions.getUserMonths())
     let nextMonth;
     let nextYear;
@@ -49,21 +53,21 @@ function BudgetPage({ setShowHBMenu, showhbmenu, monthInt, yearInt }) {
     for (let key in userMonths) {
       let month = userMonths[key]
       if ((Number(month.yearInt) === Number(nextYear)) && (Number(month.monthInt) === Number(nextMonth))) {
-        setNoNextMonth(() => false)
+        setVisibleNext(() => false)
         history.push(`/budget?monthInt=${nextMonth}&yearInt=${nextYear}`)
         dispatch(budgetActions.getBudgetMonth({ monthInt: nextMonth, yearInt: nextYear }))
         return
       }
     }
-    setNoNextMonth(true)
+    setVisibleNext(true)
     setTimeout(() => {
-      setNoNextMonth(false)
-    }, 3000)
+      setVisibleNext(false)
+    }, 2000)
   }
 
 
   const previousBudgetMonth = () => {
-    setNoNextMonth(() => false)
+    setVisibleNext(() => false)
     dispatch(sessionActions.getUserMonths())
     let previousMonth;
     let previousYear;
@@ -77,22 +81,22 @@ function BudgetPage({ setShowHBMenu, showhbmenu, monthInt, yearInt }) {
     for (let key in userMonths) {
       let month = userMonths[key]
       if ((Number(month.yearInt) === Number(previousYear)) && (Number(month.monthInt) === Number(previousMonth))) {
-        setNoPreviousMonth(() => false)
+        setVisiblePrevious(() => false)
         history.push(`/budget?monthInt=${previousMonth}&yearInt=${previousYear}`)
         dispatch(budgetActions.getBudgetMonth({ monthInt: previousMonth, yearInt: previousYear }))
         return
       }
     }
-    setNoPreviousMonth(true)
+    setVisiblePrevious(true)
     setTimeout(() => {
-      setNoPreviousMonth(false)
-    }, 3000)
+      setVisiblePrevious(false)
+    }, 2000)
   }
 
 
   // Budget month create action
   const createNextBudgetMonth = (evt, copyPrevious) => {
-    setNoNextMonth(() => false)
+    setVisibleNext(() => false)
     evt.preventDefault();
     const nextMonth =
       parseInt(budgetMonth.monthInt) === 12
@@ -140,10 +144,12 @@ function BudgetPage({ setShowHBMenu, showhbmenu, monthInt, yearInt }) {
             <h1 className="budget_page_heading__month_title">{`Budget for ${budgetMonth.month}, ${budgetMonth.yearInt}`}</h1>
           </div>
           <div className="month_travelors">
-            <button className="previous_month_button" type="button" onClick={previousBudgetMonth}>previous month</button>
+          <Tippy content={"no previous budget month"} visible={visiblePrevious}>
+              <button className="previous_month_button" type="button" onClick={previousBudgetMonth}>previous month</button>
+            </Tippy>
+          <Tippy content={"no next budget month"} visible={visibleNext}>
             <button className="next_month_button" type="button" onClick={nextBudgetMonth}>next month</button>
-            {noPreviousMonth && <p>you don't have a previous months budget created</p>}
-            {noNextMonth && <p>you don't have next months budget created</p>}
+          </Tippy>
         </div>
         <button className="create_month_button" type="button" onClick={(evt) => createNextBudgetMonth(evt, true)}>Create next month</button>
           {
