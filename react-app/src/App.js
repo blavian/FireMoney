@@ -66,6 +66,8 @@ function App() {
             exact={true}
             authenticated={authenticated} >
             <BudgetPage
+              setShowHBMenu={setShowHBMenu}
+              showhbmenu={showhbmenu}
               monthInt={query.get("monthInt")}
               yearInt={query.get("yearInt")} />
           </ProtectedRoute>

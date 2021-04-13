@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect} from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import LogoutButton from '../AuthForms/LogoutButton';
 import icon from '../../images/Icon.png';
@@ -27,9 +27,20 @@ const NavBar = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated }) 
     var today = new Date();
     var monthToday = Number(today.getMonth() + 1)
     var yearToday = Number(today.getFullYear());
+    setShowHBMenu(false)
     dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
     history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
     setShowHBMenu(false);
+  }
+
+  const goToProfile = () =>{
+    setShowHBMenu(false)
+    history.push('/profile')
+  }
+
+  const goToTransactions = () =>{
+    setShowHBMenu(false)
+    history.push('/transactions')
   }
 
   return (
@@ -57,19 +68,19 @@ const NavBar = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated }) 
           </div>):
           (
             <div className="hb_menu">
-            <NavLink className="hb_link" to="/profile" exact={true} activeClassName="active" onClick={() => setShowHBMenu(false)}>
+            <span className="hb_link" onClick={goToProfile}>
               <img src={login_icon} alt="login" />
               <span className="hb_link_text" >Profile</span>
-            </NavLink>
-            <span className="hb_link"  onClick={goToBudget}>
+            </span>
+            <span className="hb_link" onClick={goToBudget}>
               <img src={budget_icon} alt="budget" />
               <span className="hb_link_text" >Budget</span>
             </span>
-            <NavLink className="hb_link" to="/transactions" exact={true} activeClassName="active" onClick={() => setShowHBMenu(false)}>
+                <span className="hb_link" onClick={goToTransactions}>
               <img src={transaction_icon} alt="signup" />
               <span  className="hb_link_text" id="transaction_link_text">Transactions</span>
-            </NavLink>
-                <LogoutButton setAuthenticated={setAuthenticated} onClick={() => setShowHBMenu(false)}/>
+            </span>
+                <LogoutButton showhbmenu={showhbmenu} setShowHBMenu={setShowHBMenu} setAuthenticated={setAuthenticated} />
           </div>
 
           ):

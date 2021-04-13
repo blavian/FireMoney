@@ -39,13 +39,11 @@ const LoginForm = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated 
         if (currentMonth === false) {
           dispatch(budgetActions.createCurrentBudgetMonth())
         }
+      setShowHBMenu(false)
+      history.push("/profile")
     } else {
       setErrors(user.errors);
     }
-    
-    await dispatch(modalActions.hideModal())
-    await setShowHBMenu(false)
-    history.push("/profile")
   };
 
   const onDemoLogin = async (e) => {
@@ -68,12 +66,16 @@ const LoginForm = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated 
       }
       //  if not create new current month
       if (currentMonth === false) {
+        console.log("----created more months")
         dispatch(budgetActions.createCurrentBudgetMonth())
+      } else {
+        console.log("has current months")
       }
+      setShowHBMenu(false)
+      history.push("/profile");
     } else {
       setErrors(user.errors);
     }
-    history.push("/profile");
   };
 
 
@@ -118,12 +120,14 @@ const LoginForm = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated 
           value={password}
           onChange={updatePassword}
         />
+        <div className="modal-buttons">
         <button className="modal_button" type="submit">
           Login
         </button>
         <button className="modal_button" type="submit" onClick={onDemoLogin}>
-          Demo User
+          Demo
         </button>
+        </div>
       </div>
     </form>
   );

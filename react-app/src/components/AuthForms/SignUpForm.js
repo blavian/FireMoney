@@ -40,7 +40,8 @@ const SignUpForm = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated
   };
 
   if (authenticated) {
-    return <Redirect to="/budget" />;
+    setShowHBMenu(false)
+    return <Redirect to="/profile" />;
   }
 
   return (
