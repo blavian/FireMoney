@@ -2,7 +2,7 @@ from app.models.budget_item import BudgetItem
 from app.forms.transaction_form import TransactionForm
 from flask import Blueprint, request
 from flask_login import login_required, current_user
-from app.models import db, Transaction, BudgetItem
+from app.models import db, Transaction, BudgetItem, BudgetGroup
 from app.forms.transaction_form import TransactionForm
 transaction_routes = Blueprint('transactions', __name__)
 
@@ -23,6 +23,25 @@ def transactions():
 def transaction(id):
     transaction = Transaction.query.get(id)
     return transaction.to_dict()
+
+# FIND ALL TRANSACTIONS BY USER
+
+
+@transaction_routes.route('/user/<int:id>')
+@login_required
+def user_transactions(id):
+    budget_groups = BudgetGroup.query.filter(BudgetGroup.user_id == id).all()
+    budget_group_ids = [budget_group.id for budget_group in budget_groups]
+    transactions_obj = {}
+    for group_id in budget_group_ids:
+        i = BudgetItem.query.get(group_id)
+        if i is not None:
+            i.to_dict()
+            transactions = Transaction.query.filter(Transaction.item_id == i.id).all()
+            if len(transactions) > 0:
+                transactions_obj.update({ i.id : [transaction.to_dict() for transaction in transactions]})
+    
+    return {"transactions": transactions_obj}
 
 
 # CREATE BUDGET ITEMS
