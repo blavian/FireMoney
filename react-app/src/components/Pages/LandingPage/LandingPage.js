@@ -7,6 +7,8 @@ import { useDispatch } from 'react-redux';
 import * as budgetActions from "../../../store/reducers/budget";
 import * as sessionActions from "../../../store/reducers/session"
 import "./LandingPage.css"
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 
 function LandingPage() {
     const dispatch = useDispatch();

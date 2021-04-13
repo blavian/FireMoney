@@ -7,7 +7,7 @@ import * as budgetActions from "../../store/reducers/budget";
 // Redux actions imports
 import * as sessionActions from "../../store/reducers/session";
 
-const LoginForm = ({ authenticated, setAuthenticated }) => {
+const LoginForm = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated }) => {
   const history = useHistory();
 
   const [errors, setErrors] = useState([]);
@@ -38,10 +38,12 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
         if (currentMonth === false) {
           dispatch(budgetActions.createCurrentBudgetMonth())
         }
+      setShowHBMenu(false)
+      history.push("/profile")
     } else {
       setErrors(user.errors);
     }
-    history.push("/profile")
+
   };
 
   const onDemoLogin = async (e) => {
@@ -64,12 +66,16 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
       }
       //  if not create new current month
       if (currentMonth === false) {
+        console.log("----created more months")
         dispatch(budgetActions.createCurrentBudgetMonth())
+      } else {
+        console.log("has current months")
       }
+      setShowHBMenu(false)
+      history.push("/profile");
     } else {
       setErrors(user.errors);
     }
-    history.push("/profile");
   };
 
 
@@ -114,12 +120,14 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
           value={password}
           onChange={updatePassword}
         />
+        <div className="modal-buttons">
         <button className="modal_button" type="submit">
           Login
         </button>
         <button className="modal_button" type="submit" onClick={onDemoLogin}>
-          Demo User
+          Demo
         </button>
+        </div>
       </div>
     </form>
   );
