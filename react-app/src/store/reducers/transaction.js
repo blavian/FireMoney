@@ -35,9 +35,26 @@ const updateTransactionActionCreator = (payload) => ({
 // Thunks
 
 export const getTransactions = (id) => async (dispatch) => {
-    const res = await fetch(`/api/users/${id}/transactions`, {});
+    const res = await fetch(`/api/users/${id}/transactions`, { method: "GET"});
     const { data } = res.data;
-
+    console.log(res.data)
     dispatch(getTransactionsActionCreator(data));
     return data;
 }
+
+// TODO: update api route to return all user data for profile and transaction page use
+
+const reducer = (
+    state = { allTransactions: transactionsTemplate },
+    { type, payload }
+) => {
+    let stateCopy;
+    switch (type){
+        case GET_TRANSACTIONS:
+            return { ...payload}
+        default:
+            return state;
+    }
+}
+
+export default reducer;

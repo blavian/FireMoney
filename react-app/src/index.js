@@ -12,7 +12,7 @@ import configureStore from './store';
 // Reducer actions
 import * as sessionActions from './store/reducers/session';
 import * as budgetActions from './store/reducers/budget';
-
+import * as transactionActions from './store/reducers/transaction';
 // Make us a store
 const store = configureStore();
 
@@ -21,6 +21,7 @@ if (process.env.NODE_ENV !== 'production') {
   window.store = store;
   window.sessionActions = sessionActions;
   window.budgetActions = budgetActions;
+  window.transactionActions = transactionActions;
 }
 
 ReactDOM.render(

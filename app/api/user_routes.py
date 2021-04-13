@@ -35,4 +35,4 @@ def user_transactions(id):
                 transactions_obj.update(
                     {i.id: [transaction.to_dict() for transaction in transactions]})
 
-    return {"transactions": transactions_obj}
+    return {"data": transactions_obj}
