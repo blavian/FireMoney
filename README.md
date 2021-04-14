@@ -1,13 +1,62 @@
-# Flask React Project
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
 
-This is the backend for the Flask React project.
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href=https://github.com/blavian/FireMoney/blob/main/readme.md>
+  </a>
 
-## Getting started
+
+  <p align="center">
+   Fire Money
+    <br />
+    <a href=https://github.com/blavian/FireMoney/wiki><strong>Explore the wiki »</strong></a>
+    <br />
+    <br />
+
+
+
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+  </ol>
+</details>
+
+
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+Fire money is a personal finance app that is a clone of SplitWise, and inspired by Mint. Upon login,users will see the current month where they can view and create transactions. 
+
+### Built With
+ 
+* React
+* Redux
+* Python
+* Flask
+* JavaScript
+
+
+<!-- GETTING STARTED -->
+## Getting Started
 
 1. Clone this repository (only this branch)
 
    ```bash
-   git clone https://github.com/appacademy-starters/python-project-starter.git
+   git clone https://github.com/blavian/FireMoney.git
    ```
 
 2. Install dependencies
@@ -54,45 +103,14 @@ This is the backend for the Flask React project.
    There is a layer in the Dockerfile that will install psycopg2 (not binary) for us.
 ***
 
-## Deploy to Heroku
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/blavian/FireMoney.svg?style=for-the-badge
+[contributors-url]: https://github.com/blavian/FireMoney/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/blavian/FireMoney.svg?style=for-the-badge
+[forks-url]: https://github.com/blavian/FireMoney/network/members
+[stars-shield]: https://img.shields.io/github/stars/blavian/FireMoney.svg?style=for-the-badge
+[stars-url]: https://github.com/blavian/FireMoney/stargazers
+[issues-shield]: https://img.shields.io/github/issues/blavian/FireMoney.svg?style=for-the-badge
+[issues-url]: https://github.com/blavian/FireMoney/issues
 
-1. Create a new project on Heroku
-2. Under Resources click "Find more add-ons" and add the add on called "Heroku Postgres"
-3. Install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-command-line)
-4. Run
-
-   ```bash
-   heroku login
-   ```
-
-5. Login to the heroku container registry
-
-   ```bash
-   heroku container:login
-   ```
-
-6. Update the `REACT_APP_BASE_URL` variable in the Dockerfile.
-   This should be the full URL of your Heroku app: i.e. "https://flask-react-aa.herokuapp.com"
-7. Push your docker container to heroku from the root directory of your project.
-   This will build the dockerfile and push the image to your heroku container registry
-
-   ```bash
-   heroku container:push web -a {NAME_OF_HEROKU_APP}
-   ```
-
-8. Release your docker container to heroku
-
-   ```bash
-   heroku container:release web -a {NAME_OF_HEROKU_APP}
-   ```
-
-9. set up your database:
-
-   ```bash
-   heroku run -a {NAME_OF_HEROKU_APP} flask db upgrade
-   heroku run -a {NAME_OF_HEROKU_APP} flask seed all
-   ```
-
-10. Under Settings find "Config Vars" and add any additional/secret .env variables.
-
-11. profit
