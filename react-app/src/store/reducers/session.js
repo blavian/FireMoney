@@ -1,4 +1,5 @@
 import {fetch} from "../../services/fetch";
+import { normalizedData } from "../../services/normalize_data";
 
 // Action constants
 const SET_SESSION_USER = "session/setSessionUser";
@@ -44,20 +45,24 @@ export const loginSessionUser = ({email, password}) => async (dispatch) => {
   const {data} = res.data;
   dispatch(loginSessionUserActionCreator(data));
   return data; };
+
 export const logoutSessionUser = () => async (dispatch) => {
   dispatch(logoutSessionUserActionCreator(userTemplate));
   return; };
+
 // -------------------------------------------------------- getAllUserMonths
 export const getUserMonths = () => async (dispatch) => {
   const res = await fetch(
     '/api/months/all');
-  const {data} = res.data;
-
+  let {data} = res.data;
+  // data.months = data.months.map( el => {
+  //   return el[el.monthInt] = el;
+  // })
   dispatch(getUserMonth(data));
   return data; };
 
 // Reducer configuration
-const reducer = (state={user: userTemplate, months: null}, {type, payload}) => {
+const reducer = (state={user: userTemplate, months: null, transactions: null}, {type, payload}) => {
   switch(type) {
     case SET_SESSION_USER:
       return {user: {...state.user, ...payload}};
