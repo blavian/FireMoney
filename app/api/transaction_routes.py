@@ -2,22 +2,20 @@ from app.models.budget_item import BudgetItem
 from app.forms.transaction_form import TransactionForm
 from flask import Blueprint, request
 from flask_login import login_required, current_user
-from app.models import db, Transaction, BudgetItem, BudgetGroup
+from app.models import db, Transaction, BudgetItem
 from app.forms.transaction_form import TransactionForm
 transaction_routes = Blueprint('transactions', __name__)
 
+
 # FIND ALL TRANSACTIONS BY MONTH
-
-
 @transaction_routes.route('')
 @login_required
 def transactions():
     transactions = Transaction.query.all()
     return {"transactions": [transaction.to_dict() for transaction in transactions]}
 
+
 # FIND TRANSACTION BY ID
-
-
 @transaction_routes.route('/<int:id>')
 @login_required
 def transaction(id):
@@ -64,9 +62,8 @@ def new_transaction():
     # 7. Send 201 response to the user
     return {"message": "success", "data": data}, 201
 
+
  # UPDATE BUDGET TRANSACTION BY ID
-
-
 @transaction_routes.route('/<int:id>', methods=['PATCH'])
 @login_required
 def update_transaction(id):
