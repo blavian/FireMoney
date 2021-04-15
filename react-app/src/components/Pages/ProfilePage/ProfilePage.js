@@ -24,7 +24,7 @@ function ProfilePage(){
 
     return(
         <>
-        <div className="profile_container">
+        <div className="page_heading">
             <h1>Welcome {currUser}</h1>
         </div>
         <div className="profile_months_container">

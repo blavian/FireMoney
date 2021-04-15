@@ -18,8 +18,8 @@ function TransactionsPage(){
     // }, [dispatch]);
 
     return (
-        <div>
-            <h1>Your Transactions</h1>
+        <div className="transactions_container">
+            <h1 className="page_heading">Your Transactions</h1>
             {
                 Object.keys(transactions).length > 0 ?
 

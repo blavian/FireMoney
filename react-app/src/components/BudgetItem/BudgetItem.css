@@ -3,13 +3,13 @@
 .budget_group_item {
     display: grid;
     margin: 1em auto;
-    grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr .5fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr .5fr;
     padding: 1em 0;
     justify-items: center;
 }
 
-.budget_group_items_container, .profile_container {
-    width: 95%;
+.budget_group_items_container, .page_heading {
+    width: 100%;
     margin: 1em auto;
     border-bottom: .3em solid #12788B;
 }

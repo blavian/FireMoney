@@ -34,8 +34,11 @@ function Transaction({ trasactionPage, groupId, itemId, transactionId }) {
   // });
 
   useEffect(() => {
-    dispatch(sessionActions.getUserTransactions(user.id))
-  },[dispatch, updateItemView])
+    async function getTransactions() {
+      await dispatch(sessionActions.getUserTransactions(user.id))
+    }
+    getTransactions();
+  },[dispatch])
 
   async function updateTrans(evt) {
     evt.preventDefault();
