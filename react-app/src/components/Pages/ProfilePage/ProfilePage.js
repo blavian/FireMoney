@@ -34,9 +34,9 @@ function ProfilePage(){
             <div className="profile_months_card_container">
                 {
                     userMonths && 
-                    ( userMonths.map(month => 
-                        <div className="profile_month_card" key={month.monthInt}>
-                            <h2>{calendar[month.monthInt]}</h2>
+                    ( Object.keys(userMonths).map(month => 
+                        <div className="profile_month_card" key={userMonths[month].monthInt}>
+                            <h2>{calendar[userMonths[month].monthInt]}</h2>
                             <img src={circleGraph} alt="graph"></img>
                             <div className="card_percentages">
                                 <ul>

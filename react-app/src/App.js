@@ -31,11 +31,12 @@ function App() {
     (async () => {
       const user = await authenticate();
       if (!user.errors) {
-        setAuthenticated(true);
-        dispatch(sessionActions.setSessionUser(user));
-        dispatch(sessionActions.getUserMonths());
+        await setAuthenticated(true);
+        await dispatch(sessionActions.setSessionUser(user));
+        await dispatch(sessionActions.getUserMonths());
+        await dispatch(sessionActions.getUserTransactions(user.id));
       }
-      setLoaded(true);
+      await setLoaded(true);
     })();
   }, [dispatch, authenticated]);
 

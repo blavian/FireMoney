@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTransaction, updateTransaction } from "../../store/reducers/budget";
+import * as sessionActions from "../../store/reducers/session"
 import "./Transaction.css"
 import moment from 'moment';
 
-function Transaction({ groupId, itemId, transactionId }) {
+function Transaction({ trasactionPage, groupId, itemId, transactionId }) {
 
   const dispatch = useDispatch();
 
-  const transactionItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId].transactions[transactionId])
-
+  // const transactionItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId].transactions[transactionId])
+  const transactionItem = useSelector((x) => x.session.user.transactions[transactionId])
+  const user = useSelector((x) => x.session.user)
     // format for shown date
   function dateFormat(date) {
     let newDate = moment(date).format("MMMM DD YYYY")
@@ -21,16 +23,21 @@ function Transaction({ groupId, itemId, transactionId }) {
   const [updatedAmount, setUpdatedAmount] = useState(transactionItem ? transactionItem.amount : "");
   const [updatedDate, setUpdatedDate] = useState(transactionItem ? transactionItem.date : new Date());
   // Hooks
-  const transaction = useSelector((x) => {
-    return groupId && itemId && transactionId
-      ? x.budget.budgetMonth
-        .groups[groupId]
-        .items[itemId]
-        .transactions[transactionId]
-      : null;
-  });
 
-  function updateTrans(evt) {
+  // const transactionItem = useSelector((x) => {
+  //   return groupId && itemId && transactionId
+  //     ? x.budget.budgetMonth
+  //       .groups[groupId]
+  //       .items[itemId]
+  //       .transactions[transactionId]
+  //     : null;
+  // });
+
+  useEffect(() => {
+    dispatch(sessionActions.getUserTransactions(user.id))
+  },[dispatch, updateItemView])
+
+  async function updateTrans(evt) {
     evt.preventDefault();
     const data = {
       id: transactionItem.id,
@@ -38,9 +45,8 @@ function Transaction({ groupId, itemId, transactionId }) {
       amount: updatedAmount,
       date: updatedDate
     }
-
-    dispatch(updateTransaction(data));
-    setUpdateItemView(false)
+    await dispatch(updateTransaction(data));
+    await setUpdateItemView(false)
   }
 
   function deleteTrans(evt) {
@@ -53,7 +59,7 @@ function Transaction({ groupId, itemId, transactionId }) {
 
   return (
     <>
-      {transaction ? (
+      {transactionItem ? (
         <div className="item_transaction">
           <div className="transaction_title">
             { updateItemView ?
@@ -65,7 +71,7 @@ function Transaction({ groupId, itemId, transactionId }) {
                 ></input>
               ):
               (
-                <span>{transaction.title}</span>
+                <span>{transactionItem.title}</span>
               )
             }
           </div>
@@ -93,7 +99,7 @@ function Transaction({ groupId, itemId, transactionId }) {
                 ></input>
               ) :
               (
-                <span>${parseInt(transaction.amount).toFixed(2)}</span>
+                <span>${parseFloat(transactionItem.amount).toFixed(2)}</span>
               )
             }
           </div>

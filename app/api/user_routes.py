@@ -32,7 +32,14 @@ def user_transactions(id):
             transactions = Transaction.query.filter(
                 Transaction.item_id == i.id).all()
             if len(transactions) > 0:
-                transactions_obj.update(
-                    {i.id: [transaction.to_dict() for transaction in transactions]})
+                for transaction in transactions:
+                    transaction = transaction.to_dict()
+                    transactions_obj.update({transaction['id']:transaction})
+                # transactions_obj.update(
+                #     {i.id: [transaction.to_dict() for transaction in transactions]})
 
-    return {"data": transactions_obj}
+    return {
+        "data": {
+            'transactions':transactions_obj
+            }
+        }, 200
