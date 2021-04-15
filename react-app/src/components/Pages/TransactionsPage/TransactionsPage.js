@@ -24,7 +24,7 @@ function TransactionsPage(){
                 Object.keys(transactions).length > 0 ?
 
                 (Object.keys(transactions).map(transaction => (
-                    <Transaction trasactionPage={true} key={transactions[transaction].id} transactionId={transactions[transaction].id}/>
+                    <Transaction transactionPage={true} key={transactions[transaction].id} transactionId={transactions[transaction].id}/>
                 ))
                 )
                 :

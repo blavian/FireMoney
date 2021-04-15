@@ -5,14 +5,14 @@ import * as sessionActions from "../../store/reducers/session"
 import "./Transaction.css"
 import moment from 'moment';
 
-function Transaction({ trasactionPage, groupId, itemId, transactionId }) {
+function Transaction({ transactionPage, transactionId }) {
 
   const dispatch = useDispatch();
 
   // const transactionItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId].transactions[transactionId])
   const transactionItem = useSelector((x) => x.session.user.transactions[transactionId])
   const user = useSelector((x) => x.session.user)
-    // format for shown date
+  // format for shown date
   function dateFormat(date) {
     let newDate = moment(date).format("MMMM DD YYYY")
     return newDate
@@ -38,7 +38,7 @@ function Transaction({ trasactionPage, groupId, itemId, transactionId }) {
       await dispatch(sessionActions.getUserTransactions(user.id))
     }
     getTransactions();
-  },[dispatch])
+  }, [dispatch,updateItemView])
 
   async function updateTrans(evt) {
     evt.preventDefault();
@@ -63,16 +63,16 @@ function Transaction({ trasactionPage, groupId, itemId, transactionId }) {
   return (
     <>
       {transactionItem ? (
-        <div className="item_transaction">
+        <div className="item_transaction" style={ transactionPage ? {'grid-template-columns':'1fr 1fr 1fr'} : null}>
           <div className="transaction_title">
-            { updateItemView ?
+            {updateItemView ?
               (
                 <input
                   type="text"
                   defaultValue={transactionItem.title}
                   onChange={(e) => setUpdatedTitle(e.target.value)}
                 ></input>
-              ):
+              ) :
               (
                 <span>{transactionItem.title}</span>
               )
@@ -106,19 +106,23 @@ function Transaction({ trasactionPage, groupId, itemId, transactionId }) {
               )
             }
           </div>
-          <div className="budget_item_buttons">
-            {!updateItemView ?
-              <>
-                <button onClick={(evt) => setUpdateItemView(true)} type="button">Edit</button>
-                <button onClick={(evt) => deleteTrans(evt)} type="button">Delete</button>
-              </>
-              :
-              <>
-                <button onClick={(evt) => updateTrans(evt)} type="button">Update</button>
-                <button onClick={(evt) => setUpdateItemView(false)} type="button">Cancel</button>
-              </>
-            }
-          </div>
+          {
+            !transactionPage &&
+            <div className="budget_item_buttons">
+              {
+                !updateItemView ?
+                  <>
+                    <button onClick={(evt) => setUpdateItemView(true)} type="button">Edit</button>
+                    <button onClick={(evt) => deleteTrans(evt)} type="button">Delete</button>
+                  </>
+                  :
+                  <>
+                    <button onClick={(evt) => updateTrans(evt)} type="button">Update</button>
+                    <button onClick={(evt) => setUpdateItemView(false)} type="button">Cancel</button>
+                  </>
+              }
+            </div>
+          }
         </div>
       ) : (
         ""
