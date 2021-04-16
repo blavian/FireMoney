@@ -36,8 +36,9 @@ class User(db.Model, UserMixin):
         for x in self._groups:
             x = x.to_dict()
             obj.update({x['id']: x})
-        # return [x.to_dict() for x in self._groups]
         return obj
+        # return [x.to_dict() for x in self._groups]
+        
 
     # Scope
     def to_dict(self):

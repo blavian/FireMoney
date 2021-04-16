@@ -13,7 +13,7 @@ import "./BudgetPage.css"
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
-function BudgetPage({ setShowHBMenu, showhbmenu, monthInt, yearInt }) {
+function BudgetPage({ monthInt, yearInt }) {
 
   // Local state
   const [newGroupName, setNewGroupName] = useState("");
@@ -37,7 +37,7 @@ function BudgetPage({ setShowHBMenu, showhbmenu, monthInt, yearInt }) {
     dispatch(sessionActions.getUserMonths())
     dispatch(budgetActions.getBudgetMonth({ monthInt: monthInt, yearInt: yearInt }))
     history.push(`/budget?monthInt=${monthInt}&yearInt=${yearInt}`)
-  },[dispatch, history]);
+  }, [dispatch, history]);
 
   const nextBudgetMonth = () => {
     setVisiblePrevious(() => false)
@@ -143,17 +143,17 @@ function BudgetPage({ setShowHBMenu, showhbmenu, monthInt, yearInt }) {
         <>
 
           <div className="month_bar">
-          <Tippy content={"no previous budget month"} placement={'bottom'} visible={visiblePrevious}>
-            <button className="previous_month_button" type="button" onClick={previousBudgetMonth}><img className="arrow" alt="previous month" src={left_arrow} /></button>
+            <Tippy content={"no previous budget month"} placement={'bottom'} visible={visiblePrevious}>
+              <button className="previous_month_button" type="button" onClick={previousBudgetMonth}><img className="arrow" alt="previous month" src={left_arrow} /></button>
             </Tippy>
-          <div>
-            <h1 className="budget_page_heading__month_title">{`${budgetMonth.month}, ${budgetMonth.yearInt}`}</h1>
+            <div>
+              <h1 className="budget_page_heading__month_title">{`${budgetMonth.month}, ${budgetMonth.yearInt}`}</h1>
+            </div>
+            <Tippy content={"no next budget month"} placement={'bottom'} visible={visibleNext}>
+              <button className="next_month_button" type="button" onClick={nextBudgetMonth}><img className="arrow" alt="next month" src={right_arrow} /></button>
+            </Tippy>
           </div>
-          <Tippy content={"no next budget month"} placement={'bottom'} visible={visibleNext}>
-            <button className="next_month_button" type="button" onClick={nextBudgetMonth}><img className="arrow" alt="next month" src={right_arrow}/></button>
-          </Tippy>
-        </div>
-        <button className="create_month_button" type="button" onClick={(evt) => createNextBudgetMonth(evt, true)}>Create next month</button>
+          <button className="create_month_button" type="button" onClick={(evt) => createNextBudgetMonth(evt, true)}>Create next month</button>
           {
             budgetMonth.groups
               ? Object.keys(budgetMonth.groups).map((key) => (

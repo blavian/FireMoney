@@ -31,7 +31,7 @@ function Transaction({ transactionPage, transactionId }) {
     if (!contentLoaded){
       getTransactions();
     }
-  }, [contentLoaded])
+  }, [dispatch, contentLoaded])
 
   async function updateTrans(evt) {
     evt.preventDefault();

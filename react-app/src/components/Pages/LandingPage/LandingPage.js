@@ -2,12 +2,11 @@ import React from "react";
 import list_icon from "../../../images/List.png"
 import savings_icon from "../../../images/Savings.png"
 import control_icon from "../../../images/control.png"
-import { NavLink, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import * as budgetActions from "../../../store/reducers/budget";
 import * as sessionActions from "../../../store/reducers/session"
 import "./LandingPage.css"
-import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
 function LandingPage() {

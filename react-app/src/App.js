@@ -27,7 +27,7 @@ function App() {
   const [showhbmenu, setShowHBMenu] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     (async () => {
       const user = await authenticate();
@@ -47,40 +47,19 @@ function App() {
 
   return (
     <>
-      <NavBar
-        showhbmenu={showhbmenu}
-        setShowHBMenu={setShowHBMenu}
-        authenticated={authenticated}
-        setAuthenticated={setAuthenticated} />
+      <NavBar showhbmenu={showhbmenu} setShowHBMenu={setShowHBMenu} authenticated={authenticated} setAuthenticated={setAuthenticated} />
       <div className="page_container" onClick={() => setShowHBMenu(false)}>
         <Switch>
           <Route path="/" exact={true} >
-            <LandingPage
-              showhbmenu={showhbmenu}
-              setShowHBMenu={setShowHBMenu}
-              authenticated={authenticated}
-              setAuthenticated={setAuthenticated}/>
+            <LandingPage />
           </Route>
-          <ProtectedRoute
-            path="/budget"
-            exact={true}
-            authenticated={authenticated} >
-            <BudgetPage
-              setShowHBMenu={setShowHBMenu}
-              showhbmenu={showhbmenu}
-              monthInt={query.get("monthInt")}
-              yearInt={query.get("yearInt")} />
+          <ProtectedRoute path="/budget" exact={true} authenticated={authenticated} >
+            <BudgetPage monthInt={query.get("monthInt")} yearInt={query.get("yearInt")} />
           </ProtectedRoute>
-          <ProtectedRoute
-            path="/profile"
-            exact={true}
-            authenticated={authenticated} >
+          <ProtectedRoute path="/profile" exact={true} authenticated={authenticated} >
             <ProfilePage />
           </ProtectedRoute>
-          <ProtectedRoute
-            path="/transactions"
-            exact={true}
-            authenticated={authenticated} >
+          <ProtectedRoute path="/transactions" exact={true} authenticated={authenticated} >
             <TransactionsPage />
           </ProtectedRoute>
           <Route path="/404" exact={true} >

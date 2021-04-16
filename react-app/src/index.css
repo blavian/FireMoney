@@ -9,3 +9,8 @@ body {
 .page_container{
     height: 100vh;
 }
+
+.transactions_page_container, .profile_page_container, .budget_page_container {
+    width: 90%;
+    margin: 0 auto;
+}

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import "./NotFoundPage.css"
 
 
-function NotFoundPage () {
-        return (
+function NotFoundPage() {
+    return (
         <div className="not_found_page_container">
             <div className="not_found_image">
                 <p style={{ textAlign: "center" }}>
@@ -13,6 +13,6 @@ function NotFoundPage () {
                 </p>
             </div>
         </div>
-        )
+    )
 }
 export default NotFoundPage;

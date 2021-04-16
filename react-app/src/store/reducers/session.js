@@ -1,5 +1,4 @@
 import {fetch} from "../../services/fetch";
-import { normalizedData } from "../../services/normalize_data";
 
 // Action constants
 const SET_SESSION_USER = "session/setSessionUser";
@@ -73,14 +72,12 @@ export const getUserMonths = () => async (dispatch) => {
   export const getUserTransactions = (id) => async (dispatch) => {
     const res = await fetch(`/api/users/${id}/transactions`, { method: 'GET'});
     const { data } = res.data;
-    // console.log(data)
     dispatch(getUserTransactionsActionCreator(data));
     return data;
   }
 
 // Reducer configuration
 const reducer = (state={user: userTemplate, months: null, transactions: null}, {type, payload}) => {
-  let stateCopy;
   switch(type) {
     case SET_SESSION_USER:
       return {user: {...state.user, ...payload}};
@@ -95,7 +92,6 @@ const reducer = (state={user: userTemplate, months: null, transactions: null}, {
       return { user: { ...state.user, ...state.months, ...payload } };
     
     case GET_USER_TRANSACTIONS:
-      stateCopy = {}
       return { user: { ...state.user, ...state.transactions, ...payload } };
 
     default:

@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react';
+import React from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import LogoutButton from '../AuthForms/LogoutButton';
 import icon from '../../images/Icon.png';

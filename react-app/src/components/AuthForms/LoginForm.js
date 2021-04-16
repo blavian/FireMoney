@@ -3,7 +3,6 @@ import { Redirect, useHistory } from "react-router-dom";
 import { login,demoLogin } from "../../services/auth";
 import { useDispatch, useSelector } from "react-redux"
 import * as budgetActions from "../../store/reducers/budget";
-import * as modalActions from "../../store/reducers/modal";
 
 // Redux actions imports
 import * as sessionActions from "../../store/reducers/session";
