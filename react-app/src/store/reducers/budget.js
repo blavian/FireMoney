@@ -353,7 +353,6 @@ const reducer = (
       return stateCopy
 
     case UPDATE_TRANSACTION:
-      console.log("current state *********",state)
       stateCopy = { ...state }
       stateCopy.budgetMonth.groups[payload.groupId].items[payload.itemId].transactions[payload.id] = payload
       return stateCopy

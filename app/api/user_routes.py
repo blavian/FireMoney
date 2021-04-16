@@ -22,24 +22,20 @@ def user(id):
 @user_routes.route('/<int:id>/transactions')
 @login_required
 def user_transactions(id):
+    
+    # 1. Querying all budget groups for user
     budget_groups = BudgetGroup.query.filter(BudgetGroup.user_id == id).all()
-    budget_group_ids = [budget_group.id for budget_group in budget_groups]
-    transactions_obj = {}
-    for group_id in budget_group_ids:
-        i = BudgetItem.query.get(group_id)
-        if i is not None:
-            i.to_dict()
-            transactions = Transaction.query.filter(
-                Transaction.item_id == i.id).all()
-            if len(transactions) > 0:
-                for transaction in transactions:
-                    transaction = transaction.to_dict()
-                    transactions_obj.update({transaction['id']:transaction})
-                # transactions_obj.update(
-                #     {i.id: [transaction.to_dict() for transaction in transactions]})
+
+    data = {}
+    
+    for group in budget_groups:
+        for item in group.items:
+            if len(item['transactions']) > 0:
+                for transaction in item['transactions']:
+                    data.update({transaction['id']:transaction})
 
     return {
         "data": {
-            'transactions':transactions_obj
+            'transactions':data
             }
         }, 200

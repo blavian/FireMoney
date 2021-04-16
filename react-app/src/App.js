@@ -27,6 +27,7 @@ function App() {
   const [showhbmenu, setShowHBMenu] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
+  
   useEffect(() => {
     (async () => {
       const user = await authenticate();
@@ -39,8 +40,6 @@ function App() {
       await setLoaded(true);
     })();
   }, [dispatch, authenticated]);
-
-  const hbtrigger = () => setShowHBMenu(!showhbmenu);
 
   if (!loaded) {
     return null;

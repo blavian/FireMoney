@@ -6,12 +6,12 @@ import "./Transaction.css"
 import moment from 'moment';
 
 function Transaction({ transactionPage, transactionId }) {
-
+  
   const dispatch = useDispatch();
 
-  // const transactionItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId].transactions[transactionId])
   const transactionItem = useSelector((x) => x.session.user.transactions[transactionId])
   const user = useSelector((x) => x.session.user)
+
   // format for shown date
   function dateFormat(date) {
     let newDate = moment(date).format("MMMM DD YYYY")
@@ -19,26 +19,19 @@ function Transaction({ transactionPage, transactionId }) {
   }
 
   const [updateItemView, setUpdateItemView] = useState(false);
+  const [contentLoaded, setContentLoaded] = useState(true);
   const [updatedTitle, setUpdatedTitle] = useState(transactionItem ? transactionItem.title : "");
   const [updatedAmount, setUpdatedAmount] = useState(transactionItem ? transactionItem.amount : "");
   const [updatedDate, setUpdatedDate] = useState(transactionItem ? transactionItem.date : new Date());
-  // Hooks
-
-  // const transactionItem = useSelector((x) => {
-  //   return groupId && itemId && transactionId
-  //     ? x.budget.budgetMonth
-  //       .groups[groupId]
-  //       .items[itemId]
-  //       .transactions[transactionId]
-  //     : null;
-  // });
 
   useEffect(() => {
     async function getTransactions() {
       await dispatch(sessionActions.getUserTransactions(user.id))
     }
-    getTransactions();
-  }, [dispatch,updateItemView])
+    if (!contentLoaded){
+      getTransactions();
+    }
+  }, [contentLoaded])
 
   async function updateTrans(evt) {
     evt.preventDefault();
@@ -50,20 +43,22 @@ function Transaction({ transactionPage, transactionId }) {
     }
     await dispatch(updateTransaction(data));
     await setUpdateItemView(false)
+    await setContentLoaded(false)
   }
 
-  function deleteTrans(evt) {
+  async function deleteTrans(evt) {
     evt.preventDefault();
     const data = {
       id: transactionItem.id
     }
-    dispatch(deleteTransaction(data))
+    await dispatch(deleteTransaction(data))
+    await setContentLoaded(false)
   }
 
   return (
     <>
       {transactionItem ? (
-        <div className="item_transaction" style={ transactionPage ? {'grid-template-columns':'1fr 1fr 1fr'} : null}>
+        <div className="item_transaction" style={ transactionPage ? {'gridTemplateColumns':'1fr 1fr 1fr'} : null}>
           <div className="transaction_title">
             {updateItemView ?
               (

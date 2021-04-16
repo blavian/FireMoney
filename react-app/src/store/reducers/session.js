@@ -73,7 +73,7 @@ export const getUserMonths = () => async (dispatch) => {
   export const getUserTransactions = (id) => async (dispatch) => {
     const res = await fetch(`/api/users/${id}/transactions`, { method: 'GET'});
     const { data } = res.data;
-    console.log(data)
+    // console.log(data)
     dispatch(getUserTransactionsActionCreator(data));
     return data;
   }
