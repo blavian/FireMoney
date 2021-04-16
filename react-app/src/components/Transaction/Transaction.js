@@ -1,36 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTransaction, updateTransaction } from "../../store/reducers/budget";
+import * as sessionActions from "../../store/reducers/session"
 import "./Transaction.css"
 import moment from 'moment';
 
-function Transaction({ groupId, itemId, transactionId }) {
-
+function Transaction({ transactionPage, transactionId }) {
+  
   const dispatch = useDispatch();
 
-  const transactionItem = useSelector((x) => x.budget.budgetMonth.groups[groupId].items[itemId].transactions[transactionId])
+  const transactionItem = useSelector((x) => x.session.user.transactions[transactionId])
+  const user = useSelector((x) => x.session.user)
 
-    // format for shown date
+  // format for shown date
   function dateFormat(date) {
     let newDate = moment(date).format("MMMM DD YYYY")
     return newDate
   }
 
   const [updateItemView, setUpdateItemView] = useState(false);
+  const [contentLoaded, setContentLoaded] = useState(true);
   const [updatedTitle, setUpdatedTitle] = useState(transactionItem ? transactionItem.title : "");
   const [updatedAmount, setUpdatedAmount] = useState(transactionItem ? transactionItem.amount : "");
   const [updatedDate, setUpdatedDate] = useState(transactionItem ? transactionItem.date : new Date());
-  // Hooks
-  const transaction = useSelector((x) => {
-    return groupId && itemId && transactionId
-      ? x.budget.budgetMonth
-        .groups[groupId]
-        .items[itemId]
-        .transactions[transactionId]
-      : null;
-  });
 
-  function updateTrans(evt) {
+  useEffect(() => {
+    async function getTransactions() {
+      await dispatch(sessionActions.getUserTransactions(user.id))
+    }
+    if (!contentLoaded){
+      getTransactions();
+    }
+  }, [dispatch, contentLoaded])
+
+  async function updateTrans(evt) {
     evt.preventDefault();
     const data = {
       id: transactionItem.id,
@@ -38,34 +41,35 @@ function Transaction({ groupId, itemId, transactionId }) {
       amount: updatedAmount,
       date: updatedDate
     }
-
-    dispatch(updateTransaction(data));
-    setUpdateItemView(false)
+    await dispatch(updateTransaction(data));
+    await setUpdateItemView(false)
+    await setContentLoaded(false)
   }
 
-  function deleteTrans(evt) {
+  async function deleteTrans(evt) {
     evt.preventDefault();
     const data = {
       id: transactionItem.id
     }
-    dispatch(deleteTransaction(data))
+    await dispatch(deleteTransaction(data))
+    await setContentLoaded(false)
   }
 
   return (
     <>
-      {transaction ? (
-        <div className="item_transaction">
+      {transactionItem ? (
+        <div className="item_transaction" style={ transactionPage ? {'gridTemplateColumns':'1fr 1fr 1fr'} : null}>
           <div className="transaction_title">
-            { updateItemView ?
+            {updateItemView ?
               (
                 <input
                   type="text"
                   defaultValue={transactionItem.title}
                   onChange={(e) => setUpdatedTitle(e.target.value)}
                 ></input>
-              ):
+              ) :
               (
-                <span>{transaction.title}</span>
+                <span>{transactionItem.title}</span>
               )
             }
           </div>
@@ -93,23 +97,27 @@ function Transaction({ groupId, itemId, transactionId }) {
                 ></input>
               ) :
               (
-                <span>${parseInt(transaction.amount).toFixed(2)}</span>
+                <span>${parseFloat(transactionItem.amount).toFixed(2)}</span>
               )
             }
           </div>
-          <div className="budget_item_buttons">
-            {!updateItemView ?
-              <>
-                <button onClick={(evt) => setUpdateItemView(true)} type="button">Edit</button>
-                <button onClick={(evt) => deleteTrans(evt)} type="button">Delete</button>
-              </>
-              :
-              <>
-                <button onClick={(evt) => updateTrans(evt)} type="button">Update</button>
-                <button onClick={(evt) => setUpdateItemView(false)} type="button">Cancel</button>
-              </>
-            }
-          </div>
+          {
+            !transactionPage &&
+            <div className="budget_item_buttons">
+              {
+                !updateItemView ?
+                  <>
+                    <button onClick={(evt) => setUpdateItemView(true)} type="button">Edit</button>
+                    <button onClick={(evt) => deleteTrans(evt)} type="button">Delete</button>
+                  </>
+                  :
+                  <>
+                    <button onClick={(evt) => updateTrans(evt)} type="button">Update</button>
+                    <button onClick={(evt) => setUpdateItemView(false)} type="button">Cancel</button>
+                  </>
+              }
+            </div>
+          }
         </div>
       ) : (
         ""

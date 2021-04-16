@@ -27,19 +27,19 @@ function App() {
   const [showhbmenu, setShowHBMenu] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
+
   useEffect(() => {
     (async () => {
       const user = await authenticate();
       if (!user.errors) {
-        setAuthenticated(true);
-        dispatch(sessionActions.setSessionUser(user));
-        dispatch(sessionActions.getUserMonths());
+        await setAuthenticated(true);
+        await dispatch(sessionActions.setSessionUser(user));
+        await dispatch(sessionActions.getUserMonths());
+        await dispatch(sessionActions.getUserTransactions(user.id));
       }
-      setLoaded(true);
+      await setLoaded(true);
     })();
   }, [dispatch, authenticated]);
-
-  // const hbtrigger = () => setShowHBMenu(!showhbmenu);
 
   if (!loaded) {
     return null;
@@ -47,37 +47,19 @@ function App() {
 
   return (
     <>
-      <NavBar
-        showhbmenu={showhbmenu}
-        setShowHBMenu={setShowHBMenu}
-        authenticated={authenticated}
-        setAuthenticated={setAuthenticated} />
+      <NavBar showhbmenu={showhbmenu} setShowHBMenu={setShowHBMenu} authenticated={authenticated} setAuthenticated={setAuthenticated} />
       <div className="page_container" onClick={() => setShowHBMenu(false)}>
         <Switch>
           <Route path="/" exact={true} >
-            <LandingPage showhbmenu={showhbmenu}
-              setShowHBMenu={setShowHBMenu} />
+            <LandingPage />
           </Route>
-          <ProtectedRoute
-            path="/budget"
-            exact={true}
-            authenticated={authenticated} >
-            <BudgetPage
-              setShowHBMenu={setShowHBMenu}
-              showhbmenu={showhbmenu}
-              monthInt={query.get("monthInt")}
-              yearInt={query.get("yearInt")} />
+          <ProtectedRoute path="/budget" exact={true} authenticated={authenticated} >
+            <BudgetPage monthInt={query.get("monthInt")} yearInt={query.get("yearInt")} />
           </ProtectedRoute>
-          <ProtectedRoute
-            path="/profile"
-            exact={true}
-            authenticated={authenticated} >
-            <ProfilePage setShowHBMenu={setShowHBMenu} />
+          <ProtectedRoute path="/profile" exact={true} authenticated={authenticated} >
+            <ProfilePage />
           </ProtectedRoute>
-          <ProtectedRoute
-            path="/transactions"
-            exact={true}
-            authenticated={authenticated} >
+          <ProtectedRoute path="/transactions" exact={true} authenticated={authenticated} >
             <TransactionsPage />
           </ProtectedRoute>
           <Route path="/404" exact={true} >

@@ -1,5 +1,9 @@
 /* Transaction */
 
+.page_container {
+    width: 100%;
+}
+
 .item_transactions_container {
     /* display: none; */
     width: 80%;
@@ -9,16 +13,9 @@
 .transaction_heading_container, .item_transaction {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-content: space-evenly;
     justify-items: center;
     margin: 1em auto;
-}
-
-.transaction_heading_container *, .item_transaction * {
-    justify-self: flex-start;
-}
-
-.transaction_date{
-    width: 15em;
 }
 
 .transaction_amount {

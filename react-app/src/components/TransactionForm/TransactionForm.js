@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createTransaction } from "../../store/reducers/budget"
 import { hideTransactionModal } from "../../store/reducers/modal"
+import * as sessionActions from "../../store/reducers/session"
 import moment from 'moment';
 
 function TransactionForm() {
 
     const dispatch = useDispatch();
+    
+    const user = useSelector((x) => x.session.user)
     const itemId = useSelector((x) => x.transactionModal.id)
 
     let newDate = Date.now()
@@ -25,7 +28,9 @@ function TransactionForm() {
             itemId: itemId,
             date
         }
-        dispatch(createTransaction(newTransaction)).then(() => dispatch(hideTransactionModal()))
+        await dispatch(createTransaction(newTransaction))
+        await dispatch(hideTransactionModal())
+        await dispatch(sessionActions.getUserTransactions(user.id))
     };
 
     return (

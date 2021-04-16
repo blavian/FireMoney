@@ -50,11 +50,15 @@ def get_groups():
     # 2. finds groups based off of user.id
     user_groups = BudgetGroup.query.filter(
         BudgetGroup.user_id == user.id)
-    # for every item that has a transaction get the sum of the transaction totals
-    #
-
-    # 3. returns users groups
-    return {"message": "success", "data": [group.to_dict() for group in user_groups]}, 200
+    
+    # 3. creating dictionary of all groups
+    data = {}
+    for group in user_groups:
+        group = group.to_dict()
+        data.update({group.id: group})
+    
+    # 4. returns users groups
+    return {"message": "success", "data": data}, 200
 
 
 # UPDATE GROUP TITLE

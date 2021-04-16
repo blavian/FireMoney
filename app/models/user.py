@@ -32,7 +32,13 @@ class User(db.Model, UserMixin):
     # Association properties
     @property
     def groups(self):
-        return [x.to_dict() for x in self._groups]
+        obj = {}
+        for x in self._groups:
+            x = x.to_dict()
+            obj.update({x['id']: x})
+        return obj
+        # return [x.to_dict() for x in self._groups]
+        
 
     # Scope
     def to_dict(self):

@@ -43,7 +43,6 @@ const LoginForm = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated 
     } else {
       setErrors(user.errors);
     }
-
   };
 
   const onDemoLogin = async (e) => {

@@ -8,7 +8,7 @@
 
 .budget_group_container, .add_group_container {
     margin: 1em auto;
-    width: 90%;
+    width: 100%;
     border: #707070 solid .2em;
     border-radius: .5em;
     padding-bottom: 1em;
@@ -20,7 +20,7 @@
 
 .budget_group_heading_container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 0.4fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 0.5fr;
     grid-template-areas: "budgetTitle . budgetDate budgetAmount budgetSpent .";
     justify-items: center;
 }
@@ -83,7 +83,7 @@
 
 .month_bar {
     display: flex;
-    width: 90%;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
 }

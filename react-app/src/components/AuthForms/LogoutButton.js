@@ -6,9 +6,10 @@ import { useDispatch } from "react-redux";
 import { logoutSessionUser } from "../../store/reducers/session"
 import * as modalActions from "../../store/reducers/modal";
 
-const LogoutButton = ({setShowHBMenu, showhbmenu, setAuthenticated}) => {
+const LogoutButton = ({ setShowHBMenu, showhbmenu, setAuthenticated }) => {
+
   const dispatch = useDispatch();
-  const hbtrigger = () => setShowHBMenu(!showhbmenu);
+
   const onLogout = async (e) => {
     await logout();
     setAuthenticated(false);
@@ -19,9 +20,9 @@ const LogoutButton = ({setShowHBMenu, showhbmenu, setAuthenticated}) => {
   };
 
   return <Link className="hb_link" to="/" onClick={onLogout}>
-    <img src={logout_icon} alt="logout"/>
+    <img src={logout_icon} alt="logout" />
     <span className="hb_link_text">Logout</span>
-    </Link>;
+  </Link>;
 };
 
 export default LogoutButton;

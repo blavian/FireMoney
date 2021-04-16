@@ -166,17 +166,21 @@ def all_months():
 
     # 1. Get user from session
     user = current_user
+    
     # 3. Get all the  distinct months and years for the current user
     all_groups = BudgetGroup.query.filter(BudgetGroup.user_id == user.id).distinct(
         BudgetGroup.month_int, BudgetGroup.year_int)
-    months = [group.month_to_dict() for group in all_groups]
+    
     # 4 loop through all the groups and find all occurrences of a month_int and year_int
-
-    # #6. Return user's months and years
-
+    data = {}
+    for group in all_groups:
+        group = group.month_to_dict()
+        data.update({group['monthInt']: group})
+    
+    #5. Return user's months and years
     return {
         "message": "success",
         "data": {
-            "months": months
+            "months": data
         }
     }, 200

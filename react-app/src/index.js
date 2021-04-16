@@ -12,7 +12,6 @@ import configureStore from './store';
 // Reducer actions
 import * as sessionActions from './store/reducers/session';
 import * as budgetActions from './store/reducers/budget';
-
 // Make us a store
 const store = configureStore();
 

@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react';
+import React from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import LogoutButton from '../AuthForms/LogoutButton';
 import icon from '../../images/Icon.png';
@@ -30,6 +30,7 @@ const NavBar = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated }) 
     setShowHBMenu(false)
     dispatch(budgetActions.getBudgetMonth({ monthInt: monthToday, yearInt: yearToday }))
     history.push(`/budget?monthInt=${monthToday}&yearInt=${yearToday}`)
+    setShowHBMenu(false);
   }
 
   const goToProfile = () =>{
@@ -47,7 +48,7 @@ const NavBar = ({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated }) 
       <nav className="navbar">
         <div className="firemoney_logo_container">
           <img id="firemoney_icon" src={icon} alt="mountain road" />
-          <NavLink className="home_link" to="/" exact={true} activeClassName="active">
+          <NavLink className="home_link" to="/" exact={true} activeClassName="active" onClick={() => setShowHBMenu(false)}>
             firemoney
           </NavLink>
         </div>

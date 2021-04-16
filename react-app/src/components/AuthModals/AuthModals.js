@@ -9,30 +9,31 @@ import { useDispatch, useSelector } from "react-redux";
 import * as modalActions from "../../store/reducers/modal";
 import "./AuthModals.css"
 
-function AuthModals({showhbmenu, setShowHBMenu, authenticated, setAuthenticated }){
+function AuthModals({ showhbmenu, setShowHBMenu, authenticated, setAuthenticated }) {
+
     const dispatch = useDispatch();
-    const showModals = useSelector( x => x.modal);
-    const hbtrigger = () => setShowHBMenu(!showhbmenu);
+
+    const showModals = useSelector(x => x.modal);
 
     return (
         <>
             <NavLink to="/" className="hb_link" onClick={() => dispatch(modalActions.getLoginModal())} >
-                    <>
-                        <img src={login_icon} alt="login" />
-                        <span className="hb_link_text" >Login</span>
-                    </>
+                <>
+                    <img src={login_icon} alt="login" />
+                    <span className="hb_link_text" >Login</span>
+                </>
             </NavLink>
             <NavLink to="/" className="hb_link" onClick={() => dispatch(modalActions.getSignUpModal())} >
-                    <>
-                        <img src={signup_icon} alt="signup" />
-                        <span className="hb_link_text" >Sign Up</span>
-                    </>
+                <>
+                    <img src={signup_icon} alt="signup" />
+                    <span className="hb_link_text" >Sign Up</span>
+                </>
             </NavLink>
 
             {showModals.loginModalShow && (
                 <Modal onClose={() => dispatch(modalActions.hideModal())}>
                     <LoginForm showhbmenu={showhbmenu}
-                        setShowHBMenu={setShowHBMenu} authenticated={authenticated} setAuthenticated={setAuthenticated}/>
+                        setShowHBMenu={setShowHBMenu} authenticated={authenticated} setAuthenticated={setAuthenticated} />
                     <div>
                         <div className="redirect_modal_link">
                             <p>Don't have an account?
