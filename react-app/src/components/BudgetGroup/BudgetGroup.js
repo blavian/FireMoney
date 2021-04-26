@@ -66,7 +66,7 @@ function BudgetGroup({ groupId }) {
       </div>
       <div className="budget_group_heading_container">
         <div className="budget_group_heading budget_group_title">
-          <h2>{`${budgetGroup.title}`}</h2> <h3>{`Budget Total: $${parseFloat(getItemsExpectedAmountTotal()).toFixed(2)}`}</h3>
+          <h2>{`${budgetGroup.title}`}</h2> <h3>{`Budget Alotted: $${parseFloat(getItemsExpectedAmountTotal()).toFixed(2)}`}</h3>
         </div>
         <div className="budget_group_heading budget_group_date">
           <h3>Due Date</h3>

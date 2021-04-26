@@ -24,6 +24,14 @@ class BudgetItem(db.Model):
         return [x.to_dict() for x in self._transactions]
 
     @property
+    def transactions_total(self):
+        total = 0
+        for x in self._transactions:
+            x = x.to_dict()
+            total += float(x['amount'])
+        return total
+
+    @property
     def date(self):
         return self.due_date.isoformat()
 
@@ -39,4 +47,10 @@ class BudgetItem(db.Model):
             "transactions": self.transactions,
             "createdAt": self.created_at,
             "updatedAt": self.updated_at,
+        }
+    
+
+    def total_to_dict(self):
+        return {
+            "transactionsTotal": self.transactions_total,
         }

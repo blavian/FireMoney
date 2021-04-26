@@ -4,7 +4,7 @@ export function calculatePoint(i, intervalSize, colorRangeInfo) {
         ? (colorEnd - (i * intervalSize))
         : (colorStart + (i * intervalSize)));
 }
-/* Must use an interpolated color scale, which has a range of [0, 1] */
+
 export function interpolateColors(dataLength, colorScale, colorRangeInfo) {
     var { colorStart, colorEnd } = colorRangeInfo;
     var colorRange = colorEnd - colorStart;

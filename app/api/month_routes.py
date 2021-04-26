@@ -173,9 +173,18 @@ def all_months():
     
     # 4 loop through all the groups and find all occurrences of a month_int and year_int
     data = {}
-    for group in all_groups:
-        group = group.month_to_dict()
-        data.update({group['monthInt']: group})
+    for month in all_groups:
+        # group = group.month_to_dict()
+        month = month.month_to_dict()
+        groups = BudgetGroup.query.filter(BudgetGroup.month_int == month['monthInt']).all()
+        
+        # groups = {group.to_dict() for group in groups}
+        groups_filtered = {}
+        for group in groups:
+            group = group.analysis_to_dict()
+            groups_filtered.update({group['id']:group})
+        month.update({'groups':groups_filtered})
+        data.update({month['monthInt']: month})
     
     #5. Return user's months and years
     return {

@@ -27,13 +27,20 @@ class BudgetGroup(db.Model):
     def items(self):
         return [x.to_dict() for x in self._items]
 
+    @property
+    def items_total(self):
+        total = 0
+        for x in self._items:
+            x = x.total_to_dict()
+            total += x['transactionsTotal']
+        return total
+
     # Scope
     def to_dict(self):
         return {
             "id": self.id,
             "title": self.title,
             "userId": self.user_id,
-            "title": self.title,
             "monthInt": self.month_int,
             "yearInt": self.year_int,
             "items": self.items,
@@ -45,4 +52,11 @@ class BudgetGroup(db.Model):
         return {
             "monthInt": self.month_int,
             "yearInt": self.year_int,
+        }
+    
+    def analysis_to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "itemsTotal": self.items_total,
         }

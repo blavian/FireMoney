@@ -11,10 +11,12 @@
 }
 
 .profile_month_card{
-    width: 15em;
+    width: 20em;
+    height: fit-content;
     margin: 1em auto;
     text-align: center;
     border: solid 1px;
+    padding: 1em;
 }
 
 .profile_month_card li{

@@ -8,6 +8,15 @@ function ProfilePage() {
     const currUser = useSelector((x) => x.session.user.username)
     const userMonths = useSelector((x) => x.session.user.months)
 
+    const total = (month) => {
+        const groups = month[0].groups;
+        let total = 0;
+        for (let group in groups) {
+            if (groups[group].itemsTotal > 0) total += groups[group].itemsTotal;
+        }
+        return parseFloat( total).toFixed(2)
+    }
+
     const calendar = {
         1: "January",
         2: "February",
@@ -22,9 +31,6 @@ function ProfilePage() {
         11: "November",
         12: "December"
     }
-
-    const labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'hi', '1', '2', '3']
-    const data = [300.30, 400.50, 100, 500, 200, 300, 200, 300, 100, 500]
 
     return (
         <div className="profile_page_container">
@@ -41,9 +47,10 @@ function ProfilePage() {
                         (Object.keys(userMonths).map(month =>
                             <div className="profile_month_card" key={userMonths[month].monthInt}>
                                 <h2>{calendar[userMonths[month].monthInt]}</h2>
-                                <PieGraph month={userMonths[month]} labels={labels} data={data}/>
-                                <img src={circleGraph} alt="graph"></img>
-                                <div className="card_percentages">
+                                <h2>{`$${total([userMonths[month]])}`}</h2>
+                                <PieGraph month={userMonths[month]} />
+                                {/* <img src={circleGraph} alt="graph"></img> */}
+                                {/* <div className="card_percentages">
                                     <ul>
                                         <li className="home_details">
                                             <p>30%</p>
@@ -63,7 +70,7 @@ function ProfilePage() {
                                             <p>Dog Supplies</p>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> */}
                             </div>
                         )
 
