@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from "react-redux";
 import circleGraph from "../../../images/Circle_Graph.png"
+import PieGraph from '../../PieGraph/PieGraph';
 import "./ProfilePage.css"
 
 function ProfilePage() {
@@ -22,6 +23,9 @@ function ProfilePage() {
         12: "December"
     }
 
+    const labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'hi', '1', '2', '3']
+    const data = [300.30, 400.50, 100, 500, 200, 300, 200, 300, 100, 500]
+
     return (
         <div className="profile_page_container">
             <div className="page_heading">
@@ -37,6 +41,7 @@ function ProfilePage() {
                         (Object.keys(userMonths).map(month =>
                             <div className="profile_month_card" key={userMonths[month].monthInt}>
                                 <h2>{calendar[userMonths[month].monthInt]}</h2>
+                                <PieGraph month={userMonths[month]} labels={labels} data={data}/>
                                 <img src={circleGraph} alt="graph"></img>
                                 <div className="card_percentages">
                                     <ul>
